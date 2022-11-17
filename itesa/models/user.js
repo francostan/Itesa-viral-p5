@@ -33,14 +33,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: { isEmail: true },
       },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: { len: [8, 20] },
-      },
-      salt: {
-        type: DataTypes.STRING,
-      },
+      // password: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      //   validate: { len: [8, 20] },
+      // },
+      // salt: {
+      //   type: DataTypes.STRING,
+      // },
     },
     {
       sequelize,
@@ -48,14 +48,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  User.addHook("beforeCreate", (User) => {
-    User.salt = bc.genSaltSync();
-    return User.createHash(User.password, User.salt)
-      .then((result) => {
-        User.password = result;
-      })
-      .catch((err) => console.log(err));
-  });
+  // User.addHook("beforeCreate", (User) => {
+  //   User.salt = bc.genSaltSync();
+  //   return User.createHash(User.password, User.salt)
+  //     .then((result) => {
+  //       User.password = result;
+  //     })
+  //     .catch((err) => console.log(err));
+  // });
 
   return User;
 };

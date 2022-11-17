@@ -18,14 +18,14 @@ module.exports = {
         allowNull: false,
         validate: { isEmail: true },
       },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: { len: [8, 20] },
-      },
-      salt: {
-        type: Sequelize.STRING,
-      },
+      // password: {
+      //   type: Sequelize.STRING,
+      //   allowNull: false,
+      //   validate: { len: [8, 20] },
+      // },
+      // salt: {
+      //   type: Sequelize.STRING,
+      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
