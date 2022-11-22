@@ -1,46 +1,54 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import handleInput from '../reactHooks/handleInput'
-import axios from "../config/axios"
-import { login,logout } from '../store/reducers/userSlice'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import handleInput from "../reactHooks/handleInput";
+import axios from "../config/axios";
+import { login, logout } from "../store/reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import cookieCutter from 'cookie-cutter'
-import { useState } from 'react'
+import cookieCutter from "cookie-cutter";
+import { useState } from "react";
 
 export default function Home() {
-  const user=useSelector(state=>state.user)
-  const nickName=handleInput()
-  const email=handleInput()
-  const password=handleInput()
-  const dispatch=useDispatch()
-  const [status,setStatus]=useState("")
+  const user = useSelector((state) => state.user);
+  const nickName = handleInput();
+  const email = handleInput();
+  const password = handleInput();
+  const dispatch = useDispatch();
+  const [status, setStatus] = useState("");
+  const secreto = handleInput();
 
-  const handleSubmit= async (e)=>{
-    e.preventDefault()
-    const newUser={
-      nick_name:nickName.value,
-      email:email.value,
-      password:password.value
-    }
-    const created=await axios.post("/newUser",newUser)
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newUser = {
+      nick_name: nickName.value,
+      email: email.value,
+      password: password.value,
+    };
+    const created = await axios.post("/newUser", newUser);
+  };
 
-  const handleLogin=async (e)=>{
-    e.preventDefault()
-    const user={
-      nick_name:nickName.value,
-      password:password.value
-    }
-    const loggedUser=await axios.post("/login",user)
-    if (loggedUser.status===200) dispatch(login(loggedUser.data))
-    else console.log("hay algo mal")
-  }
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const user = {
+      nick_name: nickName.value,
+      password: password.value,
+    };
+    const loggedUser = await axios.post("/login", user);
+    if (loggedUser.status === 200) dispatch(login(loggedUser.data));
+    else console.log("hay algo mal");
+  };
 
-  const LOGOUT=()=>{
-    dispatch(logout())
-    cookieCutter.set('getViral','')
-  }
+  const LOGOUT = () => {
+    dispatch(logout());
+    cookieCutter.set("getViral", "");
+  };
+  const handleSecret = async (e) => {
+    e.preventDefault();
+    const secret = {
+      secret: secreto.value,
+    };
+    axios.post("/2FA", secret);
+  };
 
   return (
     <div className={styles.container}>
@@ -52,7 +60,7 @@ export default function Home() {
         <input type={"text"} {...email}></input>
         <label>Password: </label>
         <input type={"password"} {...password}></input>
-        <button type='submit'>Submit</button>
+        <button type="submit">Submit</button>
       </form>
       <h1>PRUEBA LOGIN</h1>
       <form onSubmit={handleLogin}>
@@ -60,7 +68,7 @@ export default function Home() {
         <input type={"text"} {...nickName}></input>
         <label>Password: </label>
         <input type={"password"} {...password}></input>
-        <button type='submit'>Submit</button>
+        <button type="submit">Submit</button>
       </form>
       <div>
         <h1>USER</h1>
@@ -68,6 +76,12 @@ export default function Home() {
         <h3>email: {user.email}</h3>
       </div>
       <button onClick={LOGOUT}>LOGOUT</button>
+      <h1>PRUEBA SECRET </h1>
+      <form onSubmit={handleSecret}>
+        <label>Secret: </label>
+        <input type={"text"} {...secreto}></input>
+        <button type="submit">Submit</button>
+      </form>
     </div>
-  )
+  );
 }
