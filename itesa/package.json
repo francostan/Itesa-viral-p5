@@ -1,5 +1,5 @@
 {
-  "name": "itesa",
+  "name": "getviral",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,15 +10,26 @@
     "migrate": "sequelize db:migrate"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.0",
+    "axios": "^1.1.3",
     "bcrypt": "^5.1.0",
-    "eslint": "8.27.0",
-    "eslint-config-next": "13.0.3",
-    "next": "13.0.3",
+    "cookie-cutter": "^0.2.0",
+    "cookie-parser": "^1.4.6",
+    "cookies": "^0.8.0",
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.4",
+    "jsonwebtoken": "^8.5.1",
+    "next": "13.0.4",
+    "next-redux-wrapper": "^8.0.0",
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "sequelize": "^6.25.6",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.2",
+    "sequelize": "^6.25.7",
     "sequelize-cli": "^6.5.2"
   }
 }
