@@ -23,7 +23,11 @@
     "cookies": "^0.8.0",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.4",
+
     "framer-motion": "^6.5.1",
+
+    "ethers": "^5.7.2",
+
     "jsonwebtoken": "^8.5.1",
     "next": "13.0.4",
     "next-redux-wrapper": "^8.0.0",

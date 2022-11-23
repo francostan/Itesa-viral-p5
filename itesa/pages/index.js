@@ -6,7 +6,6 @@ import axios from "../config/axios";
 import { login, logout } from "../store/reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import cookieCutter from "cookie-cutter";
-
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -17,11 +16,11 @@ export default function Home() {
   const dispatch = useDispatch();
   const [status, setStatus] = useState("");
 
+  const cookieCutter = require("cookie-cutter");
+
+
   useEffect(() => {
-    axios.get("/me").then((user) => {
-      dispatch(login(user.data));
-      console.log(user);
-    });
+    axios.get("/me").then((user) => dispatch(login(user.data)));
   }, []);
 
   const handleSubmit = async (e) => {
@@ -47,17 +46,21 @@ export default function Home() {
 
   const secreto = handleInput();
 
+
   const LOGOUT = () => {
+    axios.post("/logout")
     dispatch(logout());
-    cookieCutter.set("getViral", "");
   };
 
   const handleSecret = async (e) => {
     e.preventDefault();
     const secret = {
+      id: user.id,
       secret: secreto.value,
     };
-    axios.post("/2FA", secret);
+    const loggedUser = await axios.post("/2FA", secret);
+    if (loggedUser.status === 200) dispatch(login(loggedUser.data));
+    else console.log("hay algo mal");
   };
 
   return (

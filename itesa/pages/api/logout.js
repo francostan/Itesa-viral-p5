@@ -1,18 +1,18 @@
-const db = require("../../db/models/index");
-const User = db.User;
-const Cookies = require("cookies");
-
-export default async function logout (req, res) {
+export default async function logout(req, res) {
   const { method, body } = req;
   switch (method) {
-    case "POST":{
-        console.log("Deberiamos borrar cookie")
-        const cookies=new Cookies(req,res)
-        cookies.set('getViral')
-        
-    }
+    case "POST":
+      {
+        res
+          .setHeader(
+            "Set-Cookie",
+            "getViral=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
+          )
+          .send();
+      }
       break;
-    default:res.send("Otro método")
+    default:
+      res.send("Otro método");
       break;
   }
-};
+}

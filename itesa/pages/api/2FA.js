@@ -12,15 +12,24 @@ export default async function newuser(req, res) {
   switch (method) {
     case "POST":
       {
-        const foundSecret = await User.findOne({
-          where: { secret: body.secret },
-        });
-        console.log(foundSecret.dataValues, "este es el ususario");
-
-        // if (!foundSecret) res.status(204).send("");
-        // else {
-        //   console.log("Funciona secret", foundSecret);
-        // }
+        const foundUser = await User.findByPk(body.id);
+        if (foundUser.secret === body.secret) {
+          //Generación de Cookie y guardado en browser
+          const { nick_name, email, id } = foundUser;
+          const payload = { nick_name, email, id };
+          const token = JSON.stringify(tokens.generateToken(payload));
+          const cookies = new Cookies(req, res);
+          cookies.set("getViral", token);
+          res
+            .status(200)
+            .send({
+              nick_name: foundUser.nick_name,
+              id: foundUser.id,
+              email: foundUser.email,
+            });
+        }else{
+          res.status(403).json("Código 2FA incorrecto")
+        }
       }
 
       break;

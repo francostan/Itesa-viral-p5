@@ -17,6 +17,7 @@ export default async function me(req, res) {
       {
         const cookies = new Cookies(req, res);
         const token = cookies.get("getViral");
+        if(!token) return res.status(200).json({nick_name:"",email:"",id:""})
         const payload = tokens.validateToken(JSON.parse(token));
         res.send(payload);
         // console.log(validateAuth);
