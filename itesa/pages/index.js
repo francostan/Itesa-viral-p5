@@ -15,7 +15,9 @@ export default function Home() {
   const password = handleInput();
   const dispatch = useDispatch();
   const [status, setStatus] = useState("");
+
   const cookieCutter = require("cookie-cutter");
+
 
   useEffect(() => {
     axios.get("/me").then((user) => dispatch(login(user.data)));
@@ -43,7 +45,8 @@ export default function Home() {
   };
 
   const secreto = handleInput();
-  
+
+
   const LOGOUT = () => {
     axios.post("/logout")
     dispatch(logout());
