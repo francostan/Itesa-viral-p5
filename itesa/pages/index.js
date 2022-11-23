@@ -48,7 +48,7 @@ export default function Home() {
 
 
   const LOGOUT = () => {
-    axios.post("/logout")
+    axios.post("/logout");
     dispatch(logout());
   };
 
@@ -56,7 +56,7 @@ export default function Home() {
     e.preventDefault();
     const secret = {
       id: user.id,
-      secret: secreto.value,
+      token: secreto.value,
     };
     const loggedUser = await axios.post("/2FA", secret);
     if (loggedUser.status === 200) dispatch(login(loggedUser.data));
