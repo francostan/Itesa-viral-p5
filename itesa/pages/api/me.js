@@ -1,0 +1,32 @@
+const db = require("../../db/models/index");
+const validateAuth = require("../../middleware/auth");
+const User = db.User;
+const tokens = require("../../middleware/token/tokens");
+const Cookies = require("cookies");
+
+export default async function me(req, res) {
+  const { method, body } = req;
+  switch (method) {
+    case "POST":
+      {
+        // const created = await User.create(body);
+        // res.json("Usuario creado con éxito");
+      }
+      break;
+    case "GET":
+      {
+        const cookies = new Cookies(req, res);
+        const token = cookies.get("getViral");
+        const payload = tokens.validateToken(JSON.parse(token));
+        res.send(payload);
+        // console.log(validateAuth);
+        // const payload = validateAuth();
+        // console.log(payload);
+        // res.send(payload);
+      }
+      break;
+    default:
+      res.send("Otro método");
+      break;
+  }
+}

@@ -9,12 +9,18 @@ export default async function newuser(req, res) {
     case "POST":
       {
         const created = await User.create(body);
-        res.json(created);
+
+        res.json("Usuario creado con éxito");
+
       }
       break;
     case "GET":
       {
-        res.json("Llegaste a GET");
+
+        const users = await User.findAll();
+
+        res.send(users);
+
       }
       break;
     default:
