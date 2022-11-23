@@ -7,7 +7,7 @@ const Cookies = require("cookies");
 const speakeasy = require("speakeasy");
 const nodemailer = require("nodemailer");
 
-export default async function newuser(req, res) {
+export default async function login(req, res) {
   const { method, body } = req;
   switch (method) {
     case "POST":
@@ -15,31 +15,22 @@ export default async function newuser(req, res) {
         const foundUser = await User.findOne({
           where: { nick_name: body.nick_name },
         });
-        if (!foundUser) res.status(204).send("");
+        if (!foundUser) res.status(204).send(""); //Verifico que el usuario existe
         else {
-          const validated = await foundUser.validatePassword(body.password);
-          if (!validated) res.status(203).json("Contraseña incorrecta");
+          const validated = await foundUser.validatePassword(body.password); //Valido la constraseña
+          if (!validated) res.status(203).json("Contraseña incorrecta"); 
           else {
-            var temp_secret = speakeasy.generateSecret({
+            var temp_secret = speakeasy.generateSecret({ //Genero código secreto de verificación para 2FA
               length: 30,
             });
-
-            const { nick_name, email, id } = foundUser;
-            const payload = { nick_name, email, id };
-            const token = tokens.generateToken(payload);
-            const cookies = new Cookies(req, res);
-            cookies.set("getViral", JSON.stringify(token), {
-              httpOnly: true,
-            });
-
+            //Actualizo en el usuario el código secreto de 2FA
             await User.update(
               { secret: temp_secret.base32 },
-              { where: { id } }
+              { where: { id:foundUser.id } }
             );
-
-            res.status(200).json(payload);
-            const usuario = await User.findOne({ where: { id } });
-
+            //Como la info dle usuario cambió, recuperamos de nuevo el usuario desde la DB
+            const usuario = await User.findOne({ where: { id:foundUser.id } });
+            //Enviamos el correo al usuario con el código 2FA
             const transporter = nodemailer.createTransport({
               service: "gmail",
               auth: {
@@ -48,16 +39,19 @@ export default async function newuser(req, res) {
               },
             });
             let mailOptions = {
-              from: "Aromas",
-              to: "bautistagonzalezlazo@gmail.com",
-              subject: "PROBANDO SECRET",
-              text: ` Su clave es ${usuario.dataValues.secret} `,
+              from: "GetViral",
+              to: usuario.dataValues.email,
+              subject: "Verifica tu Identidad",
+              text: `Por favor, ingresa el siguiente código en la pantalla de Login ${usuario.dataValues.secret}`,
             };
             transporter.sendMail(mailOptions, (error, info) => {
               if (error) {
-                res.status(500).send(error.message);
+                console.log("Error de mail");
+                console.log(error.message);
+                //res.status(500).send(error.message);
               } else {
-                res.status(200).send(req.body);
+                console.log("OK el mail");
+                res.status(200).send({email:null,nick_name:null, id:usuario.dataValues.id});
               }
             });
           }
