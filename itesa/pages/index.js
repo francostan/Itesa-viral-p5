@@ -9,7 +9,6 @@ import cookieCutter from "cookie-cutter";
 
 import { useState, useEffect } from "react";
 
-
 export default function Home() {
   const user = useSelector((state) => state.user);
   const nickName = handleInput();
@@ -17,13 +16,10 @@ export default function Home() {
   const password = handleInput();
   const dispatch = useDispatch();
   const [status, setStatus] = useState("");
-
+  const cookieCutter = require("cookie-cutter");
 
   useEffect(() => {
-    axios.get("/me").then((user) => {
-      dispatch(login(user.data));
-      console.log(user);
-    });
+    axios.get("/me").then((user) => dispatch(login(user.data)));
   }, []);
 
   const handleSubmit = async (e) => {
@@ -47,44 +43,23 @@ export default function Home() {
     else console.log("hay algo mal");
   };
 
-
   const secreto = handleInput();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const newUser = {
-      nick_name: nickName.value,
-      email: email.value,
-      password: password.value,
-    };
-    const created = await axios.post("/newUser", newUser);
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const user = {
-      nick_name: nickName.value,
-      password: password.value,
-    };
-    const loggedUser = await axios.post("/login", user);
-    if (loggedUser.status === 200) dispatch(login(loggedUser.data));
-    else console.log("hay algo mal");
-  };
-
-
   const LOGOUT = () => {
+    axios.post("/logout")
     dispatch(logout());
-    cookieCutter.set("getViral", "");
   };
 
   const handleSecret = async (e) => {
     e.preventDefault();
     const secret = {
+      id: user.id,
       secret: secreto.value,
     };
-    axios.post("/2FA", secret);
+    const loggedUser = await axios.post("/2FA", secret);
+    if (loggedUser.status === 200) dispatch(login(loggedUser.data));
+    else console.log("hay algo mal");
   };
-
 
   return (
     <div className={styles.container}>
