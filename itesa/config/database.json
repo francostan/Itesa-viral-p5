@@ -1,21 +1,21 @@
 {
   "development": {
-    "username": null,
-    "password": null,
+    "username": "postgres",
+    "password": "1234",
     "database": "get_viral",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "username": null,
-    "password": null,
+    "username": "postgres",
+    "password": "1234",
     "database": "get_viral",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
-    "username": null,
-    "password": null,
+    "username": "postgres",
+    "password": "1234",
     "database": "get_viral",
     "host": "127.0.0.1",
     "dialect": "postgres"
