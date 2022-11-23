@@ -9,7 +9,6 @@ import cookieCutter from "cookie-cutter";
 
 import { useState, useEffect } from "react";
 
-
 export default function Home() {
   const user = useSelector((state) => state.user);
   const nickName = handleInput();
@@ -17,7 +16,6 @@ export default function Home() {
   const password = handleInput();
   const dispatch = useDispatch();
   const [status, setStatus] = useState("");
-
 
   useEffect(() => {
     axios.get("/me").then((user) => {
@@ -47,30 +45,7 @@ export default function Home() {
     else console.log("hay algo mal");
   };
 
-
   const secreto = handleInput();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const newUser = {
-      nick_name: nickName.value,
-      email: email.value,
-      password: password.value,
-    };
-    const created = await axios.post("/newUser", newUser);
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const user = {
-      nick_name: nickName.value,
-      password: password.value,
-    };
-    const loggedUser = await axios.post("/login", user);
-    if (loggedUser.status === 200) dispatch(login(loggedUser.data));
-    else console.log("hay algo mal");
-  };
-
 
   const LOGOUT = () => {
     dispatch(logout());
@@ -84,7 +59,6 @@ export default function Home() {
     };
     axios.post("/2FA", secret);
   };
-
 
   return (
     <div className={styles.container}>
