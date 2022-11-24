@@ -4,36 +4,42 @@ const User = db.User;
 const speakeasy = require("speakeasy");
 import { sign } from "../../auth/token/tokens";
 
-
-export default async function newuser(req,res) {
+export default async function newuser(req, res) {
   const { method, body } = req;
   console.log("Body====================", body);
   switch (method) {
     case "POST":
       {
         const foundUser = await User.findByPk(body.id);
-        var validate = speakeasy.totp.verify({
-          secret: foundUser.secret.base32,
-          encoding: "base32",
-          token: body.token,
-          window: 0,
-        });
-        if (validate) {
+        console.log(">>>>>>>", foundUser);
+
+        // var validate = speakeasy.totp.verify({
+        //   secret: foundUser.secret.base32,
+        //   encoding: "base32",
+        //   token: body.token,
+        //   window: 0,
+        // });
+        console.log(foundUser.secret);
+        
+        console.log(body.token);
+
+        if (foundUser.secret === body.token) {
           //Generación de Cookie y guardado en browser
           const { nick_name, email, id } = foundUser;
           const payload = { nick_name, email, id };
-          const token = await sign(payload)
-          res.setHeader("set-cookie",`getViral=${token}; path=/; samesite=lax; httponly`)
-          res
-            .status(200)
-            .send({
-              nick_name: foundUser.nick_name,
-              id: foundUser.id,
-              email: foundUser.email,
-            });
-        }else{
-          console.log("NO VALIDADO")
-          res.status(403).json("Código 2FA incorrecto")
+          const token = await sign(payload);
+          res.setHeader(
+            "set-cookie",
+            `getViral=${token}; path=/; samesite=lax; httponly`
+          );
+          res.status(200).send({
+            nick_name: foundUser.nick_name,
+            id: foundUser.id,
+            email: foundUser.email,
+          });
+        } else {
+          console.log("NO VALIDADO");
+          res.status(403).json("Código 2FA incorrecto");
         }
       }
 

@@ -11,7 +11,37 @@ import {
   Button,
   Image,
 } from "@chakra-ui/react";
+import handleInput from "../reactHooks/handleInput";
+import { login } from "../store/reducers/userSlice";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "../config/axios";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
 export default function Login() {
+  const nickName = handleInput();
+  const password = handleInput();
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const user = {
+      nick_name: nickName.value,
+      password: password.value,
+    };
+    const loggedUser = await axios.post("/login", user);
+    console.log(loggedUser);
+
+    if (loggedUser.status === 200) {
+      dispatch(login(loggedUser.data));
+      router.push("/2fa");
+    } else {
+      console.log("hay algo mal");
+    }
+  };
+
   return (
     <Box
       backgroundColor="#080B0E"
@@ -27,20 +57,28 @@ export default function Login() {
         <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
           {" "}
           <HStack mb={20}>
-            <Image
-              boxSize="40px"
-              objectFit="cover"
-              src="/banana.png"
-              alt="Itesa Coin"
-            />
-            <Heading color="white"> Itesa </Heading>{" "}
-            <Heading color="#9d39fe"> Coin</Heading>{" "}
+            <Link href="/home">
+              <Image
+                boxSize="40px"
+                objectFit="cover"
+                src="/banana.png"
+                alt="Itesa Coin"
+              />
+            </Link>
+              <Heading color="white"> Itesa </Heading>{" "}
+              <Heading color="#9d39fe"> Coin</Heading>{" "}
           </HStack>
           <Heading color="white"> Login</Heading>
         </VStack>
         <FormControl>
-          <FormLabel color="white"> Correo electronico</FormLabel>{" "}
-          <Input _focusVisible={"white"} rounded="2xl" variant="filled" />
+          <FormLabel color="white"> Nombre de Usuario</FormLabel>{" "}
+          <Input
+            _focusVisible={"white"}
+            rounded="2xl"
+            variant="filled"
+            {...nickName}
+            required
+          />
         </FormControl>
         <FormControl>
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
@@ -49,6 +87,8 @@ export default function Login() {
             variant="filled"
             _focusVisible={"white"}
             type="password"
+            {...password}
+            required
           />
         </FormControl>
         <HStack>
@@ -59,10 +99,19 @@ export default function Login() {
           </Button>
         </HStack>
 
-        <Button colorScheme="" variant="solid" w={["full", "auto"]}>
-          {" "}
-          Login{" "}
-        </Button>
+        <Link href="/2fa">
+          <Button
+            colorScheme=""
+            variant="solid"
+            w={["full", "auto"]}
+            onClick={(e) => {
+              handleLogin(e);
+            }}
+          >
+            {" "}
+            Login{" "}
+          </Button>
+        </Link>
       </VStack>
     </Box>
   );
