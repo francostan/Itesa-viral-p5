@@ -15,8 +15,8 @@ export default async function login(req, res) {
         const foundUser = await User.findOne({
           where: { nick_name: body.nick_name },
         });
-        if (!foundUser)
-          res.status(204).send(""); //Verifico que el usuario existe
+        if (!foundUser) res.status(204).send("");
+        //Verifico que el usuario existe
         else {
           const validated = await foundUser.validatePassword(body.password); //Valido la constraseña
           if (!validated) res.status(203).json("Contraseña incorrecta");
@@ -25,6 +25,9 @@ export default async function login(req, res) {
             var temp_secret = speakeasy.generateSecret({
               //Genero código secreto de verificación para 2FA
             });
+
+            console.log("TEMPSECRET>>>>>>", temp_secret);
+
             //Actualizo en el usuario el código secreto de 2FA
             await User.update(
               { secret: temp_secret.base32 },
@@ -34,10 +37,12 @@ export default async function login(req, res) {
             const usuario = await User.findOne({ where: { id: foundUser.id } });
             //Enviamos el correo al usuario con el código 2FA
 
-            var token = speakeasy.totp({
-              secret: usuario.secret.base32,
-              encoding: "base32",
-            });
+            console.log(">>>>>>>>>>>>>>", usuario.secret);
+
+            // var token = speakeasy.totp({
+            //   secret: usuario.secret.base32,
+            //   encoding: "base32",
+            // });
 
             const transporter = nodemailer.createTransport({
               service: "gmail",
@@ -50,7 +55,7 @@ export default async function login(req, res) {
               from: "GetViral",
               to: usuario.dataValues.email,
               subject: "Verifica tu Identidad",
-              text: `Por favor, ingresa el siguiente código en la pantalla de Login ${token}`,
+              text: `Por favor, ingresa el siguiente código en la pantalla de Login ${usuario.dataValues.secret}`,
             };
             transporter.sendMail(mailOptions, (error, info) => {
               if (error) {
@@ -58,7 +63,11 @@ export default async function login(req, res) {
                 console.log(error.message);
                 //res.status(500).send(error.message);
               } else {
-                res.status(200).send({email:null,nick_name:null, id:foundUser.dataValues.id});
+                res.status(200).send({
+                  email: null,
+                  nick_name: null,
+                  id: usuario.dataValues.id,
+                });
               }
             });
           }
