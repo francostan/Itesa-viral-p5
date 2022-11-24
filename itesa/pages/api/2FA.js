@@ -20,7 +20,6 @@ export default async function newuser(req, res) {
           token: body.token,
           window: 0,
         });
-        // console.log("&&&&&&&&&&&&&&&&&& verifico?:", validate);
         if (validate) {
           //Generación de Cookie y guardado en browser
           const { nick_name, email, id } = foundUser;
