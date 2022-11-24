@@ -16,17 +16,38 @@ import {
   Flex,
   Spacer,
   useMediaQuery,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
+  StatGroup,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { logout } from "../store/reducers/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import axios from "../config/axios";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
   const [errorMessage, setErrorMessage] = useState(null);
   const [defaultAccount, setDefaultAccount] = useState(null);
   const [userBalance, setUserBalance] = useState(null);
-  const [connButtonText, setConnButtonText] = useState("Connect Wallet");
+  const [connButtonText, setConnButtonText] = useState("Conectar billetera");
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user);
+
+  const LOGOUT = () => {
+    axios.post("/logout");
+    dispatch(logout());
+    router.push("/home");
+  };
 
   useEffect(() => {
+    console.log(user);
     //Button ID
     const connectButton = document.getElementById("connect");
     //Click Event
@@ -42,7 +63,7 @@ const WalletCard = () => {
           .request({ method: "eth_requestAccounts" })
           .then((result) => {
             accountChangedHandler(result[0]);
-            setConnButtonText("Wallet Connected");
+            setConnButtonText("Billetera conectada");
             getAccountBalance(result[0]);
           })
           .catch((error) => {
@@ -133,25 +154,39 @@ const WalletCard = () => {
                 objectFit="cover"
                 src="/banana.png"
                 alt="Itesa Coin"
-              />
+              />{" "}
             </Link>
           </Box>
+
           <Spacer />
-          {/* <Box>
-            <div id="connect">
-              <Button colorScheme="" variant="solid" w={["full", "auto"]}>
-                {" "}
-                {connButtonText}{" "}
-              </Button>
-            </div>
-          </Box> */}
         </Flex>
         <VStack spacing={4} align="flex-start" w="full">
           <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
             {" "}
             <Heading color="white"> Home</Heading>
           </VStack>
+          <Stat color="white">
+            <StatLabel>Balance actual</StatLabel>
+            <StatNumber>{userBalance}</StatNumber>
+            <StatHelpText>Direccion: {defaultAccount}</StatHelpText>
+            <StatLabel>Posicion en el ranking: 10</StatLabel>
+            <StatLabel>Proximo milestone: 30 referidos</StatLabel>
+          </Stat>
         </VStack>
+        <Box>
+          <Button
+            ml="25%"
+            mt="100%"
+            colorScheme=""
+            variant="solid"
+            w={["50%", "auto"]}
+            onClick={() => {
+              LOGOUT();
+            }}
+          >
+            LOGOUT
+          </Button>
+        </Box>
       </Box>
     </>
   );

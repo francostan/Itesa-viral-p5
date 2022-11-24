@@ -15,10 +15,12 @@ import axios from "../config/axios";
 import handleInput from "../reactHooks/handleInput";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/reducers/userSlice";
+import { useRouter } from "next/router";
 
 import Link from "next/link";
 
 export default function Login() {
+  const router = useRouter();
   const secreto = handleInput();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -30,8 +32,12 @@ export default function Login() {
       token: secreto.value,
     };
     const loggedUser = await axios.post("/2FA", secret);
-    if (loggedUser.status === 200) dispatch(login(loggedUser.data));
-    else console.log("hay algo mal");
+    if (loggedUser.status === 200) {
+      dispatch(login(loggedUser.data));
+      router.push("/homeuser");
+    } else {
+      console.log("hay algo mal");
+    }
   };
 
   return (
