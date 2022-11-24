@@ -22,12 +22,23 @@ export default async function login(req, res) {
           if (!validated) res.status(203).json("Contraseña incorrecta");
           else {
             //Una vez valido, tengo que crearle el token numerico
-            var token = speakeasy.totp({
-              secret: foundUser.secret.base32,
-              encoding: "base32",
-              time: 60,
+            var temp_secret = speakeasy.generateSecret({
+              //Genero código secreto de verificación para 2FA
             });
-            console.log("---------------------------TOKEN:", token);
+            //Actualizo en el usuario el código secreto de 2FA
+            await User.update(
+              { secret: temp_secret.base32 },
+              { where: { id: foundUser.id } }
+            );
+            //Como la info dle usuario cambió, recuperamos de nuevo el usuario desde la DB
+            const usuario = await User.findOne({ where: { id: foundUser.id } });
+            //Enviamos el correo al usuario con el código 2FA
+
+            var token = speakeasy.totp({
+              secret: usuario.secret.base32,
+              encoding: "base32",
+            });
+
             const transporter = nodemailer.createTransport({
               service: "gmail",
               auth: {
@@ -37,7 +48,7 @@ export default async function login(req, res) {
             });
             let mailOptions = {
               from: "GetViral",
-              to: foundUser.dataValues.email,
+              to: usuario.dataValues.email,
               subject: "Verifica tu Identidad",
               text: `Por favor, ingresa el siguiente código en la pantalla de Login ${token}`,
             };
