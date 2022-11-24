@@ -13,11 +13,11 @@ export const theme = extendTheme({
     Button: {
       variants: {
         solid: {
-          border: "3px solid white", // change the appearance of the border
+          border: "3px solid white",
           background: "#9d39fe",
           borderRadius: "15px",
 
-          fontWeight: "bold", // change the font weight}
+          fontWeight: "bold",
         },
       },
     },

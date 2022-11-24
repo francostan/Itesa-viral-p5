@@ -41,6 +41,7 @@
     "redux-thunk": "^2.4.2",
     "sequelize": "^6.25.7",
     "sequelize-cli": "^6.5.2",
-    "speakeasy": "^2.0.0"
+    "speakeasy": "^2.0.0",
+    "sweetalert2": "^11.6.14"
   }
 }

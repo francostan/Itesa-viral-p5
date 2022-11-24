@@ -16,6 +16,8 @@ import handleInput from "../reactHooks/handleInput";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/reducers/userSlice";
 
+import Link from "next/link";
+
 export default function Login() {
   const secreto = handleInput();
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ export default function Login() {
     <Box
       backgroundColor="#080B0E"
       h="99vh"
-      w={["full", "md"]}
+      w="100%"
       p={[8, 10]}
       mx="auto"
       border={["none", "1px"]}
@@ -47,12 +49,14 @@ export default function Login() {
         <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
           {" "}
           <HStack mb={20}>
-            <Image
-              boxSize="40px"
-              objectFit="cover"
-              src="/banana.png"
-              alt="Itesa Coin"
-            />
+            <Link href="/home">
+              <Image
+                boxSize="40px"
+                objectFit="cover"
+                src="/banana.png"
+                alt="Itesa Coin"
+              />
+            </Link>
             <Heading color="white"> Itesa </Heading>{" "}
             <Heading color="#9d39fe"> Coin</Heading>{" "}
           </HStack>

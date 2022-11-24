@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "../config/axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 export default function Login() {
   const nickName = handleInput();
@@ -36,6 +37,7 @@ export default function Login() {
 
     if (loggedUser.status === 200) {
       dispatch(login(loggedUser.data));
+
       router.push("/2fa");
     } else {
       console.log("hay algo mal");
@@ -46,7 +48,7 @@ export default function Login() {
     <Box
       backgroundColor="#080B0E"
       h="99vh"
-      w={["full", "md"]}
+      w="100%"
       p={[8, 10]}
       mx="auto"
       border={["none", "1px"]}
@@ -65,8 +67,8 @@ export default function Login() {
                 alt="Itesa Coin"
               />
             </Link>
-              <Heading color="white"> Itesa </Heading>{" "}
-              <Heading color="#9d39fe"> Coin</Heading>{" "}
+            <Heading color="white"> Itesa </Heading>{" "}
+            <Heading color="#9d39fe"> Coin</Heading>{" "}
           </HStack>
           <Heading color="white"> Login</Heading>
         </VStack>

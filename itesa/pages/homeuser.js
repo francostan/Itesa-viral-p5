@@ -1,7 +1,7 @@
 import React from "react";
 import WalletCard from "../components/WalletCard";
 
-const metamask = () => {
+const HomeUser = () => {
   return (
     <div>
       <WalletCard />
@@ -9,4 +9,4 @@ const metamask = () => {
   );
 };
 
-export default metamask;
+export default HomeUser;

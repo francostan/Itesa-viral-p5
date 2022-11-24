@@ -1,7 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
+import Swal from "sweetalert2";
+import {
+  Box,
+  VStack,
+  Heading,
+  FormControl,
+  FormLabel,
+  Text,
+  Input,
+  HStack,
+  Checkbox,
+  Button,
+  Image,
+  Flex,
+  Spacer,
+  useMediaQuery,
+} from "@chakra-ui/react";
+import Link from "next/link";
 
 const WalletCard = () => {
+  const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
   const [errorMessage, setErrorMessage] = useState(null);
   const [defaultAccount, setDefaultAccount] = useState(null);
   const [userBalance, setUserBalance] = useState(null);
@@ -10,12 +29,11 @@ const WalletCard = () => {
   useEffect(() => {
     //Button ID
     const connectButton = document.getElementById("connect");
-
     //Click Event
+
     connectButton.addEventListener("click", () => {
       connectWalletHandler();
     });
-
     const connectWalletHandler = () => {
       if (window.ethereum && window.ethereum.isMetaMask) {
         console.log("MetaMask Here!");
@@ -31,10 +49,12 @@ const WalletCard = () => {
             setErrorMessage(error.message);
           });
       } else {
-        console.log("Need to install MetaMask");
-        setErrorMessage(
-          "Please install MetaMask browser extension to interact"
-        );
+        Swal.fire({
+          icon: "error",
+          title: "No tenes instalado metamask",
+          confirmButtonText:
+            '<a target="_blank" href="https://metamask.io/download/">Instalar Metamask</a>',
+        });
       }
     };
 
@@ -61,23 +81,79 @@ const WalletCard = () => {
     };
 
     // listen for account changes
-    window.ethereum.on("accountsChanged", accountChangedHandler);
-
-    window.ethereum.on("chainChanged", chainChangedHandler);
+    if (window.ethereum && window.ethereum.isMetaMask) {
+      window.ethereum.on("accountsChanged", accountChangedHandler),
+        window.ethereum.on("chainChanged", chainChangedHandler);
+    }
   }, []);
 
   return (
-    <div className="walletCard">
-      <h4> {"Connection to MetaMask using window.ethereum methods"} </h4>
-      <button id="connect">{connButtonText}</button>
-      <div className="accountDisplay">
-        <h3>Address: {defaultAccount}</h3>
-      </div>
-      <div className="balanceDisplay">
-        <h3>Balance: {userBalance}</h3>
-      </div>
-      {errorMessage}
-    </div>
+    <>
+      {/* <div className="walletCard">
+        <h4> {"Connection to MetaMask using window.ethereum methods"} </h4>
+
+        <div className="accountDisplay">
+          <h3>Address: {defaultAccount}</h3>
+        </div>
+        <div className="balanceDisplay">
+          <h3>Balance: {userBalance}</h3>
+        </div>
+        {errorMessage}
+      </div> */}
+
+      {isLargerThan1280 ? (
+        <div>
+          <button className="metamask-xl" id="connect">
+            {connButtonText}
+          </button>
+        </div>
+      ) : (
+        <div>
+          <button className="metamask-xs" id="connect">
+            {connButtonText}
+          </button>
+        </div>
+      )}
+
+      <Box
+        backgroundColor="#080B0E"
+        h="99vh"
+        w="100%"
+        p={[8, 10]}
+        mx="auto"
+        border={["none", "1px"]}
+        borderColor={["", "gray.300"]}
+        borderRadius={10}
+      >
+        <Flex mb={20}>
+          <Box>
+            <Link href="/home">
+              <Image
+                boxSize="40px"
+                objectFit="cover"
+                src="/banana.png"
+                alt="Itesa Coin"
+              />
+            </Link>
+          </Box>
+          <Spacer />
+          {/* <Box>
+            <div id="connect">
+              <Button colorScheme="" variant="solid" w={["full", "auto"]}>
+                {" "}
+                {connButtonText}{" "}
+              </Button>
+            </div>
+          </Box> */}
+        </Flex>
+        <VStack spacing={4} align="flex-start" w="full">
+          <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
+            {" "}
+            <Heading color="white"> Home</Heading>
+          </VStack>
+        </VStack>
+      </Box>
+    </>
   );
 };
 

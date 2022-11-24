@@ -35,9 +35,9 @@ export default function Registro() {
 
   return (
     <Box
-      backgroundColor="#201925"
+      backgroundColor="#080B0E"
       h="99vh"
-      w={["full", "md"]}
+      w="100%"
       p={[8, 10]}
       mx="auto"
       border={["none", "1px"]}

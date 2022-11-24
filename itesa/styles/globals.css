@@ -10,6 +10,36 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.metamask-xs {
+  position: absolute;
+  z-index: 3;
+  color: white;
+  border: 3px solid white;
+  background-color: #9d39fe;
+  border-radius: 15px;
+  height: 5%;
+  width: 40%;
+
+  font-weight: bold;
+  align-items: center;
+  top: 4%;
+  left: 55%;
+}
+.metamask-xl {
+  position: absolute;
+  z-index: 3;
+  color: white;
+  border: 3px solid white;
+  background-color: #9d39fe;
+  border-radius: 15px;
+  height: 5%;
+  width: 200px;
+
+  font-weight: bold;
+  align-items: center;
+  top: 4%;
+  left: 80%;
+}
 
 * {
   box-sizing: border-box;
