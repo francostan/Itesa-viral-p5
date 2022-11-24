@@ -27,7 +27,7 @@ export default async function login(req, res) {
               encoding: "base32",
               time: 60,
             });
-            // console.log("---------------------------TOKEN:", token);
+            console.log("---------------------------TOKEN:", token);
             const transporter = nodemailer.createTransport({
               service: "gmail",
               auth: {
@@ -47,7 +47,7 @@ export default async function login(req, res) {
                 console.log(error.message);
                 //res.status(500).send(error.message);
               } else {
-                res.status(200).send({email:null,nick_name:null, id:usuario.dataValues.id});
+                res.status(200).send({email:null,nick_name:null, id:foundUser.dataValues.id});
               }
             });
           }

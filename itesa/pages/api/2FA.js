@@ -1,6 +1,7 @@
 const db = require("../../db/models/index");
 const User = db.User;
 //const Cookies = require("cookies");
+const speakeasy = require("speakeasy");
 import { sign } from "../../auth/token/tokens";
 
 
@@ -32,8 +33,8 @@ export default async function newuser(req,res) {
               email: foundUser.email,
             });
         }else{
+          console.log("NO VALIDADO")
           res.status(403).json("Código 2FA incorrecto")
-
         }
       }
 
