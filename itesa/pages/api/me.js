@@ -1,5 +1,5 @@
 const db = require("../../db/models/index");
-const validateAuth = require("../../middleware/auth");
+
 const User = db.User;
 const tokens = require("../../middleware/token/tokens");
 const Cookies = require("cookies");
@@ -15,9 +15,11 @@ export default async function me(req, res) {
       break;
     case "GET":
       {
+        console.log("hola");
         const cookies = new Cookies(req, res);
         const token = cookies.get("getViral");
-        if(!token) return res.status(200).json({nick_name:"",email:"",id:""})
+        if (!token)
+          return res.status(200).json({ nick_name: "", email: "", id: "" });
         const payload = tokens.validateToken(JSON.parse(token));
         res.send(payload);
         // console.log(validateAuth);
