@@ -6,11 +6,19 @@ import { sign } from "../../auth/token/tokens";
 
 export default async function newuser(req,res) {
   const { method, body } = req;
+  console.log("Body====================", body);
   switch (method) {
     case "POST":
       {
         const foundUser = await User.findByPk(body.id);
-        if (foundUser.secret === body.secret) {
+        var validate = speakeasy.totp.verify({
+          secret: foundUser.secret.base32,
+          encoding: "base32",
+          token: body.token,
+          window: 0,
+        });
+        // console.log("&&&&&&&&&&&&&&&&&& verifico?:", validate);
+        if (validate) {
           //Generación de Cookie y guardado en browser
           const { nick_name, email, id } = foundUser;
           const payload = { nick_name, email, id };
@@ -25,6 +33,7 @@ export default async function newuser(req,res) {
             });
         }else{
           res.status(403).json("Código 2FA incorrecto")
+
         }
       }
 
