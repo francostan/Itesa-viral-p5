@@ -2,7 +2,7 @@ import user from "../../db/models/user";
 
 const db = require("../../db/models/index");
 const User = db.User;
-const tokens = require("../../middleware/token/tokens");
+const tokens = require("../../auth/token/tokens");
 const Cookies = require("cookies");
 const speakeasy = require("speakeasy");
 const nodemailer = require("nodemailer");
@@ -47,11 +47,7 @@ export default async function login(req, res) {
                 console.log(error.message);
                 //res.status(500).send(error.message);
               } else {
-                res.status(200).send({
-                  email: null,
-                  nick_name: null,
-                  id: foundUser.dataValues.id,
-                }); //esto hay que revisarlo
+                res.status(200).send({email:null,nick_name:null, id:usuario.dataValues.id});
               }
             });
           }
