@@ -10,6 +10,7 @@ import {
   Checkbox,
   Button,
   Image,
+  Spinner,
 } from "@chakra-ui/react";
 import handleInput from "../reactHooks/handleInput";
 import { login } from "../store/reducers/userSlice";
@@ -25,7 +26,12 @@ export default function Login() {
   const password = handleInput();
   const dispatch = useDispatch();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
+  const handleLoading = (e) => {
+    e.preventDefault();
+    setLoading(true);
+  };
   const handleLogin = async (e) => {
     e.preventDefault();
     const user = {
@@ -107,6 +113,7 @@ export default function Login() {
             variant="solid"
             w={["full", "auto"]}
             onClick={(e) => {
+              handleLoading(e);
               handleLogin(e);
             }}
           >
@@ -114,6 +121,18 @@ export default function Login() {
             Login{" "}
           </Button>
         </Link>
+        {loading ? (
+          <Spinner
+            className="loading"
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="purple.500"
+            size="xl"
+          />
+        ) : (
+          ""
+        )}
       </VStack>
     </Box>
   );

@@ -40,6 +40,9 @@ a {
   top: 4%;
   left: 80%;
 }
+.loading {
+  left: 80%;
+}
 
 * {
   box-sizing: border-box;
