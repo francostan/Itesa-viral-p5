@@ -1,94 +1,100 @@
-//importamos un boton de chakra
-import {
-  Button,
-  Container,
-  Grid,
-  Heading,
-  HStack,
-  Image,
-  GridItem,
-  Text,
-  VStack,
-  Flex,
-  Box,
-} from "@chakra-ui/react";
-import Link from "next/link";
-import Persistence from "../components/Persistence";
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import handleInput from "../reactHooks/handleInput";
+import axios from "../config/axios";
+import { login, logout } from "../store/reducers/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import cookieCutter from "cookie-cutter";
+import { useState, useEffect } from "react";
 
-const Index = () => {
-  //<Heading fontFamily={"poppins"} color={"white"} fontSize={"60px"} >Index</Heading>
-  /*  <Image
-        src="https://media.discordapp.net/attachments/1040681301201666089/1045049523577299075/Screen_Shot_2021-08-24_at_17.58.36.png?width=386&height=414"
-        alt="logo"
-        objectFit="cover"
-        boxSize="300px"
-        borderRadius={"20%"}
-      /> */
+export default function Home() {
+  const user = useSelector((state) => state.user);
+  const nickName = handleInput();
+  const email = handleInput();
+  const password = handleInput();
+  const dispatch = useDispatch();
+  const [status, setStatus] = useState("");
+
+  const cookieCutter = require("cookie-cutter");
+
+
+  /* useEffect(() => {
+    axios.get("/me").then((user) => dispatch(login(user.data)));
+  }, []);
+ */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newUser = {
+      nick_name: nickName.value,
+      email: email.value,
+      password: password.value,
+    };
+    const created = await axios.post("/newUser", newUser);
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const user = {
+      nick_name: nickName.value,
+      password: password.value,
+    };
+    const loggedUser = await axios.post("/login", user);
+    if (loggedUser.status === 200) dispatch(login(loggedUser.data));
+    else console.log("hay algo mal");
+  };
+
+  const secreto = handleInput();
+
+
+  const LOGOUT = () => {
+    axios.post("/logout");
+    dispatch(logout());
+  };
+
+  const handleSecret = async (e) => {
+    e.preventDefault();
+    const secret = {
+      id: user.id,
+      token: secreto.value,
+    };
+    const loggedUser = await axios.post("/2FA", secret);
+    if (loggedUser.status === 200) dispatch(login(loggedUser.data));
+    else console.log("hay algo mal");
+  };
 
   return (
-    <Grid
-      backgroundColor="black"
-      placeItems={"center"}
-      h={"100vh"}
-      w="100%"
-      padding={"0"}
-    >
-      <Persistence/>
-      <HStack>
-        <Image
-          src="/banana.png"
-          alt="logo"
-          border="1px"
-          boxSize="50px"
-          borderRadius={"20%"}
-        />
-        <HStack spacing={"0"} align={"center"}>
-          <Heading color={"white"}>Itesa</Heading>
-          <Heading color="#9d39fe">Coin</Heading>
-        </HStack>
-      </HStack>
-      <GridItem
-        h={"60vh"}
-        w={"50vw"}
-        align={"center"}
-        bgRepeat="no-repeat"
-        bgPosition={"center"}
-        bgSize={"auto"}
-        bgImage={
-          "https://media.discordapp.net/attachments/1040681301201666089/1045049523577299075/Screen_Shot_2021-08-24_at_17.58.36.png?width=386&height=414"
-        }
-      >
-        <Flex
-          direction={"column"}
-          alignItems={"center"}
-          justify={"center"}
-          h={"100%"}
-        >
-          <Text color={"white"}>Unite a nuestro universo</Text>
-          <Text color={"white"}>de criptomonedas</Text>
-        </Flex>
-      </GridItem>
-
-      <HStack
-        w={"100%"}
-        h={"100%"}
-        paddingBottom={"0"}
-        justifyContent={"center"}
-        bg={"white"}
-      >
-        <Link href="/register">
-          <Button colorScheme="" variant="solid" w={["auto"]}>
-            Register
-          </Button>
-        </Link>
-        <Link href="/login">
-          <Button colorScheme="" variant="solid" w={["auto"]}>
-            Login
-          </Button>
-        </Link>
-      </HStack>
-    </Grid>
+    <div className={styles.container}>
+      <h1>PRUEBA REGISTRO</h1>
+      <form onSubmit={handleSubmit}>
+        <label>Nickname: </label>
+        <input type={"text"} {...nickName}></input>
+        <label>email: </label>
+        <input type={"text"} {...email}></input>
+        <label>Password: </label>
+        <input type={"password"} {...password}></input>
+        <button type="submit">Submit</button>
+      </form>
+      <h1>PRUEBA LOGIN</h1>
+      <form onSubmit={handleLogin}>
+        <label>Nickname: </label>
+        <input type={"text"} {...nickName}></input>
+        <label>Password: </label>
+        <input type={"password"} {...password}></input>
+        <button type="submit">Submit</button>
+      </form>
+      <div>
+        <h1>USER</h1>
+        <h3>nickname: {user.nick_name}</h3>
+        <h3>email: {user.email}</h3>
+      </div>
+      <button onClick={LOGOUT}>LOGOUT</button>
+      <h1>PRUEBA SECRET </h1>
+      <form onSubmit={handleSecret}>
+        <label>Secret: </label>
+        <input type={"text"} {...secreto}></input>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   );
-};
-
-export default Index;
+}
