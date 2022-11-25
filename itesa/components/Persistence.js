@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../store/reducers/userSlice";
-import axios from 'axios';
+import axios from '../config/axios';
 
 const Persistence = () => {
     const dispatch = useDispatch();

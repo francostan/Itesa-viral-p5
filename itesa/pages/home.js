@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import Persistence from "../components/Persistence";
+import { useSelector } from "react-redux";
 
 const Index = () => {
   //<Heading fontFamily={"poppins"} color={"white"} fontSize={"60px"} >Index</Heading>
@@ -27,7 +28,7 @@ const Index = () => {
 
   return (
     <Grid
-      backgroundColor="black"
+      backgroundColor="#101311"
       placeItems={"center"}
       h={"100vh"}
       w="100%"

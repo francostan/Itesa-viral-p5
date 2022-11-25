@@ -139,7 +139,7 @@ const WalletCard = () => {
       )}
 
       <Box
-        backgroundColor="#080B0E"
+        backgroundColor="#101311"
         h="99vh"
         w="100%"
         p={[8, 10]}
@@ -150,7 +150,7 @@ const WalletCard = () => {
       >
         <Flex mb={20}>
           <Box>
-            <Link href="/home">
+            <Link href="/homeuser">
               <Image
                 boxSize="40px"
                 objectFit="cover"

@@ -7,7 +7,7 @@ import { login, logout } from "../store/reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import cookieCutter from "cookie-cutter";
 import { useState, useEffect } from "react";
-
+import { useRouter } from "next/router";
 export default function Home() {
   const user = useSelector((state) => state.user);
   const nickName = handleInput();
@@ -15,7 +15,7 @@ export default function Home() {
   const password = handleInput();
   const dispatch = useDispatch();
   const [status, setStatus] = useState("");
-
+  const router=useRouter()
   const cookieCutter = require("cookie-cutter");
 
 
@@ -23,6 +23,11 @@ export default function Home() {
     axios.get("/me").then((user) => dispatch(login(user.data)));
   }, []);
  */
+
+  useEffect(()=>{
+    router.push("/home")
+  },[])
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newUser = {
@@ -63,38 +68,38 @@ export default function Home() {
     else console.log("hay algo mal");
   };
 
-  return (
-    <div className={styles.container}>
-      <h1>PRUEBA REGISTRO</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Nickname: </label>
-        <input type={"text"} {...nickName}></input>
-        <label>email: </label>
-        <input type={"text"} {...email}></input>
-        <label>Password: </label>
-        <input type={"password"} {...password}></input>
-        <button type="submit">Submit</button>
-      </form>
-      <h1>PRUEBA LOGIN</h1>
-      <form onSubmit={handleLogin}>
-        <label>Nickname: </label>
-        <input type={"text"} {...nickName}></input>
-        <label>Password: </label>
-        <input type={"password"} {...password}></input>
-        <button type="submit">Submit</button>
-      </form>
-      <div>
-        <h1>USER</h1>
-        <h3>nickname: {user.nick_name}</h3>
-        <h3>email: {user.email}</h3>
-      </div>
-      <button onClick={LOGOUT}>LOGOUT</button>
-      <h1>PRUEBA SECRET </h1>
-      <form onSubmit={handleSecret}>
-        <label>Secret: </label>
-        <input type={"text"} {...secreto}></input>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+  return (<></>
+    // <div className={styles.container}>
+    //   <h1>PRUEBA REGISTRO</h1>
+    //   <form onSubmit={handleSubmit}>
+    //     <label>Nickname: </label>
+    //     <input type={"text"} {...nickName}></input>
+    //     <label>email: </label>
+    //     <input type={"text"} {...email}></input>
+    //     <label>Password: </label>
+    //     <input type={"password"} {...password}></input>
+    //     <button type="submit">Submit</button>
+    //   </form>
+    //   <h1>PRUEBA LOGIN</h1>
+    //   <form onSubmit={handleLogin}>
+    //     <label>Nickname: </label>
+    //     <input type={"text"} {...nickName}></input>
+    //     <label>Password: </label>
+    //     <input type={"password"} {...password}></input>
+    //     <button type="submit">Submit</button>
+    //   </form>
+    //   <div>
+    //     <h1>USER</h1>
+    //     <h3>nickname: {user.nick_name}</h3>
+    //     <h3>email: {user.email}</h3>
+    //   </div>
+    //   <button onClick={LOGOUT}>LOGOUT</button>
+    //   <h1>PRUEBA SECRET </h1>
+    //   <form onSubmit={handleSecret}>
+    //     <label>Secret: </label>
+    //     <input type={"text"} {...secreto}></input>
+    //     <button type="submit">Submit</button>
+    //   </form>
+    // </div>
   );
 }

@@ -43,7 +43,7 @@ export default function Registro() {
 
   return (
     <Box
-      backgroundColor="#080B0E"
+      backgroundColor="#101311"
       h="99vh"
       w="100%"
       p={[8, 10]}

@@ -42,7 +42,7 @@ export default function Login() {
 
   return (
     <Box
-      backgroundColor="#080B0E"
+      backgroundColor="#101311"
       h="99vh"
       w="100%"
       p={[8, 10]}
@@ -66,7 +66,7 @@ export default function Login() {
             <Heading color="white"> Itesa </Heading>{" "}
             <Heading color="#9d39fe"> Coin</Heading>{" "}
           </HStack>
-          <Heading color="white"> Código de veificación</Heading>
+          <Heading color="white"> Código de verificación</Heading>
         </VStack>
         <FormControl>
           <Input

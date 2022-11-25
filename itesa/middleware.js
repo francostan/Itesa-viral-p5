@@ -6,17 +6,17 @@ export async function middleware(request) {
   const jwt = request.cookies.get("getViral");
   if (!jwt) {
     console.log("Sin jwt");
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/home", request.url));
   }
   try {
     const payload = await verify(jwt.value);
     return NextResponse.next();
   } catch (error) {
     console.log(error);
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/home", request.url));
   }
 }
 
 export const config = {
-  matcher: ["/homeUser"],
+  matcher: ["/homeuser"],
 };
