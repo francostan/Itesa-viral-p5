@@ -19,10 +19,10 @@ export default function Home() {
   const cookieCutter = require("cookie-cutter");
 
 
-  useEffect(() => {
+  /* useEffect(() => {
     axios.get("/me").then((user) => dispatch(login(user.data)));
   }, []);
-
+ */
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newUser = {

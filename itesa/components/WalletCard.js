@@ -28,6 +28,8 @@ import { logout } from "../store/reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import axios from "../config/axios";
+import Persistence from "./Persistence";
+import Head from "next/head";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
@@ -161,6 +163,7 @@ const WalletCard = () => {
           <Spacer />
         </Flex>
         <VStack spacing={4} align="flex-start" w="full">
+        <Heading color="white">Bienvenido {user.nick_name}</Heading>
           <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
             {" "}
             <Heading color="white"> Home</Heading>
@@ -172,7 +175,9 @@ const WalletCard = () => {
             <StatLabel>Posicion en el ranking: 10</StatLabel>
             <StatLabel>Proximo milestone: 30 referidos</StatLabel>
           </Stat>
+          
         </VStack>
+        
         <Box>
           <Button
             ml="25%"

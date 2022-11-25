@@ -20,6 +20,7 @@ import axios from "../config/axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import Persistence from "../components/Persistence";
 
 export default function Login() {
   const nickName = handleInput();
@@ -27,6 +28,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const user = useSelector((state) => state.user);
 
   const handleLoading = (e) => {
     e.preventDefault();
@@ -51,6 +53,9 @@ export default function Login() {
       alert("Usuario o contraseña incorrecta");
     }
   };
+  
+
+  if(user.id) console.log(`ya estas logueado ${user.nick_name}` );
 
   return (
     <Box
@@ -63,6 +68,7 @@ export default function Login() {
       borderColor={["", "gray.300"]}
       borderRadius={10}
     >
+      <Persistence />
       <VStack spacing={4} align="flex-start" w="full">
         <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
           {" "}

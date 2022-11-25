@@ -13,8 +13,9 @@ import {
   Box,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import Persistence from "../components/Persistence";
 
-const Home = () => {
+const Index = () => {
   //<Heading fontFamily={"poppins"} color={"white"} fontSize={"60px"} >Index</Heading>
   /*  <Image
         src="https://media.discordapp.net/attachments/1040681301201666089/1045049523577299075/Screen_Shot_2021-08-24_at_17.58.36.png?width=386&height=414"
@@ -32,6 +33,7 @@ const Home = () => {
       w="100%"
       padding={"0"}
     >
+      <Persistence/>
       <HStack>
         <Image
           src="/banana.png"
@@ -89,4 +91,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Index;
