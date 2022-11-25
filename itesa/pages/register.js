@@ -21,16 +21,30 @@ export default function Registro() {
   const email = handleInput();
   const password = handleInput();
   const router = useRouter();
+  let error = "";
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const newUser = {
-      nick_name: nickName.value,
-      email: email.value,
-      password: password.value,
-    };
-    const created = await axios.post("/newUser", newUser);
-    router.push("/login");
+    if (!nickName.value) {
+      error = "Por favor ingrese un Nombre de Usuario";
+      console.log("Por favor ingrese un Nombre de Usuario");
+    } else if (!email.value) {
+      error = "Por favor ingrese un email";
+      console.log("Por favor ingrese un email");
+    } else if (!password.value) {
+      error = "Por favor ingrese una contraseña";
+      console.log("Por favor ingrese un contraseña");
+    } else {
+      e.preventDefault();
+      const newUser = {
+        nick_name: nickName.value,
+        email: email.value,
+        password: password.value,
+      };
+      const created = await axios
+        .post("/newUser", newUser)
+        .then(() => router.push("/login"))
+        .catch((err) => alert(err));
+    }
   };
 
   return (
@@ -61,29 +75,27 @@ export default function Registro() {
           </HStack>
           <Heading color="white"> Registro</Heading>
         </VStack>
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel color="white"> Correo electronico</FormLabel>{" "}
           <Input
             _focusVisible={"white"}
             rounded="2xl"
             variant="filled"
             {...email}
-            required
           />
         </FormControl>
 
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel color="white"> Nombre de Usuario</FormLabel>{" "}
           <Input
             _focusVisible={"white"}
             rounded="2xl"
             variant="filled"
             {...nickName}
-            required
           />
         </FormControl>
 
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
           <Input
             rounded="2xl"
@@ -91,9 +103,16 @@ export default function Registro() {
             _focusVisible={"white"}
             type="password"
             {...password}
-            required
           />
         </FormControl>
+
+        {nickName.value ? (
+          ""
+        ) : (
+          <div>"Por favor ingrese un Nombre de Usuario"</div>
+        )}
+        {email.value ? "" : <div>"Por favor ingrese un email"</div>}
+        {password.value ? "" : <div>"Por favor ingrese una contraseña"</div>}
 
         <Button
           colorScheme=""

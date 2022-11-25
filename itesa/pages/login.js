@@ -78,17 +78,16 @@ export default function Login() {
           </HStack>
           <Heading color="white"> Login</Heading>
         </VStack>
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel color="white"> Nombre de Usuario</FormLabel>{" "}
           <Input
             _focusVisible={"white"}
             rounded="2xl"
             variant="filled"
             {...nickName}
-            required
           />
         </FormControl>
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
           <Input
             rounded="2xl"
@@ -96,7 +95,6 @@ export default function Login() {
             _focusVisible={"white"}
             type="password"
             {...password}
-            required
           />
         </FormControl>
         <HStack>
