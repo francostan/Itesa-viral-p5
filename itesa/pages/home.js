@@ -47,7 +47,7 @@ const Home = () => {
       </HStack>
       <GridItem
         h={"60vh"}
-        w={"50vw"}
+        w={"100%"}
         align={"center"}
         bgRepeat="no-repeat"
         bgPosition={"center"}

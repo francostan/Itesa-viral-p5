@@ -21,16 +21,24 @@ export default function Registro() {
   const email = handleInput();
   const password = handleInput();
   const router = useRouter();
+  let error = "";
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const newUser = {
-      nick_name: nickName.value,
-      email: email.value,
-      password: password.value,
-    };
-    const created = await axios.post("/newUser", newUser);
-    router.push("/login");
+    if (!nickName.value) {
+    } else if (!email.value) {
+    } else if (!password.value) {
+    } else {
+      e.preventDefault();
+      const newUser = {
+        nick_name: nickName.value,
+        email: email.value,
+        password: password.value,
+      };
+      const created = await axios
+        .post("/newUser", newUser)
+        .then(() => router.push("/login"))
+        .catch((err) => alert("Nombre de usuario o email en uso"));
+    }
   };
 
   return (
@@ -68,9 +76,9 @@ export default function Registro() {
             rounded="2xl"
             variant="filled"
             {...email}
-            required
           />
         </FormControl>
+        {email.value ? "" : <div className="errorForm"> Campo requerido</div>}
 
         <FormControl>
           <FormLabel color="white"> Nombre de Usuario</FormLabel>{" "}
@@ -79,9 +87,9 @@ export default function Registro() {
             rounded="2xl"
             variant="filled"
             {...nickName}
-            required
           />
         </FormControl>
+        {nickName.value ? "" : <div className="errorForm">Campo requerido</div>}
 
         <FormControl>
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
@@ -91,9 +99,10 @@ export default function Registro() {
             _focusVisible={"white"}
             type="password"
             {...password}
-            required
           />
         </FormControl>
+
+        {password.value ? "" : <div className="errorForm">Campo requerido</div>}
 
         <Button
           colorScheme=""

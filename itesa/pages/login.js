@@ -39,6 +39,7 @@ export default function Login() {
       password: password.value,
     };
     const loggedUser = await axios.post("/login", user);
+
     console.log(loggedUser);
 
     if (loggedUser.status === 200) {
@@ -46,7 +47,8 @@ export default function Login() {
 
       router.push("/2fa");
     } else {
-      console.log("hay algo mal");
+      setLoading(false);
+      alert("Usuario o contraseña incorrecta");
     }
   };
 
@@ -78,17 +80,16 @@ export default function Login() {
           </HStack>
           <Heading color="white"> Login</Heading>
         </VStack>
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel color="white"> Nombre de Usuario</FormLabel>{" "}
           <Input
             _focusVisible={"white"}
             rounded="2xl"
             variant="filled"
             {...nickName}
-            required
           />
         </FormControl>
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
           <Input
             rounded="2xl"
@@ -96,7 +97,6 @@ export default function Login() {
             _focusVisible={"white"}
             type="password"
             {...password}
-            required
           />
         </FormControl>
         <HStack>
