@@ -25,14 +25,8 @@ export default function Registro() {
 
   const handleSubmit = async (e) => {
     if (!nickName.value) {
-      error = "Por favor ingrese un Nombre de Usuario";
-      console.log("Por favor ingrese un Nombre de Usuario");
     } else if (!email.value) {
-      error = "Por favor ingrese un email";
-      console.log("Por favor ingrese un email");
     } else if (!password.value) {
-      error = "Por favor ingrese una contraseña";
-      console.log("Por favor ingrese un contraseña");
     } else {
       e.preventDefault();
       const newUser = {
@@ -43,7 +37,7 @@ export default function Registro() {
       const created = await axios
         .post("/newUser", newUser)
         .then(() => router.push("/login"))
-        .catch((err) => alert(err));
+        .catch((err) => alert("Nombre de usuario o email en uso"));
     }
   };
 
@@ -75,7 +69,7 @@ export default function Registro() {
           </HStack>
           <Heading color="white"> Registro</Heading>
         </VStack>
-        <FormControl isRequired>
+        <FormControl>
           <FormLabel color="white"> Correo electronico</FormLabel>{" "}
           <Input
             _focusVisible={"white"}
@@ -84,8 +78,9 @@ export default function Registro() {
             {...email}
           />
         </FormControl>
+        {email.value ? "" : <div className="errorForm"> Campo requerido</div>}
 
-        <FormControl isRequired>
+        <FormControl>
           <FormLabel color="white"> Nombre de Usuario</FormLabel>{" "}
           <Input
             _focusVisible={"white"}
@@ -94,8 +89,9 @@ export default function Registro() {
             {...nickName}
           />
         </FormControl>
+        {nickName.value ? "" : <div className="errorForm">Campo requerido</div>}
 
-        <FormControl isRequired>
+        <FormControl>
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
           <Input
             rounded="2xl"
@@ -106,13 +102,7 @@ export default function Registro() {
           />
         </FormControl>
 
-        {nickName.value ? (
-          ""
-        ) : (
-          <div>"Por favor ingrese un Nombre de Usuario"</div>
-        )}
-        {email.value ? "" : <div>"Por favor ingrese un email"</div>}
-        {password.value ? "" : <div>"Por favor ingrese una contraseña"</div>}
+        {password.value ? "" : <div className="errorForm">Campo requerido</div>}
 
         <Button
           colorScheme=""

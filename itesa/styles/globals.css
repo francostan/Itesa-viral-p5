@@ -25,6 +25,7 @@ a {
   top: 4%;
   left: 55%;
 }
+
 .metamask-xl {
   position: absolute;
   z-index: 3;
@@ -42,6 +43,9 @@ a {
 }
 .loading {
   left: 80%;
+}
+.errorForm {
+  color: #9d39fe;
 }
 
 * {

@@ -39,6 +39,7 @@ export default function Login() {
       password: password.value,
     };
     const loggedUser = await axios.post("/login", user);
+
     console.log(loggedUser);
 
     if (loggedUser.status === 200) {
@@ -46,7 +47,8 @@ export default function Login() {
 
       router.push("/2fa");
     } else {
-      console.log("hay algo mal");
+      setLoading(false);
+      alert("Usuario o contraseña incorrecta");
     }
   };
 
