@@ -1,5 +1,3 @@
-import user from "../../db/models/user";
-
 const db = require("../../db/models/index");
 const User = db.User;
 const tokens = require("../../auth/token/tokens");

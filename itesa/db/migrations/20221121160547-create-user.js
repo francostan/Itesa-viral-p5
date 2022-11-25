@@ -22,7 +22,7 @@ module.exports = {
       salt: {
         type: Sequelize.STRING,
       },
-      unique_code: {
+      address: {
         type: Sequelize.STRING,
       },
       secret: {

@@ -2,6 +2,9 @@
 const bc = require("bcrypt");
 const { Model } = require("sequelize");
 const speakeasy = require("speakeasy");
+const jwt = require("jsonwebtoken");
+const SECRET="prueba"
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -11,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.Invitation);
+      this.hasMany(models.award)
       // define association here
     }
     createHash(string, salt) {
@@ -23,15 +27,18 @@ module.exports = (sequelize, DataTypes) => {
         .hash(password, this.salt)
         .then((hash) => hash === this.password);
     }
+    async signAddress(address) {
+      return (this.address = signedAddress);
+    }
   }
   User.init(
     {
       nick_name: { type: DataTypes.STRING, unique: true },
-      email: DataTypes.STRING,
+      email: { type: DataTypes.STRING, unique: true },
       password: DataTypes.STRING,
       salt: DataTypes.STRING,
-      unique_code: DataTypes.STRING,
       secret: DataTypes.STRING,
+      address: { type: DataTypes.STRING, unique: true },
     },
     {
       sequelize,
@@ -45,14 +52,20 @@ module.exports = (sequelize, DataTypes) => {
       length: 30,
     });
     user.salt = bc.genSaltSync();
-    user.unique_code = `${user.nick_name}.ITESA`;
     user.secret = temp_secret.base32;
     return user
       .createHash(user.password, user.salt)
       .then((result) => {
         user.password = result;
       })
+      .then()
       .catch((err) => console.log(err));
+  });
+
+  User.addHook("beforeUpdate", (user) => {
+    const token = jwt.sign(user.address, SECRET, {});
+    user.address = token;
+    return user;
   });
 
   return User;
