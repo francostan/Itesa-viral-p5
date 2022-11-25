@@ -2,20 +2,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Invitations', {
+    await queryInterface.createTable('milestones', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      complete: {
-        type: Sequelize.BOOLEAN,
-        defaultValue:false
+      name: {
+        type: Sequelize.STRING
       },
-      redeemed: {
-        type: Sequelize.BOOLEAN,
-        defaultValue:false
+      desc: {
+        type: Sequelize.STRING
+      },
+      tokenAmount: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -28,6 +29,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Invitations');
+    await queryInterface.dropTable('milestones');
   }
 };

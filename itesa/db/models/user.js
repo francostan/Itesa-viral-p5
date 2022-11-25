@@ -3,6 +3,7 @@ const bc = require("bcrypt");
 const { Model } = require("sequelize");
 const speakeasy = require("speakeasy");
 const jwt = require("jsonwebtoken");
+const SECRET="prueba"
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -13,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.Invitation);
+      this.hasMany(models.award)
       // define association here
     }
     createHash(string, salt) {
@@ -25,19 +27,18 @@ module.exports = (sequelize, DataTypes) => {
         .hash(password, this.salt)
         .then((hash) => hash === this.password);
     }
-    async signAddress(address){
-      
-      return this.address=signedAddress
+    async signAddress(address) {
+      return (this.address = signedAddress);
     }
   }
   User.init(
     {
       nick_name: { type: DataTypes.STRING, unique: true },
-      email: DataTypes.STRING,
+      email: { type: DataTypes.STRING, unique: true },
       password: DataTypes.STRING,
       salt: DataTypes.STRING,
       secret: DataTypes.STRING,
-      address:DataTypes.STRING
+      address: { type: DataTypes.STRING, unique: true },
     },
     {
       sequelize,
@@ -56,17 +57,16 @@ module.exports = (sequelize, DataTypes) => {
       .createHash(user.password, user.salt)
       .then((result) => {
         user.password = result;
-      }).then()
+      })
+      .then()
       .catch((err) => console.log(err));
   });
 
-  User.addHook("beforeUpdate", user=>{
-    const token = jwt.sign(user.address, "milanesa", {});
-    user.address=token
-    return user
-  })
-
+  User.addHook("beforeUpdate", (user) => {
+    const token = jwt.sign(user.address, SECRET, {});
+    user.address = token;
+    return user;
+  });
 
   return User;
-
 };
