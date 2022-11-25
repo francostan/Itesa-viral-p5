@@ -15,6 +15,9 @@ module.exports = {
       transferred: {
         type: Sequelize.BOOLEAN
       },
+      winnerAddress:{
+        type:Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
