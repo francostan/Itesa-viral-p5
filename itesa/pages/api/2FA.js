@@ -6,24 +6,19 @@ import { sign } from "../../auth/token/tokens";
 
 export default async function newuser(req, res) {
   const { method, body } = req;
-  console.log("Body====================", body);
   switch (method) {
     case "POST":
       {
         const foundUser = await User.findByPk(body.id);
-        console.log(">>>>>>>", foundUser);
 
-        // var validate = speakeasy.totp.verify({
-        //   secret: foundUser.secret.base32,
-        //   encoding: "base32",
-        //   token: body.token,
-        //   window: 0,
-        // });
-        console.log(foundUser.secret);
-        
-        console.log(body.token);
+        var validate = await speakeasy.totp.verify({
+          secret: foundUser.secret,
+          encoding: "base32",
+          token: body.token,
+          window: 5,
+        });
 
-        if (foundUser.secret === body.token) {
+        if (validate) {
           //Generación de Cookie y guardado en browser
           const { nick_name, email, id } = foundUser;
           const payload = { nick_name, email, id };

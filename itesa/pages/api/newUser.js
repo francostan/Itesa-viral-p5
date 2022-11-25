@@ -9,15 +9,10 @@ export default async function newuser(req, res) {
   switch (method) {
     case "POST":
       {
-        var secret = speakeasy.generateSecret({
-          //Genero código secreto de verificación para 2FA
-          length: 30,
-        });
         const created = await User.create({
           nick_name: body.nick_name,
           email: body.email,
           password: body.password,
-          secret: secret.base32,
         });
 
         res.json("Usuario creado con éxito");
