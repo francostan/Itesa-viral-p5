@@ -26,8 +26,6 @@ export default async function login(req, res) {
               //Genero código secreto de verificación para 2FA
             });
 
-            console.log("TEMPSECRET>>>>>>", temp_secret);
-
             //Actualizo en el usuario el código secreto de 2FA
             await User.update(
               { secret: temp_secret.base32 },
@@ -37,25 +35,23 @@ export default async function login(req, res) {
             const usuario = await User.findOne({ where: { id: foundUser.id } });
             //Enviamos el correo al usuario con el código 2FA
 
-            console.log(">>>>>>>>>>>>>>", usuario.secret);
-
-            // var token = speakeasy.totp({
-            //   secret: usuario.secret.base32,
-            //   encoding: "base32",
-            // });
+            var token = speakeasy.totp({
+              secret: usuario.secret,
+              encoding: "base32",
+            });
 
             const transporter = nodemailer.createTransport({
               service: "gmail",
               auth: {
-                user: "aromasjejeje@gmail.com",
-                pass: "fuguxiirjiyqcrhp",
+                user: "itesa.getViral@gmail.com",
+                pass: "rtspkviskcrhorey",
               },
             });
             let mailOptions = {
               from: "GetViral",
               to: usuario.dataValues.email,
               subject: "Verifica tu Identidad",
-              text: `Por favor, ingresa el siguiente código en la pantalla de Login ${usuario.dataValues.secret}`,
+              text: `Por favor, ingresa el siguiente código en la pantalla de Login ${token}`,
             };
             transporter.sendMail(mailOptions, (error, info) => {
               if (error) {
