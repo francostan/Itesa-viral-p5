@@ -100,15 +100,13 @@ const WalletCard = () => {
       getAccountBalance(newAccount.toString());
     };
 
-    const getAccountBalance = (account) => {
-      window.ethereum
-        .request({ method: "eth_getBalance", params: [account, "latest"] })
-        .then((balance) => {
-          setUserBalance(ethers.utils.formatEther(balance));
-        })
-        .catch((error) => {
-          setErrorMessage(error.message);
-        });
+    const getAccountBalance = async (account) => {
+      try {
+        const result = await contract.balanceOf(account);
+        setUserBalance(ethers.utils.formatEther(result));
+      } catch (error) {
+        setErrorMessage(error.message);
+      }
     };
 
     const chainChangedHandler = () => {
@@ -124,10 +122,10 @@ const WalletCard = () => {
   }, [user]);
 
   const handleTokens = async () => {
-    const balance = await contract.balanceOf(account1);
+    // const balance = await contract.balanceOf(account1);
 
-    console.log(`\nReading from ${address}\n`);
-    console.log(`Balance of sender: ${balance}\n`);
+    // console.log(`\nReading from ${address}\n`);
+    // console.log(`Balance of sender: ${balance}\n`);
 
     //   const name = await contract.name();
     //   const symbol = await contract.symbol();
@@ -135,16 +133,19 @@ const WalletCard = () => {
     //   const senderBalanceBefore = await provider.getBalance(account1);
     const contractWithWallet = contract.connect(wallet);
 
-    const tx = await contractWithWallet.transfer(account2, "5000000000000");
+    const tx = await contractWithWallet.transfer(
+      defaultAccount,
+      "5000000000000"
+    );
     await tx.wait();
 
     console.log(tx);
 
-    const balanceOfSender = await contract.balanceOf(account1);
-    const balanceOfReciever = await contract.balanceOf(account2);
+    // const balanceOfSender = await contract.balanceOf(account1);
+    // const balanceOfReciever = await contract.balanceOf(account2);
 
-    console.log(`\nBalance of sender: ${balanceOfSender}`);
-    console.log(`Balance of reciever: ${balanceOfReciever}\n`);
+    // console.log(`\nBalance of sender: ${balanceOfSender}`);
+    // console.log(`Balance of reciever: ${balanceOfReciever}\n`);
   };
 
   // const setAccount = () => {
@@ -180,9 +181,7 @@ const WalletCard = () => {
           </div>
           <div>
             {connButtonText === "Billetera conectada" ? (
-              <button className="tokens-xs" onClick={handleTokens}>
-                Reclamar Tokens
-              </button>
+              <button className="tokens-xs">Reclamar Tokens</button>
             ) : (
               ""
             )}
