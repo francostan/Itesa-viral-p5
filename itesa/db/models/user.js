@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       salt: DataTypes.STRING,
       secret: DataTypes.STRING,
       address: { type: DataTypes.STRING, unique: true },
+      viral_code:{type: DataTypes.STRING, unique:true}
     },
     {
       sequelize,
@@ -53,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     user.salt = bc.genSaltSync();
     user.secret = temp_secret.base32;
+    user.viral_code = `viral.${user.nick_name}`
     return user
       .createHash(user.password, user.salt)
       .then((result) => {
