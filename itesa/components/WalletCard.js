@@ -152,6 +152,33 @@ const WalletCard = () => {
   //   axios.put("/newUser", { id: user.id, address: defaultAccount });
   // };
 
+  const handleNetwork = async () => {
+    await ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0x5" }],
+    });
+
+    const wasAdded = await ethereum.request({
+      method: "wallet_watchAsset",
+      params: {
+        type: "ERC20", // Initially only supports ERC20, but eventually more!
+        options: {
+          address: address, // The address that the token is at.
+          symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
+          decimals: "18", // The number of decimals in the token
+          image:
+            "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
+        },
+      },
+    });
+
+    if (wasAdded) {
+      console.log("Thanks for your interest!");
+    } else {
+      console.log("Your loss!");
+    }
+  };
+
   return (
     <>
       {/* <div className="walletCard">
@@ -181,7 +208,18 @@ const WalletCard = () => {
           </div>
           <div>
             {connButtonText === "Billetera conectada" ? (
-              <button className="tokens-xs">Reclamar Tokens</button>
+              <button className="network-xs" onClick={handleNetwork}>
+                Network
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
+          <div>
+            {connButtonText === "Billetera conectada" ? (
+              <button className="tokens-xs" onClick={handleTokens}>
+                Tokens
+              </button>
             ) : (
               ""
             )}

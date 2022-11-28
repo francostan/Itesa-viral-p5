@@ -7,9 +7,7 @@ export default async function newuser(req, res) {
   const id = req.body.id;
   // const { nick_name, email, password } = body;
   // console.log("-=-------------------------", nick_name, email, password);
-
-  console.log("REQ BODy>>>>>>>>>>", req.body);
-
+  
   switch (method) {
     case "POST":
       {
