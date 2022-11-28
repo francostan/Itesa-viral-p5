@@ -119,18 +119,10 @@ const WalletCard = () => {
       window.ethereum.on("accountsChanged", accountChangedHandler),
         window.ethereum.on("chainChanged", chainChangedHandler);
     }
-  }, [user]);
+  }, [user, userBalance]);
 
   const handleTokens = async () => {
-    // const balance = await contract.balanceOf(account1);
-
-    // console.log(`\nReading from ${address}\n`);
-    // console.log(`Balance of sender: ${balance}\n`);
-
-    //   const name = await contract.name();
-    //   const symbol = await contract.symbol();
-    //   const totalSupply = await contract.totalSupply();
-    //   const senderBalanceBefore = await provider.getBalance(account1);
+    console.log("TOKENS");
     const contractWithWallet = contract.connect(wallet);
 
     const tx = await contractWithWallet.transfer(
@@ -138,19 +130,8 @@ const WalletCard = () => {
       "5000000000000"
     );
     await tx.wait();
-
     console.log(tx);
-
-    // const balanceOfSender = await contract.balanceOf(account1);
-    // const balanceOfReciever = await contract.balanceOf(account2);
-
-    // console.log(`\nBalance of sender: ${balanceOfSender}`);
-    // console.log(`Balance of reciever: ${balanceOfReciever}\n`);
   };
-
-  // const setAccount = () => {
-  //   axios.put("/newUser", { id: user.id, address: defaultAccount });
-  // };
 
   const handleNetwork = async () => {
     await ethereum.request({
@@ -158,7 +139,7 @@ const WalletCard = () => {
       params: [{ chainId: "0x5" }],
     });
 
-    const wasAdded = await ethereum.request({
+    await ethereum.request({
       method: "wallet_watchAsset",
       params: {
         type: "ERC20", // Initially only supports ERC20, but eventually more!
@@ -171,12 +152,6 @@ const WalletCard = () => {
         },
       },
     });
-
-    if (wasAdded) {
-      console.log("Thanks for your interest!");
-    } else {
-      console.log("Your loss!");
-    }
   };
 
   return (
@@ -218,7 +193,7 @@ const WalletCard = () => {
           <div>
             {connButtonText === "Billetera conectada" ? (
               <button className="tokens-xs" onClick={handleTokens}>
-                Tokens
+                Reclamar Tokens
               </button>
             ) : (
               ""
