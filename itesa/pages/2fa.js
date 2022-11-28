@@ -34,7 +34,7 @@ export default function Login() {
     const loggedUser = await axios.post("/2FA", secret);
     if (loggedUser.status === 200) {
       dispatch(login(loggedUser.data));
-      router.push("/homeuser");
+      router.push("/logged/homeuser");
     } else {
       console.log("hay algo mal");
     }

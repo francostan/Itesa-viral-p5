@@ -34,6 +34,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
   };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const user = {
@@ -42,11 +43,10 @@ export default function Login() {
     };
     const loggedUser = await axios.post("/login", user);
 
-    console.log(loggedUser);
+    //console.log(loggedUser);
 
     if (loggedUser.status === 200) {
       dispatch(login(loggedUser.data));
-
       router.push("/2fa");
     } else {
       setLoading(false);
@@ -55,7 +55,7 @@ export default function Login() {
   };
   
 
-  if(user.id) console.log(`ya estas logueado ${user.nick_name}` );
+  //if(user.id) console.log(`ya estas logueado ${user.nick_name}` );
 
   return (
     <Box

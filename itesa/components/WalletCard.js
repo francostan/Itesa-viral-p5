@@ -150,7 +150,7 @@ const WalletCard = () => {
       >
         <Flex mb={20}>
           <Box>
-            <Link href="/homeuser">
+            <Link href="/logged/homeuser">
               <Image
                 boxSize="40px"
                 objectFit="cover"

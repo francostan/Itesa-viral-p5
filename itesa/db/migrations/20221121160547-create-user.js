@@ -28,6 +28,9 @@ module.exports = {
       secret: {
         type: Sequelize.STRING,
       },
+      viral_code: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
