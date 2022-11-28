@@ -37,10 +37,14 @@ if (config.use_env_variable) {
 
 //Agregamos los modelos a la DB
 const User=require("./user")
-const Invitation=require("./invitation")
+//const Invitation=require("./invitation")
+const Award=require("./award")
+const Milestone=require("./milestone")
+
 
 db.User=User(sequelize,Sequelize)
-db.Invitation=Invitation(sequelize,Sequelize)
+db.Award=Award(sequelize,Sequelize)
+db.Milestone=Milestone(sequelize,Sequelize)
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
