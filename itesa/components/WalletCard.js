@@ -34,13 +34,24 @@ import Head from "next/head";
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
   const [errorMessage, setErrorMessage] = useState(null);
-  const [defaultAccount, setDefaultAccount] = useState(null);
+  const [defaultAccount, setDefaultAccount] = useState(null); // Address de metamask
   const [userBalance, setUserBalance] = useState(null);
   const [connButtonText, setConnButtonText] = useState("Conectar billetera");
   const router = useRouter();
   const dispatch = useDispatch();
-
   const user = useSelector((state) => state.user);
+  const provider = new ethers.providers.JsonRpcProvider(
+    "https://goerli.infura.io/v3/07844f3846764830b55e143f3d6f324d"
+  );
+  const privateKey1 =
+    "ae6eb5a105b3557eada011913816e359cf9f792ab8645e557d4a8415f8330f03";
+  const wallet = new ethers.Wallet(privateKey1, provider);
+  const ERC20_ABI = [
+    "function balanceOf(address) view returns (uint)",
+    "function transfer(address to, uint amount) returns (bool)",
+  ];
+  const address = "0x319d484fA709D449dc60a5C916a1d229E589aB59";
+  const contract = new ethers.Contract(address, ERC20_ABI, provider);
 
   const LOGOUT = () => {
     axios.post("/logout");
@@ -49,7 +60,6 @@ const WalletCard = () => {
   };
 
   useEffect(() => {
-    console.log(user);
     //Button ID
     const connectButton = document.getElementById("connect");
     //Click Event
@@ -60,6 +70,7 @@ const WalletCard = () => {
     const connectWalletHandler = () => {
       if (window.ethereum && window.ethereum.isMetaMask) {
         console.log("MetaMask Here!");
+        console.log("USER>>>>>>>>", user);
 
         window.ethereum
           .request({ method: "eth_requestAccounts" })
@@ -67,6 +78,8 @@ const WalletCard = () => {
             accountChangedHandler(result[0]);
             setConnButtonText("Billetera conectada");
             getAccountBalance(result[0]);
+            if (user.id)
+              axios.put("/newUser", { id: user.id, address: result[0] });
           })
           .catch((error) => {
             setErrorMessage(error.message);
@@ -108,7 +121,35 @@ const WalletCard = () => {
       window.ethereum.on("accountsChanged", accountChangedHandler),
         window.ethereum.on("chainChanged", chainChangedHandler);
     }
-  }, []);
+  }, [user]);
+
+  const handleTokens = async () => {
+    const balance = await contract.balanceOf(account1);
+
+    console.log(`\nReading from ${address}\n`);
+    console.log(`Balance of sender: ${balance}\n`);
+
+    //   const name = await contract.name();
+    //   const symbol = await contract.symbol();
+    //   const totalSupply = await contract.totalSupply();
+    //   const senderBalanceBefore = await provider.getBalance(account1);
+    const contractWithWallet = contract.connect(wallet);
+
+    const tx = await contractWithWallet.transfer(account2, "5000000000000");
+    await tx.wait();
+
+    console.log(tx);
+
+    const balanceOfSender = await contract.balanceOf(account1);
+    const balanceOfReciever = await contract.balanceOf(account2);
+
+    console.log(`\nBalance of sender: ${balanceOfSender}`);
+    console.log(`Balance of reciever: ${balanceOfReciever}\n`);
+  };
+
+  // const setAccount = () => {
+  //   axios.put("/newUser", { id: user.id, address: defaultAccount });
+  // };
 
   return (
     <>
@@ -132,9 +173,20 @@ const WalletCard = () => {
         </div>
       ) : (
         <div>
-          <button className="metamask-xs" id="connect">
-            {connButtonText}
-          </button>
+          <div>
+            <button className="metamask-xs" id="connect">
+              {connButtonText}
+            </button>
+          </div>
+          <div>
+            {connButtonText === "Billetera conectada" ? (
+              <button className="tokens-xs" onClick={handleTokens}>
+                Reclamar Tokens
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       )}
 
@@ -163,7 +215,7 @@ const WalletCard = () => {
           <Spacer />
         </Flex>
         <VStack spacing={4} align="flex-start" w="full">
-        <Heading color="white">Bienvenido {user.nick_name}</Heading>
+          <Heading color="white">Bienvenido {user.nick_name}</Heading>
           <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
             {" "}
             <Heading color="white"> Home</Heading>
@@ -175,9 +227,8 @@ const WalletCard = () => {
             <StatLabel>Posicion en el ranking: 10</StatLabel>
             <StatLabel>Proximo milestone: 30 referidos</StatLabel>
           </Stat>
-          
         </VStack>
-        
+
         <Box>
           <Button
             ml="25%"
