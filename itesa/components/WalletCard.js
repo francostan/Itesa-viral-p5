@@ -30,6 +30,7 @@ import { useRouter } from "next/router";
 import axios from "../config/axios";
 import Persistence from "./Persistence";
 import Head from "next/head";
+import Reference from "./Reference";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
@@ -177,6 +178,7 @@ const WalletCard = () => {
           </Stat>
           
         </VStack>
+        <Reference />
         
         <Box>
           <Button
