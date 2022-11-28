@@ -36,6 +36,7 @@ const WalletCard = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [defaultAccount, setDefaultAccount] = useState(null); // Address de metamask
   const [userBalance, setUserBalance] = useState(null);
+  const [userBalance2, setUserBalance2] = useState(null);
   const [connButtonText, setConnButtonText] = useState("Conectar billetera");
   const router = useRouter();
   const dispatch = useDispatch();
@@ -119,7 +120,7 @@ const WalletCard = () => {
       window.ethereum.on("accountsChanged", accountChangedHandler),
         window.ethereum.on("chainChanged", chainChangedHandler);
     }
-  }, [user, userBalance]);
+  }, [user, userBalance, defaultAccount]);
 
   const handleTokens = async () => {
     console.log("TOKENS");
@@ -127,10 +128,13 @@ const WalletCard = () => {
 
     const tx = await contractWithWallet.transfer(
       defaultAccount,
-      "5000000000000"
+      "1000000000000"
     );
     await tx.wait();
     console.log(tx);
+    const balanceOfReceiver = await contract.balanceOf(defaultAccount);
+    setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
+    console.log(`\nBalance of sender: ${balanceOfReceiver}`);
   };
 
   const handleNetwork = async () => {
@@ -138,20 +142,26 @@ const WalletCard = () => {
       method: "wallet_switchEthereumChain",
       params: [{ chainId: "0x5" }],
     });
-
-    await ethereum.request({
-      method: "wallet_watchAsset",
-      params: {
-        type: "ERC20", // Initially only supports ERC20, but eventually more!
-        options: {
-          address: address, // The address that the token is at.
-          symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
-          decimals: "18", // The number of decimals in the token
-          image:
-            "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
+    const Istoken = localStorage.getItem("VT");
+    if (Istoken !== "true") {
+      console.log("hola capo");
+      await ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20", // Initially only supports ERC20, but eventually more!
+          options: {
+            address: address, // The address that the token is at.
+            symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
+            decimals: "18", // The number of decimals in the token
+            image:
+              "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
+          },
         },
-      },
-    });
+      });
+      localStorage.setItem("VT", "true");
+    } else {
+      alert("ya se integro");
+    }
   };
 
   return (
