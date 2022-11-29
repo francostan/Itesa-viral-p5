@@ -59,6 +59,7 @@ const WalletCard = () => {
   const contract = new ethers.Contract(address, ERC20_ABI, provider);
 
   const LOGOUT = () => {
+    localStorage.setItem("VT", "");
     axios.post("/logout");
     dispatch(logout());
     router.push("/home");
@@ -71,6 +72,30 @@ const WalletCard = () => {
         settokentoredeem(redeem.data);
       });
     }
+
+    const handleNetwork = async () => {
+      await ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x5" }],
+      });
+      const Istoken = localStorage.getItem("VT");
+      if (Istoken !== "true") {
+        await ethereum.request({
+          method: "wallet_watchAsset",
+          params: {
+            type: "ERC20", // Initially only supports ERC20, but eventually more!
+            options: {
+              address: address, // The address that the token is at.
+              symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
+              decimals: "18", // The number of decimals in the token
+              image:
+                "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
+            },
+          },
+        });
+        localStorage.setItem("VT", "true");
+      }
+    };
 
     // Vinculacion con billetera MetaMask:
 
@@ -89,6 +114,9 @@ const WalletCard = () => {
             getAccountBalance(result[0]);
             if (user.id)
               axios.put("/newUser", { id: user.id, address: result[0] });
+          })
+          .then(() => {
+            handleNetwork();
           })
           .catch((error) => {
             setErrorMessage(error.message);
@@ -150,32 +178,6 @@ const WalletCard = () => {
     }
   };
 
-  const handleNetwork = async () => {
-    await ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: "0x5" }],
-    });
-    const Istoken = localStorage.getItem("VT");
-    if (Istoken !== "true") {
-      await ethereum.request({
-        method: "wallet_watchAsset",
-        params: {
-          type: "ERC20", // Initially only supports ERC20, but eventually more!
-          options: {
-            address: address, // The address that the token is at.
-            symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
-            decimals: "18", // The number of decimals in the token
-            image:
-              "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
-          },
-        },
-      });
-      localStorage.setItem("VT", "true");
-    } else {
-      alert("ya se integro");
-    }
-  };
-
   return (
     <>
       {/* <div className="walletCard">
@@ -203,15 +205,7 @@ const WalletCard = () => {
               {connButtonText}
             </button>
           </div>
-          <div>
-            {connButtonText === "Billetera conectada" ? (
-              <button className="network-xs" onClick={handleNetwork}>
-                Network
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
+      
           <div>
             {connButtonText === "Billetera conectada" ? (
               <button className="tokens-xs" onClick={handleTokens}>
