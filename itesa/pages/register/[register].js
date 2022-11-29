@@ -11,8 +11,8 @@ import {
   Button,
   Image,
 } from "@chakra-ui/react";
-import handleInput from "../reactHooks/handleInput";
-import axios from "../config/axios";
+import handleInput from "../../reactHooks/handleInput";
+import axios from "../../config/axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -20,8 +20,11 @@ export default function Registro() {
   const nickName = handleInput();
   const email = handleInput();
   const password = handleInput();
+  const referedCode = handleInput();
   const router = useRouter();
   let error = "";
+
+  const codigoReferido = router.query.register;
 
   const handleSubmit = async (e) => {
     if (!nickName.value) {
@@ -103,6 +106,17 @@ export default function Registro() {
         </FormControl>
 
         {password.value ? "" : <div className="errorForm">Campo requerido</div>}
+
+        <FormControl>
+          <FormLabel color="white"> Codigo de referido</FormLabel>{" "}
+          <Input
+            _focusVisible={"white"}
+            rounded="2xl"
+            variant="filled"
+            {...referedCode}
+            value={codigoReferido}
+          />
+        </FormControl>
 
         <Button
           colorScheme=""

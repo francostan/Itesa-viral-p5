@@ -32,6 +32,7 @@ const initialState = {
     id:"",
     nick_name: "",
     email: "",
+    reference:"",
   }
 
 export const userSlice = createSlice({
@@ -39,7 +40,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state,action) => {
-      state = action.payload
+      state = {...action.payload, reference: "1234.getViral"}
       return state
     },
     logout: (state,action) => {
