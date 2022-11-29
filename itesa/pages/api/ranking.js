@@ -13,17 +13,27 @@ export default async function ranking(req, res) {
       {
         //ranking: lista de usuarios registrados ordenados segun la cantidad de veces que su código de registro fue usado
         //SELECT 'referringId',count(*) FROM 'awards' AS 'award' where 'referringId' notnull GROUP BY 'referringId' order by 'referringId'
-        const ranking = await Award.findAll({
+        let base_ranking = await Award.findAll({
           attributes: [
             "referringId",
             [Sequelize.fn("COUNT", Sequelize.col("*")), "awards"],
           ],
           where: { referringId: { [Op.ne]: null } },
-          group:["referringId"],
-          order:[["awards","DESC"]]
+          group: ["referringId"],
+          order: [["awards", "DESC"]],
         });
+        base_ranking=base_ranking.map(elemento=>elemento.dataValues)
 
-        //const ranking=await Award.findAll({attributes:["winnerId"],group:"winnerId"})
+        const rankingPromises = base_ranking.map((elemento) => {
+          return User.findByPk(elemento.referringId);
+        });
+        const rankedUsers=await Promise.all(rankingPromises)
+
+        const ranking=base_ranking.map((elemento)=>{
+            const nickName=rankedUsers.find(user=>{if(user.id===elemento.referringId) return user.nick_name})
+            return {...elemento, nick_name:nickName.dataValues.nick_name}
+        })
+
         res.status(200).send(ranking);
       }
       break;
