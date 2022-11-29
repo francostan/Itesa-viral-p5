@@ -20,8 +20,8 @@ export default async function newuser(req, res) {
 
         if (validate) {
           //Generación de Cookie y guardado en browser
-          const { nick_name, email, id } = foundUser;
-          const payload = { nick_name, email, id };
+          const { nick_name, email, id, viral_code } = foundUser;
+          const payload = { nick_name, email, id, viral_code };
           const token = await sign(payload);
           res.setHeader(
             "set-cookie",
@@ -31,6 +31,7 @@ export default async function newuser(req, res) {
             nick_name: foundUser.nick_name,
             id: foundUser.id,
             email: foundUser.email,
+            viral_code: foundUser.viral_code,
           });
         } else {
           console.log("NO VALIDADO");

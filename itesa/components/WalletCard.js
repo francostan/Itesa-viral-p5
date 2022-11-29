@@ -215,7 +215,7 @@ const WalletCard = () => {
 
       <Box
         backgroundColor="#101311"
-        h="99vh"
+        h="100%"
         w="100%"
         p={[8, 10]}
         mx="auto"
@@ -250,27 +250,20 @@ const WalletCard = () => {
             <StatLabel>Posicion en el ranking: 10</StatLabel>
             <StatLabel>Proximo milestone: 30 referidos</StatLabel>
           </Stat>
+          <Reference />
         </VStack>
-
-
-
-        <Reference />
-        
-
-        <Box>
-          <Button
-            ml="25%"
-            mt="100%"
-            colorScheme=""
-            variant="solid"
-            w={["50%", "auto"]}
-            onClick={() => {
-              LOGOUT();
-            }}
-          >
-            LOGOUT
-          </Button>
-        </Box>
+        <Button
+          ml="25%"
+          mt="100%"
+          colorScheme=""
+          variant="solid"
+          w={["50%", "auto"]}
+          onClick={() => {
+            LOGOUT();
+          }}
+        >
+          LOGOUT
+        </Button>
       </Box>
     </>
   );

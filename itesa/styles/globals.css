@@ -79,6 +79,9 @@ a {
 .errorForm {
   color: #9d39fe;
 }
+.btnViewPwd {
+  left: 2%;
+}
 
 * {
   box-sizing: border-box;

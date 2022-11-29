@@ -1,39 +1,44 @@
-import React from 'react'
-import  {Alert, Button}  from '@chakra-ui/react'
-import { useSelector } from 'react-redux'
-
+import React, { useState } from "react";
+import { Alert, Button, useDisclosure } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+import Modale from "./Modal";
 
 const Reference = () => {
+  //   const { isOpen, onOpen, onClose } = useDisclosure();
+  //   const [overlay, setOverlay] = useState("");
+  //   const OverlayOne = () => (
+  //     <ModalOverlay
+  //       bg="blackAlpha.300"
+  //       backdropFilter="blur(10px) hue-rotate(90deg)"
+  //     />
+  //   );
+  const userRedux = useSelector((state) => state.user);
+  const { viral_code } = userRedux;
 
-    const userRedux = useSelector((state) => state.user);
-    const { reference } = userRedux;
-    
-    const data = {url:`http://localhost:3000/register/${reference}`}
+  const data = { url: `http://localhost:3000/register/${viral_code}` };
 
-    const handleClick = () => {
-        alert("El codigo para referir es: " + reference)
-    }
+  const handleClick = () => {
+    alert("El codigo para referir es: " + viral_code);
+  };
 
-    const handleReference = () => {
-        if(window.navigator.share){
-        window.navigator.share(data)
+  const handleReference = () => {
+    if (window.navigator.share) {
+      window.navigator
+        .share(data)
         .then(() => console.log("Compartido"))
-        .catch((error) => console.log("Error", error))
-        }else{
-            alert(`Tu url para compartir es -->  ${data.url}`)
-        }
+        .catch((error) => console.log("Error", error));
+    } else {
+      alert(`Tu url para compartir es -->  ${data.url}`);
     }
- 
-  
+  };
 
-    
-    
   return (
     <div>
-        <Button onClick={handleClick} >Ver codigo para referir</Button>
-        <Button onClick={handleReference}>Compartir mi codigo</Button>
-    </div>
-  )
-}
+      <Modale prop={viral_code} />
 
-export default Reference
+      {/* <Button onClick={handleReference}>Compartir mi codigo</Button> */}
+    </div>
+  );
+};
+
+export default Reference;
