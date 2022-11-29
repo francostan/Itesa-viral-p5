@@ -22,6 +22,7 @@ import {
   StatHelpText,
   StatArrow,
   StatGroup,
+  Spinner,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { logout } from "../store/reducers/userSlice";
@@ -39,6 +40,8 @@ const WalletCard = () => {
   const [userBalance, setUserBalance] = useState(null);
   const [userBalance2, setUserBalance2] = useState(null);
   const [connButtonText, setConnButtonText] = useState("Conectar billetera");
+  const [tokentoredeem, settokentoredeem] = useState(0);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -56,24 +59,53 @@ const WalletCard = () => {
   const contract = new ethers.Contract(address, ERC20_ABI, provider);
 
   const LOGOUT = () => {
+    localStorage.setItem("VT", "");
     axios.post("/logout");
     dispatch(logout());
     router.push("/home");
   };
 
   useEffect(() => {
-    //Button ID
+    // Obtener valor de tokens a reclamar y guardar estado con el valor:
+    if (user.id) {
+      axios.post("/redeem", { user: user.id }).then((redeem) => {
+        settokentoredeem(redeem.data);
+      });
+    }
+
+    const handleNetwork = async () => {
+      await ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x5" }],
+      });
+      const Istoken = localStorage.getItem("VT");
+      if (Istoken !== "true") {
+        await ethereum.request({
+          method: "wallet_watchAsset",
+          params: {
+            type: "ERC20", // Initially only supports ERC20, but eventually more!
+            options: {
+              address: address, // The address that the token is at.
+              symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
+              decimals: "18", // The number of decimals in the token
+              image:
+                "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
+            },
+          },
+        });
+        localStorage.setItem("VT", "true");
+      }
+    };
+
+    // Vinculacion con billetera MetaMask:
+
     const connectButton = document.getElementById("connect");
-    //Click Event
 
     connectButton.addEventListener("click", () => {
       connectWalletHandler();
     });
     const connectWalletHandler = () => {
       if (window.ethereum && window.ethereum.isMetaMask) {
-        console.log("MetaMask Here!");
-        console.log("USER>>>>>>>>", user);
-
         window.ethereum
           .request({ method: "eth_requestAccounts" })
           .then((result) => {
@@ -82,6 +114,9 @@ const WalletCard = () => {
             getAccountBalance(result[0]);
             if (user.id)
               axios.put("/newUser", { id: user.id, address: result[0] });
+          })
+          .then(() => {
+            handleNetwork();
           })
           .catch((error) => {
             setErrorMessage(error.message);
@@ -96,7 +131,7 @@ const WalletCard = () => {
       }
     };
 
-    // update account, will cause component re-render
+    // update account, will cause component re-render:
     const accountChangedHandler = (newAccount) => {
       setDefaultAccount(newAccount);
       getAccountBalance(newAccount.toString());
@@ -111,57 +146,35 @@ const WalletCard = () => {
       }
     };
 
-    const chainChangedHandler = () => {
-      // reload the page to avoid any errors with chain change mid use of application
-      window.location.reload();
-    };
+    // const chainChangedHandler = () => {
+    //   // reload the page to avoid any errors with chain change mid use of application
+    //   window.location.reload();
+    // };
 
     // listen for account changes
-    if (window.ethereum && window.ethereum.isMetaMask) {
-      window.ethereum.on("accountsChanged", accountChangedHandler),
-        window.ethereum.on("chainChanged", chainChangedHandler);
-    }
+    // if (window.ethereum && window.ethereum.isMetaMask) {
+    //   window.ethereum.on("accountsChanged", accountChangedHandler);
+    //   window.ethereum.on("chainChanged", chainChangedHandler);
+    // }
   }, [user, userBalance, defaultAccount]);
 
   const handleTokens = async () => {
     console.log("TOKENS");
     const contractWithWallet = contract.connect(wallet);
-
-    const tx = await contractWithWallet.transfer(
-      defaultAccount,
-      "1000000000000"
-    );
-    await tx.wait();
-    console.log(tx);
-    const balanceOfReceiver = await contract.balanceOf(defaultAccount);
-    setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
-    console.log(`\nBalance of sender: ${balanceOfReceiver}`);
-  };
-
-  const handleNetwork = async () => {
-    await ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: "0x5" }],
-    });
-    const Istoken = localStorage.getItem("VT");
-    if (Istoken !== "true") {
-      console.log("hola capo");
-      await ethereum.request({
-        method: "wallet_watchAsset",
-        params: {
-          type: "ERC20", // Initially only supports ERC20, but eventually more!
-          options: {
-            address: address, // The address that the token is at.
-            symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
-            decimals: "18", // The number of decimals in the token
-            image:
-              "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
-          },
-        },
-      });
-      localStorage.setItem("VT", "true");
+    if (tokentoredeem) {
+      setLoading(true);
+      const tx = await contractWithWallet.transfer(
+        defaultAccount,
+        tokentoredeem
+      );
+      await tx.wait();
+      console.log(tx);
+      setLoading(false);
+      const balanceOfReceiver = await contract.balanceOf(defaultAccount);
+      setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
+      axios.put("redeem", { user: user.id });
     } else {
-      alert("ya se integro");
+      alert("no hay tokens por reclamar");
     }
   };
 
@@ -192,15 +205,7 @@ const WalletCard = () => {
               {connButtonText}
             </button>
           </div>
-          <div>
-            {connButtonText === "Billetera conectada" ? (
-              <button className="network-xs" onClick={handleNetwork}>
-                Network
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
+      
           <div>
             {connButtonText === "Billetera conectada" ? (
               <button className="tokens-xs" onClick={handleTokens}>
@@ -249,13 +254,24 @@ const WalletCard = () => {
             <StatHelpText>Direccion: {defaultAccount}</StatHelpText>
             <StatLabel>Posicion en el ranking: 10</StatLabel>
             <StatLabel>Proximo milestone: 30 referidos</StatLabel>
+            <StatLabel>Token por reclamar {tokentoredeem}</StatLabel>
           </Stat>
         </VStack>
 
-
+        {loading ? (
+          <Spinner
+            className="loading"
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="purple.500"
+            size="xl"
+          />
+        ) : (
+          ""
+        )}
 
         <Reference />
-        
 
         <Box>
           <Button
