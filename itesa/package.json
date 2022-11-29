@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "sequelize db:migrate"
+    "migrate": "sequelize db:migrate",
+    "seed": "sequelize-cli db:seed:all"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.13",
