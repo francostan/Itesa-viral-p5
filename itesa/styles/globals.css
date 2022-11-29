@@ -1,0 +1,82 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.metamask-xs {
+  position: absolute;
+  z-index: 3;
+  color: white;
+  border: 3px solid white;
+  background-color: #9d39fe;
+  border-radius: 15px;
+  height: 5%;
+  width: 40%;
+
+  font-weight: bold;
+  align-items: center;
+  top: 4%;
+  left: 55%;
+}
+
+.tokens-xs {
+  position: absolute;
+  z-index: 3;
+  color: white;
+  border: 3px solid white;
+  background-color: #9d39fe;
+  border-radius: 15px;
+  height: 5%;
+  width: 40%;
+
+  font-weight: bold;
+  align-items: center;
+  top: 10%;
+  left: 55%;
+}
+
+.metamask-xl {
+  position: absolute;
+  z-index: 3;
+  color: white;
+  border: 3px solid white;
+  background-color: #9d39fe;
+  border-radius: 15px;
+  height: 5%;
+  width: 200px;
+
+  font-weight: bold;
+  align-items: center;
+  top: 4%;
+  left: 80%;
+}
+.loading {
+  left: 80%;
+}
+.errorForm {
+  color: #9d39fe;
+}
+.btnViewPwd {
+  left: 2%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
