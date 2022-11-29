@@ -22,6 +22,7 @@ import {
   StatHelpText,
   StatArrow,
   StatGroup,
+  Spinner,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { logout } from "../store/reducers/userSlice";
@@ -40,6 +41,7 @@ const WalletCard = () => {
   const [userBalance2, setUserBalance2] = useState(null);
   const [connButtonText, setConnButtonText] = useState("Conectar billetera");
   const [tokentoredeem, settokentoredeem] = useState(0);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -63,26 +65,22 @@ const WalletCard = () => {
   };
 
   useEffect(() => {
-    console.log("user", user.id);
+    // Obtener valor de tokens a reclamar y guardar estado con el valor:
     if (user.id) {
-      console.log("entro", user.id);
       axios.post("/redeem", { user: user.id }).then((redeem) => {
         settokentoredeem(redeem.data);
       });
     }
 
-    //Button ID
+    // Vinculacion con billetera MetaMask:
+
     const connectButton = document.getElementById("connect");
-    //Click Event
 
     connectButton.addEventListener("click", () => {
       connectWalletHandler();
     });
     const connectWalletHandler = () => {
       if (window.ethereum && window.ethereum.isMetaMask) {
-        console.log("MetaMask Here!");
-        console.log("USER>>>>>>>>", user);
-
         window.ethereum
           .request({ method: "eth_requestAccounts" })
           .then((result) => {
@@ -105,7 +103,7 @@ const WalletCard = () => {
       }
     };
 
-    // update account, will cause component re-render
+    // update account, will cause component re-render:
     const accountChangedHandler = (newAccount) => {
       setDefaultAccount(newAccount);
       getAccountBalance(newAccount.toString());
@@ -120,28 +118,30 @@ const WalletCard = () => {
       }
     };
 
-    const chainChangedHandler = () => {
-      // reload the page to avoid any errors with chain change mid use of application
-      window.location.reload();
-    };
+    // const chainChangedHandler = () => {
+    //   // reload the page to avoid any errors with chain change mid use of application
+    //   window.location.reload();
+    // };
 
     // listen for account changes
-    if (window.ethereum && window.ethereum.isMetaMask) {
-      window.ethereum.on("accountsChanged", accountChangedHandler),
-        window.ethereum.on("chainChanged", chainChangedHandler);
-    }
+    // if (window.ethereum && window.ethereum.isMetaMask) {
+    //   window.ethereum.on("accountsChanged", accountChangedHandler);
+    //   window.ethereum.on("chainChanged", chainChangedHandler);
+    // }
   }, [user, userBalance, defaultAccount]);
 
   const handleTokens = async () => {
     console.log("TOKENS");
     const contractWithWallet = contract.connect(wallet);
     if (tokentoredeem) {
+      setLoading(true);
       const tx = await contractWithWallet.transfer(
         defaultAccount,
         tokentoredeem
       );
       await tx.wait();
       console.log(tx);
+      setLoading(false);
       const balanceOfReceiver = await contract.balanceOf(defaultAccount);
       setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
       axios.put("redeem", { user: user.id });
@@ -157,7 +157,6 @@ const WalletCard = () => {
     });
     const Istoken = localStorage.getItem("VT");
     if (Istoken !== "true") {
-      console.log("hola capo");
       await ethereum.request({
         method: "wallet_watchAsset",
         params: {
@@ -264,6 +263,19 @@ const WalletCard = () => {
             <StatLabel>Token por reclamar {tokentoredeem}</StatLabel>
           </Stat>
         </VStack>
+
+        {loading ? (
+          <Spinner
+            className="loading"
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="purple.500"
+            size="xl"
+          />
+        ) : (
+          ""
+        )}
 
         <Reference />
 

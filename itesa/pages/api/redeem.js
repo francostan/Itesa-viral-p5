@@ -14,7 +14,6 @@ export default async function tokens(req, res) {
     case "POST":
       {
         //Ruta que devuelve el total de tokens a ser transferidos
-        console.log("reqbodyid", req.body.user);
 
         // Pimero verifico la cantidad de invitados que se registraron, y lógica de qué milestones de cantidad se cobraron
         const registeredReferred = (
