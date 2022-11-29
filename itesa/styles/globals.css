@@ -26,6 +26,38 @@ a {
   left: 55%;
 }
 
+.network-xs {
+  position: absolute;
+  z-index: 3;
+  color: white;
+  border: 3px solid white;
+  background-color: #9d39fe;
+  border-radius: 15px;
+  height: 5%;
+  width: 40%;
+
+  font-weight: bold;
+  align-items: center;
+  top: 10%;
+  left: 55%;
+}
+
+.tokens-xs {
+  position: absolute;
+  z-index: 3;
+  color: white;
+  border: 3px solid white;
+  background-color: #9d39fe;
+  border-radius: 15px;
+  height: 5%;
+  width: 40%;
+
+  font-weight: bold;
+  align-items: center;
+  top: 15%;
+  left: 55%;
+}
+
 .metamask-xl {
   position: absolute;
   z-index: 3;
