@@ -39,6 +39,7 @@ const WalletCard = () => {
   const [userBalance, setUserBalance] = useState(null);
   const [userBalance2, setUserBalance2] = useState(null);
   const [connButtonText, setConnButtonText] = useState("Conectar billetera");
+  const [tokentoredeem, settokentoredeem] = useState(0);
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -62,6 +63,14 @@ const WalletCard = () => {
   };
 
   useEffect(() => {
+    console.log("user", user.id);
+    if (user.id) {
+      console.log("entro", user.id);
+      axios.post("/redeem", { user: user.id }).then((redeem) => {
+        settokentoredeem(redeem.data);
+      });
+    }
+
     //Button ID
     const connectButton = document.getElementById("connect");
     //Click Event
@@ -126,16 +135,19 @@ const WalletCard = () => {
   const handleTokens = async () => {
     console.log("TOKENS");
     const contractWithWallet = contract.connect(wallet);
-
-    const tx = await contractWithWallet.transfer(
-      defaultAccount,
-      "1000000000000"
-    );
-    await tx.wait();
-    console.log(tx);
-    const balanceOfReceiver = await contract.balanceOf(defaultAccount);
-    setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
-    console.log(`\nBalance of sender: ${balanceOfReceiver}`);
+    if (tokentoredeem) {
+      const tx = await contractWithWallet.transfer(
+        defaultAccount,
+        tokentoredeem
+      );
+      await tx.wait();
+      console.log(tx);
+      const balanceOfReceiver = await contract.balanceOf(defaultAccount);
+      setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
+      axios.put("redeem", { user: user.id });
+    } else {
+      alert("no hay tokens por reclamar");
+    }
   };
 
   const handleNetwork = async () => {
@@ -249,13 +261,11 @@ const WalletCard = () => {
             <StatHelpText>Direccion: {defaultAccount}</StatHelpText>
             <StatLabel>Posicion en el ranking: 10</StatLabel>
             <StatLabel>Proximo milestone: 30 referidos</StatLabel>
+            <StatLabel>Token por reclamar {tokentoredeem}</StatLabel>
           </Stat>
         </VStack>
 
-
-
         <Reference />
-        
 
         <Box>
           <Button
