@@ -16,8 +16,15 @@ export const theme = extendTheme({
           border: "3px solid white",
           background: "#9d39fe",
           borderRadius: "15px",
-
+          color: "white",
           fontWeight: "bold",
+        },
+      },
+    },
+    Toast: {
+      variants: {
+        subtle: {
+          background: "#9d39fe",
         },
       },
     },

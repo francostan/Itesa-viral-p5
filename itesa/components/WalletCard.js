@@ -220,7 +220,7 @@ const WalletCard = () => {
 
       <Box
         backgroundColor="#101311"
-        h="99vh"
+        h="100%"
         w="100%"
         p={[8, 10]}
         mx="auto"
@@ -256,9 +256,10 @@ const WalletCard = () => {
             <StatLabel>Proximo milestone: 30 referidos</StatLabel>
             <StatLabel>Token por reclamar {tokentoredeem}</StatLabel>
           </Stat>
+          <Reference />
         </VStack>
 
-        {loading ? (
+  {loading ? (
           <Spinner
             className="loading"
             thickness="4px"
@@ -270,23 +271,19 @@ const WalletCard = () => {
         ) : (
           ""
         )}
+        <Button
+          ml="25%"
+          mt="100%"
+          colorScheme=""
+          variant="solid"
+          w={["50%", "auto"]}
+          onClick={() => {
+            LOGOUT();
+          }}
+        >
+          LOGOUT
+        </Button>
 
-        <Reference />
-
-        <Box>
-          <Button
-            ml="25%"
-            mt="100%"
-            colorScheme=""
-            variant="solid"
-            w={["50%", "auto"]}
-            onClick={() => {
-              LOGOUT();
-            }}
-          >
-            LOGOUT
-          </Button>
-        </Box>
       </Box>
     </>
   );

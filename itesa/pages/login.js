@@ -12,6 +12,7 @@ import {
   Image,
   Spinner,
 } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import handleInput from "../reactHooks/handleInput";
 import { login } from "../store/reducers/userSlice";
 import { useState, useEffect } from "react";
@@ -34,7 +35,15 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
   };
+  const togglePassword = () => {
+    var input = document.getElementById("pwd");
 
+    if (input.type === "password") {
+      input.type = "text";
+    } else {
+      input.type = "password";
+    }
+  };
   const handleLogin = async (e) => {
     e.preventDefault();
     const user = {
@@ -50,10 +59,13 @@ export default function Login() {
       router.push("/2fa");
     } else {
       setLoading(false);
-      alert("Usuario o contraseña incorrecta");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Usuario o contraseña incorrectos",
+      });
     }
   };
-  
 
   //if(user.id) console.log(`ya estas logueado ${user.nick_name}` );
 
@@ -98,13 +110,20 @@ export default function Login() {
         <FormControl isRequired>
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
           <Input
+            id="pwd"
+            width="93%"
             rounded="2xl"
             variant="filled"
             _focusVisible={"white"}
             type="password"
             {...password}
           />
+          <Button className="btnViewPwd" onClick={() => togglePassword()}>
+            {" "}
+            <ViewIcon />
+          </Button>
         </FormControl>
+
         <HStack>
           <Checkbox color="white"> Remember me.</Checkbox>
           <Button variant="link" colorScheme="purple">

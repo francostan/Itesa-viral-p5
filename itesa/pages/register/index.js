@@ -11,42 +11,95 @@ import {
   Button,
   Image,
 } from "@chakra-ui/react";
+
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import handleInput from "../../reactHooks/handleInput";
 import axios from "../../config/axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
+import { useState } from "react";
 
 export default function Registro() {
   const nickName = handleInput();
   const email = handleInput();
+  const emailCheck = handleInput();
   const password = handleInput();
+  const passwordCheck = handleInput();
   const referedCode = handleInput();
   const router = useRouter();
+  const [required, setRequired] = useState(false);
   let error = "";
 
-
+  const togglePassword = () => {
+    var input = document.getElementById("pwd");
+    if (input.type === "password") {
+      input.type = "text";
+    } else {
+      input.type = "password";
+    }
+  };
+  const togglePasswordCheck = () => {
+    var input = document.getElementById("pwd2");
+    if (input.type === "password") {
+      input.type = "text";
+    } else {
+      input.type = "password";
+    }
+  };
   const handleSubmit = async (e) => {
     if (!nickName.value) {
+      setRequired(true);
     } else if (!email.value) {
+      setRequired(true);
     } else if (!password.value) {
+      setRequired(true);
+    } else if (
+      password.value !== passwordCheck.value &&
+      email.value !== emailCheck.value
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "El email y la contraseña no coinciden",
+      });
+    } else if (password.value !== passwordCheck.value) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Las contraseñas no coinciden",
+      });
+    } else if (email.value !== emailCheck.value) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "El email no coincide",
+      });
     } else {
       e.preventDefault();
       const newUser = {
         nick_name: nickName.value,
         email: email.value,
         password: password.value,
+        referring: referedCode.value,
       };
       const created = await axios
         .post("/newUser", newUser)
         .then(() => router.push("/login"))
-        .catch((err) => alert("Nombre de usuario o email en uso"));
+        .catch((err) =>
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Nombre de usuario o mail en uso",
+          })
+        );
     }
   };
 
   return (
     <Box
       backgroundColor="#101311"
-      h="99vh"
+      h="100%"
       w="100%"
       p={[8, 10]}
       mx="auto"
@@ -80,7 +133,26 @@ export default function Registro() {
             {...email}
           />
         </FormControl>
-        {email.value ? "" : <div className="errorForm"> Campo requerido</div>}
+        {required === false ? (
+          ""
+        ) : (
+          <div className="errorForm"> Campo requerido</div>
+        )}
+
+        <FormControl>
+          <FormLabel color="white"> Repita correo electronico</FormLabel>{" "}
+          <Input
+            _focusVisible={"white"}
+            rounded="2xl"
+            variant="filled"
+            {...emailCheck}
+          />
+        </FormControl>
+        {required === false ? (
+          ""
+        ) : (
+          <div className="errorForm"> Campo requerido</div>
+        )}
 
         <FormControl>
           <FormLabel color="white"> Nombre de Usuario</FormLabel>{" "}
@@ -91,20 +163,57 @@ export default function Registro() {
             {...nickName}
           />
         </FormControl>
-        {nickName.value ? "" : <div className="errorForm">Campo requerido</div>}
+        {required === false ? (
+          ""
+        ) : (
+          <div className="errorForm"> Campo requerido</div>
+        )}
 
         <FormControl>
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
           <Input
+            width="93%"
+            id="pwd"
             rounded="2xl"
             variant="filled"
             _focusVisible={"white"}
             type="password"
             {...password}
           />
+          <Button className="btnViewPwd" onClick={() => togglePassword()}>
+            {" "}
+            <ViewIcon />
+          </Button>
         </FormControl>
 
-        {password.value ? "" : <div className="errorForm">Campo requerido</div>}
+        {required === false ? (
+          ""
+        ) : (
+          <div className="errorForm"> Campo requerido</div>
+        )}
+
+        <FormControl>
+          <FormLabel color="white"> Repita contraseña</FormLabel>{" "}
+          <Input
+            width="93%"
+            id="pwd2"
+            rounded="2xl"
+            variant="filled"
+            _focusVisible={"white"}
+            type="password"
+            {...passwordCheck}
+          />
+          <Button className="btnViewPwd" onClick={() => togglePasswordCheck()}>
+            {" "}
+            <ViewIcon />
+          </Button>
+        </FormControl>
+
+        {required === false ? (
+          ""
+        ) : (
+          <div className="errorForm"> Campo requerido</div>
+        )}
 
         <FormControl>
           <FormLabel color="white"> Codigo de referido</FormLabel>{" "}
@@ -131,3 +240,5 @@ export default function Registro() {
     </Box>
   );
 }
+
+//{...referedCode}
