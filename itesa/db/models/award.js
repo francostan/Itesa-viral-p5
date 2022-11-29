@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class award extends Model {
     /**
@@ -11,14 +9,28 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // this.belongsTo(models.user, {as:"winner"})
+      // this.belongsTo(models.user, {as:"referring"})
     }
   }
-  award.init({
-    tokenAmount: DataTypes.INTEGER,
-    transferred: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'award',
-  });
+  award.init(
+    {
+      tokenAmount: DataTypes.INTEGER,
+      transferred: { type: DataTypes.BOOLEAN, defaultValue: false },
+      winnerId: {
+        type: DataTypes.INTEGER,
+      },
+      referringId: {
+        type: DataTypes.INTEGER,
+      },
+      milestoneId: {
+        type: DataTypes.INTEGER,
+      },
+    },
+    {
+      sequelize,
+      modelName: "award",
+    }
+  );
   return award;
 };

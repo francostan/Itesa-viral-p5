@@ -30,7 +30,7 @@ module.exports = {
     );
     await queryInterface.addColumn(
       'awards', // name of Source model --> el nombre va en plural (es nombre de la tabla (Invitations), no del modelo (Invitation))
-      'referredId', // name of the key we're adding 
+      'referringId', // name of the key we're adding 
       {
         type: Sequelize.INTEGER,
         references: {

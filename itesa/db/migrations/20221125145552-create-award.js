@@ -18,6 +18,15 @@ module.exports = {
       winnerAddress:{
         type:Sequelize.STRING
       },
+      winnerId:{
+        type:Sequelize.INTEGER
+      },
+      referringId:{
+        type:Sequelize.INTEGER
+      },
+      milestoneId:{
+        type:Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
