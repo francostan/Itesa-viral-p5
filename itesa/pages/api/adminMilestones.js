@@ -10,7 +10,8 @@ export default async function adminMilestones(req, res) {
     case "POST":
       try {
         let milestone = await Milestone.create({ name, desc, tokenAmount });
-        res.send("se ha agregado milestone");
+
+        res.send(milestone);
       } catch (error) {
         console.log(error);
       }
