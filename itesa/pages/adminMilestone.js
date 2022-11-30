@@ -11,8 +11,22 @@ import {
   Button,
   Image,
   Spinner,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  SimpleGrid,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon, AddIcon } from "@chakra-ui/icons";
 import axios from "../config/axios";
 import Link from "next/link";
 import Persistence from "../components/Persistence";
@@ -53,16 +67,39 @@ export default function adminMilestone() {
             <Heading color="#9d39fe"> Coin</Heading>{" "}
           </HStack>
           <Heading color="white"> Administrador de Premios</Heading>
-          {milestones.map(({ name, desc, tokenamount }) => {
-            return (
-              <div>
-                <Heading color="white"> {name}</Heading>
-                <h1>{name}</h1>
-                <p>{desc}</p>
-                <p>{tokenamount}</p>
-              </div>
-            );
-          })}
+          <VStack>
+            <Button>
+              <AddIcon />
+            </Button>
+          </VStack>
+          <VStack>
+            <SimpleGrid
+              spacing={4}
+              templateColumns="repeat(auto-fill, minmax(150px, 1fr))"
+            >
+              {milestones.map(({ name, desc, tokenAmount }) => {
+                return (
+                  <Card backgroundColor="white">
+                    <CardHeader>
+                      <Heading size="md"> {name}</Heading>
+                    </CardHeader>
+                    <CardBody>
+                      <Text> Descripción: {desc}</Text>
+                      <Text>Cantidad de tokens: {tokenAmount}</Text>
+                    </CardBody>
+                    <CardFooter>
+                      <Button>
+                        <EditIcon />
+                      </Button>
+                      <Button>
+                        <DeleteIcon />
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                );
+              })}
+            </SimpleGrid>
+          </VStack>
         </VStack>
       </VStack>
     </Box>
