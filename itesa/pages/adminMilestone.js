@@ -53,24 +53,17 @@ export default function adminMilestone() {
             <Heading color="#9d39fe"> Coin</Heading>{" "}
           </HStack>
           <Heading color="white"> Administrador de Premios</Heading>
+          {milestones.map(({ name, desc, tokenamount }) => {
+            return (
+              <div>
+                <Heading color="white"> {name}</Heading>
+                <h1>{name}</h1>
+                <p>{desc}</p>
+                <p>{tokenamount}</p>
+              </div>
+            );
+          })}
         </VStack>
-
-        {/* {
-            milestones.map(milestone, )
-        } */}
-
-        {/* <>
-    
-      {toppelicula.map(({ title, poster_path, vote_average }) => {
-        return (
-          <div className="detailcs">
-            <h1>{title}</h1>
-            <p>{vote_average}</p>
-            <img src={https://image.tmdb.org/t/p/w500${poster_path}}></img>
-          </div>
-        );
-      })}
-      </> */}
       </VStack>
     </Box>
   );
