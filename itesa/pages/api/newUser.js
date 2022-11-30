@@ -13,11 +13,13 @@ export default async function newuser(req, res) {
   switch (method) {
     case "POST":
       {
+        console.log("reqadmin", req.body);
         // Creación de usuario
         const created = await User.create({
           nick_name: body.nick_name,
           email: body.email,
           password: body.password,
+          admin: body.admin,
         });
         // Creación de award por registro
         const registerMilestone = await Milestone.findByPk(1);
