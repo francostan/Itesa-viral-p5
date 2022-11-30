@@ -32,6 +32,7 @@ import axios from "../config/axios";
 import Persistence from "./Persistence";
 import Head from "next/head";
 import Reference from "./Reference";
+import AdminButton from "./AdminButton";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
@@ -205,7 +206,7 @@ const WalletCard = () => {
               {connButtonText}
             </button>
           </div>
-      
+
           <div>
             {connButtonText === "Billetera conectada" ? (
               <button className="tokens-xs" onClick={handleTokens}>
@@ -259,7 +260,7 @@ const WalletCard = () => {
           <Reference />
         </VStack>
 
-  {loading ? (
+        {loading ? (
           <Spinner
             className="loading"
             thickness="4px"
@@ -271,6 +272,7 @@ const WalletCard = () => {
         ) : (
           ""
         )}
+        {user.admin === true ? <AdminButton /> : ""}
         <Button
           ml="25%"
           mt="100%"
@@ -283,7 +285,6 @@ const WalletCard = () => {
         >
           LOGOUT
         </Button>
-
       </Box>
     </>
   );
