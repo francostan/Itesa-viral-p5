@@ -12,10 +12,8 @@ const Ranking = () => {
   }, []);
   return (
     <div>
-      <h1>Ranking</h1>
-
       {ranking.length > 0 ? (
-        <ListTop3 top3={ranking.slice(0,3)}/>
+        <ListTop3 top3={ranking.slice(0, 3)} />
       ) : (
         <p>No hay ranking disponible</p>
       )}

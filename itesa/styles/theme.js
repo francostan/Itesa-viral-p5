@@ -18,6 +18,7 @@ export const theme = extendTheme({
           borderRadius: "15px",
           color: "white",
           fontWeight: "bold",
+          boxShadow: " 0px 5px 10px 2px #9d39fe",
         },
       },
     },
