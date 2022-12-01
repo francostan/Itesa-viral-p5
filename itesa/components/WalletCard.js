@@ -309,7 +309,7 @@ const WalletCard = () => {
               alt="Ranking footer"
             />{" "}
           </Link>{" "}
-          <Link href="#">
+          <Link href="/logged/milestones">
             <Image
               mt={"8"}
               mb={"-4"}
