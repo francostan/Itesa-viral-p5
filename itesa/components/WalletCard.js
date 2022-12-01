@@ -23,7 +23,10 @@ import {
   StatArrow,
   StatGroup,
   Spinner,
+  Divider,
+  Highlight,
 } from "@chakra-ui/react";
+
 import Link from "next/link";
 import { logout } from "../store/reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -185,7 +188,11 @@ const WalletCard = () => {
       setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
       axios.put("redeem", { user: user.id });
     } else {
-      alert("no hay tokens por reclamar");
+      Swal.fire({
+        icon: "info",
+        title: "No tenes tokens disponibles",
+        html: "<b> Segui invitando amigos para recibir tokens!</b>",
+      });
     }
   };
 
@@ -254,21 +261,25 @@ const WalletCard = () => {
           <Spacer />
         </Flex>
         <VStack spacing={4} align="flex-start" w="full">
-          <Heading color="white">Bienvenido {user.nick_name}</Heading>
           <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
             {" "}
             <Heading color="white"> Home</Heading>
           </VStack>
+          <Heading color="white">Bienvenido {user.nick_name}</Heading>
+
           <Stat color="white">
             <StatLabel>Balance actual</StatLabel>
             <StatNumber>{userBalance}</StatNumber>
-            <StatHelpText>Direccion: {defaultAccount}</StatHelpText>
-            <StatLabel>Posicion en el ranking: 10</StatLabel>
-            <StatLabel>Proximo milestone: 30 referidos</StatLabel>
-            <StatLabel>Token por reclamar {tokentoredeem}</StatLabel>
+
+            <Text fontSize={"larger"}>Posicion en el ranking: 10</Text>
+            <Text fontSize={"larger"}>Proximo milestone: 30 referidos</Text>
+            <Text fontSize={"larger"}>Token por reclamar {tokentoredeem}</Text>
           </Stat>
           <Reference />
         </VStack>
+
+
+
 
         {loading ? (
           <Spinner
@@ -282,6 +293,65 @@ const WalletCard = () => {
         ) : (
           ""
         )}
+
+
+        <HStack spacing={"5"} mt="0%" direction="row">
+          <Link href="/logged/topInfluencers">
+            <Image
+              mt={"2.5"}
+              ml={"18%"}
+              mb={"-10"}
+              boxSize="50%"
+              objectFit="cover"
+              src="/ranking (2).png"
+              alt="Ranking footer"
+            />{" "}
+          </Link>{" "}
+          <Link href="#">
+            <Image
+              mt={"8"}
+              mb={"-4"}
+              ml={"30%"}
+              boxSize="40%"
+              objectFit="cover"
+              src="/value.png"
+              alt="Milestone footer"
+            />{" "}
+          </Link>{" "}
+          <Link href="#">
+            <Image
+              mb={"-5"}
+              ml={"47%"}
+              mt="9"
+              className="iconos"
+              onClick={() => {
+                LOGOUT();
+              }}
+              boxSize="31%"
+              objectFit="cover"
+              src="/logout (3).png"
+              alt="Logout footer"
+            />{" "}
+          </Link>{" "}
+        </HStack>
+        <HStack ml={"5%"} mt={"5"} spacing={"22%"}>
+          <Text fontSize={"xs"} color={"white"}>
+            {" "}
+            Ranking
+          </Text>
+          {/* <Button>Ranking </Button> */}
+          {/* <Button>Milestones </Button> */}
+          <Text fontSize={"xs"} color={"white"}>
+            {" "}
+            Milestones
+          </Text>
+          <Text fontSize={"xs"} color={"white"}>
+            {" "}
+            Log Out
+          </Text>
+          {/* <Button>Log Out </Button> */}
+        </HStack>
+
         {user.admin === true ? <AdminButton /> : ""}
         <Button
           ml="25%"
@@ -295,6 +365,7 @@ const WalletCard = () => {
         >
           LOGOUT
         </Button>
+
       </Box>
     </>
   );
