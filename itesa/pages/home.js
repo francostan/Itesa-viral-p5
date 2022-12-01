@@ -11,6 +11,7 @@ import {
   VStack,
   Flex,
   Box,
+  Center,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import Persistence from "../components/Persistence";
@@ -30,12 +31,12 @@ const Index = () => {
     <Grid
       backgroundColor="#101311"
       placeItems={"center"}
-      h={"100vh"}
+      h={"100%"}
       w="100%"
-      padding={"0"}
+      p={[8, 10]}
     >
-      <Persistence/>
-      <HStack>
+      <Persistence />
+      <HStack bg="#101311">
         <Image
           src="/banana.png"
           alt="logo"
@@ -70,22 +71,38 @@ const Index = () => {
         </Flex>
       </GridItem>
 
-      <HStack
-        w={"100%"}
-        h={"100%"}
-        paddingBottom={"0"}
-        justifyContent={"center"}
-        bg={"white"}
-      >
-        <Link href="/register">
-          <Button colorScheme="" variant="solid" w={["auto"]}>
-            Register
-          </Button>
+      <HStack mt="35%" direction="row">
+        <Link href="#">
+          <Image
+            mb="10%"
+            ml={"33%"}
+            boxSize="37%"
+            objectFit="cover"
+            src="/edit.png"
+            alt="Ranking footer"
+          />{" "}
+        </Link>{" "}
+        <Link href="#">
+          <Image
+            mb={"14%"}
+            ml={"35%"}
+            className="iconos"
+            onClick={() => {}}
+            boxSize="30%"
+            objectFit="cover"
+            src="/user-interface.png"
+            alt="Ranking footer"
+          />{" "}
+        </Link>{" "}
+      </HStack>
+
+      <HStack direction={"row"} spacing={"20"}>
+        {" "}
+        <Link href={"/register"}>
+          <Button width="80%">Register </Button>
         </Link>
-        <Link href="/login">
-          <Button colorScheme="" variant="solid" w={["auto"]}>
-            Login
-          </Button>
+        <Link href={"/login"}>
+          <Button width="80%">Login </Button>
         </Link>
       </HStack>
     </Grid>

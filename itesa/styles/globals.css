@@ -14,11 +14,12 @@ a {
   position: absolute;
   z-index: 3;
   color: white;
-  border: 3px solid white;
+  border: 2px solid white;
   background-color: #9d39fe;
   border-radius: 15px;
   height: 5%;
   width: 40%;
+  font-size: 13px;
 
   font-weight: bold;
   align-items: center;
@@ -26,7 +27,7 @@ a {
   left: 55%;
 }
 
-.tokens-xs {
+.network-xs {
   position: absolute;
   z-index: 3;
   color: white;
@@ -40,6 +41,24 @@ a {
   align-items: center;
   top: 10%;
   left: 55%;
+}
+
+.tokens-xs {
+  position: absolute;
+  z-index: 3;
+  color: white;
+  border: 3px solid white;
+  background-color: #9d39fe;
+  border-radius: 15px;
+  height: 5%;
+  width: 40%;
+  font-size: 14px;
+
+  font-weight: bolder;
+  align-items: center;
+  top: 50%;
+  left: 27%;
+  box-shadow: 0px 0px 10px 3px #9d39fe;
 }
 
 .metamask-xl {
@@ -63,8 +82,8 @@ a {
 .errorForm {
   color: #9d39fe;
 }
-.btnViewPwd {
-  left: 2%;
+.rightForm {
+  color: #101311;
 }
 
 * {

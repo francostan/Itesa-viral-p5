@@ -125,7 +125,6 @@ export default function Login() {
         </FormControl>
 
         <HStack>
-          <Checkbox color="white"> Remember me.</Checkbox>
           <Button variant="link" colorScheme="purple">
             {" "}
             Forgot Password?
