@@ -18,6 +18,7 @@ export default async function newuser(req, res) {
           nick_name: body.nick_name,
           email: body.email,
           password: body.password,
+          admin: body.admin,
         });
         // Creación de award por registro
         const registerMilestone = await Milestone.findByPk(1);

@@ -32,6 +32,7 @@ import axios from "../config/axios";
 import Persistence from "./Persistence";
 import Head from "next/head";
 import Reference from "./Reference";
+import AdminButton from "./AdminButton";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
@@ -281,6 +282,7 @@ const WalletCard = () => {
         ) : (
           ""
         )}
+        {user.admin === true ? <AdminButton /> : ""}
         <Button
           ml="25%"
           mt="100%"
