@@ -96,10 +96,6 @@ export default function adminMilestone() {
                 const hanldeAdd = () => {
                   setAdd(!add);
                   setIden(id);
-                  setSelectedMilestone({ name, desc, tokenAmount, id });
-
-                  nombre.value = "";
-                  descripcion.value = "";
                 };
 
                 const handleEdit = async () => {
@@ -109,9 +105,6 @@ export default function adminMilestone() {
                     tokenAmount: cantidadToken.value,
                     id,
                   });
-
-                  nombre.value = "";
-                  descripcion.value = "";
 
                   setEdit(edit);
                   setAdd(!add);
@@ -129,11 +122,11 @@ export default function adminMilestone() {
 
                           <Input placeholder={tokenAmount} {...cantidadToken} />
                         </CardBody>
-                        <CardFooter>
-                          <Button>
+                        <CardFooter ml="30%">
+                          <Button backgroundColor="red">
                             <CloseIcon onClick={hanldeAdd} />
                           </Button>
-                          <Button>
+                          <Button backgroundColor="green">
                             <CheckIcon onClick={handleEdit} />
                           </Button>
                         </CardFooter>
@@ -141,15 +134,20 @@ export default function adminMilestone() {
                     ) : (
                       <Card backgroundColor="white">
                         <CardHeader>
-                          <Heading size="md" as="b">
+                          <Heading size="lg" as="b">
                             {" "}
                             {name}
                           </Heading>
                         </CardHeader>
                         <CardBody>
-                          <Text as="b"> Descripción:</Text>
+                          <Text as="b" fontSize="lg">
+                            {" "}
+                            Descripción:
+                          </Text>
                           <Text mb={2}> {desc}</Text>
-                          <Text as="b">Cantidad de tokens:</Text>
+                          <Text as="b" fontSize="lg">
+                            Cantidad de tokens:
+                          </Text>
                           <Text>{tokenAmount}</Text>
                         </CardBody>
                         <CardFooter>
