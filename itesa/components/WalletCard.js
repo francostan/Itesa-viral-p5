@@ -67,10 +67,15 @@ const WalletCard = () => {
 
   useEffect(() => {
     // Obtener valor de tokens a reclamar y guardar estado con el valor:
+    const controller = new AbortController();
     if (user.id) {
-      axios.post("/redeem", { user: user.id }).then((redeem) => {
-        settokentoredeem(redeem.data);
-      });
+      axios
+        .post("/redeem", { user: user.id }, { signal: controller.signal })
+        .then(
+          (redeem) => {
+            settokentoredeem(redeem.data);
+          }
+        ).catch(err=>console.log(err))
     }
 
     const handleNetwork = async () => {
@@ -156,6 +161,11 @@ const WalletCard = () => {
     //   window.ethereum.on("accountsChanged", accountChangedHandler);
     //   window.ethereum.on("chainChanged", chainChangedHandler);
     // }
+
+    return ()=>{
+      controller.abort()
+    }
+
   }, [user, userBalance, defaultAccount]);
 
   const handleTokens = async () => {
@@ -205,7 +215,7 @@ const WalletCard = () => {
               {connButtonText}
             </button>
           </div>
-      
+
           <div>
             {connButtonText === "Billetera conectada" ? (
               <button className="tokens-xs" onClick={handleTokens}>
@@ -259,7 +269,7 @@ const WalletCard = () => {
           <Reference />
         </VStack>
 
-  {loading ? (
+        {loading ? (
           <Spinner
             className="loading"
             thickness="4px"
@@ -283,7 +293,6 @@ const WalletCard = () => {
         >
           LOGOUT
         </Button>
-
       </Box>
     </>
   );
