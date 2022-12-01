@@ -31,11 +31,13 @@ const MilestoneTable = () => {
   console.log(user);
 
   React.useEffect(() => {
-     axios.post("/milestones", { user: user.id })
-    .then((res) => setMilestones(res.data))
-    .catch((err) => console.log(err));
-
-
+    axios
+      .post("/milestones", { user: user.id })
+      .then((res) => {
+        console.log(res.data)
+        return setMilestones(res.data)
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   return (
@@ -63,11 +65,17 @@ const MilestoneTable = () => {
 
         <Spacer />
       </Flex>
-      <Box marginBottom={10} >
-      <VStack>
-        <Text bg={"green"} color={"white"} p={2} borderRadius={10}> COMPLETED ITEM </Text>
-        <Text bg={"red"} color={"white"} p={2} borderRadius={10}> NOT COMPLETED ITEM</Text>
-      </VStack>
+      <Box marginBottom={10}>
+        <VStack>
+          <Text bg={"green"} color={"white"} p={2} borderRadius={10}>
+            {" "}
+            COMPLETED ITEM{" "}
+          </Text>
+          <Text bg={"red"} color={"white"} p={2} borderRadius={10}>
+            {" "}
+            NOT COMPLETED ITEM
+          </Text>
+        </VStack>
       </Box>
 
       <Box alignContent={"center"}>
@@ -108,8 +116,7 @@ const MilestoneTable = () => {
                   );
                 }
               })
-            ) 
-            : (
+            ) : (
               <Tbody>
                 <Tr>
                   <Td>Empty</Td>

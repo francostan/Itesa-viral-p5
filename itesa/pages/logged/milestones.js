@@ -3,11 +3,17 @@
 // Si reclamar los tokens es manual, acá iría la ruta para reclamar los token pendientes
 // Cuando agreguemos vencimientos, acá deberían mostrarse
 
-import React from 'react'
-import MilestoneTable from '../../components/MilestoneTable'
+import React from "react";
+import MilestoneTable from "../../components/MilestoneTable";
+import Persistence from "../../components/Persistence";
 
 const milestones = () => {
-  return (<MilestoneTable />)
-}
+  return (
+    <>
+      <Persistence />
+      <MilestoneTable />
+    </>
+  );
+};
 
-export default milestones
+export default milestones;

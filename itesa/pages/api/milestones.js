@@ -5,6 +5,7 @@ const Milestone = db.Milestone;
 
 export default async function milestones(req, res) {
   const { method, body } = req;
+  console.log(body)
   const id = body.user;
   switch (method) {
     case "POST":
@@ -12,12 +13,15 @@ export default async function milestones(req, res) {
       const milestones = await Milestone.findAll({
         attributes: ["id", "name", "desc", "tokenAmount"],
       });
-      const completed = await Award.findAll({
+      let completed = await Award.findAll({
         attributes: ["milestoneId"],
         where: { winnerId: id },
       });
+      completed=completed.map((elemento)=>elemento.dataValues.milestoneId)
+      console.log(completed);
 
       const userCompleted = milestones.map((element) => {
+
         return { ...element.dataValues, completed: completed.includes(element.id) };
       });
 
