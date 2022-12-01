@@ -6,7 +6,7 @@ const speakeasy = require("speakeasy");
 const nodemailer = require("nodemailer");
 let handlebars = require("handlebars");
 const fs = require("fs");
-
+console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&", process.cwd());
 export default async function login(req, res) {
   const { method, body } = req;
   switch (method) {
@@ -48,7 +48,7 @@ export default async function login(req, res) {
               },
             });
             fs.readFile(
-              "/home/santiago/Bootcamp/Itesa/Itesa-viral-p5/itesa/views/2fa.html",
+              process.cwd() + "/views/2fa.html",
               "utf-8",
               function (err, html) {
                 if (err) {
