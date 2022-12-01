@@ -35,6 +35,7 @@ import axios from "../config/axios";
 import Persistence from "./Persistence";
 import Head from "next/head";
 import Reference from "./Reference";
+import AdminButton from "./AdminButton";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
@@ -70,10 +71,15 @@ const WalletCard = () => {
 
   useEffect(() => {
     // Obtener valor de tokens a reclamar y guardar estado con el valor:
+    const controller = new AbortController();
     if (user.id) {
-      axios.post("/redeem", { user: user.id }).then((redeem) => {
-        settokentoredeem(redeem.data);
-      });
+      axios
+        .post("/redeem", { user: user.id }, { signal: controller.signal })
+        .then(
+          (redeem) => {
+            settokentoredeem(redeem.data);
+          }
+        ).catch(err=>console.log(err))
     }
 
     const handleNetwork = async () => {
@@ -159,6 +165,11 @@ const WalletCard = () => {
     //   window.ethereum.on("accountsChanged", accountChangedHandler);
     //   window.ethereum.on("chainChanged", chainChangedHandler);
     // }
+
+    return ()=>{
+      controller.abort()
+    }
+
   }, [user, userBalance, defaultAccount]);
 
   const handleTokens = async () => {
@@ -266,6 +277,10 @@ const WalletCard = () => {
           </Stat>
           <Reference />
         </VStack>
+
+
+
+
         {loading ? (
           <Spinner
             className="loading"
@@ -278,6 +293,7 @@ const WalletCard = () => {
         ) : (
           ""
         )}
+
 
         <HStack spacing={"5"} mt="0%" direction="row">
           <Link href="/logged/topInfluencers">
@@ -335,6 +351,21 @@ const WalletCard = () => {
           </Text>
           {/* <Button>Log Out </Button> */}
         </HStack>
+
+        {user.admin === true ? <AdminButton /> : ""}
+        <Button
+          ml="25%"
+          mt="100%"
+          colorScheme=""
+          variant="solid"
+          w={["50%", "auto"]}
+          onClick={() => {
+            LOGOUT();
+          }}
+        >
+          LOGOUT
+        </Button>
+
       </Box>
     </>
   );
