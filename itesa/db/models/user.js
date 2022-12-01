@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       address: { type: DataTypes.STRING, unique: true },
       viral_code: { type: DataTypes.STRING, unique: true },
       admin: { type: DataTypes.BOOLEAN, defaultValue: false },
+
     },
     {
       sequelize,

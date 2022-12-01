@@ -23,7 +23,10 @@ import {
   StatArrow,
   StatGroup,
   Spinner,
+  Divider,
+  Highlight,
 } from "@chakra-ui/react";
+
 import Link from "next/link";
 import { logout } from "../store/reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,6 +36,7 @@ import Persistence from "./Persistence";
 import Head from "next/head";
 import Reference from "./Reference";
 import AdminButton from "./AdminButton";
+import next from "next";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
@@ -46,6 +50,9 @@ const WalletCard = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const [ranking, setRanking] = useState(0);
+  const [lastMilestone, setLastMilestone, getLastMilestone] = useState({});
+  const [nextMilestone, setNextMilestone, getNextMilestone] = useState({});
   const provider = new ethers.providers.JsonRpcProvider(
     "https://goerli.infura.io/v3/07844f3846764830b55e143f3d6f324d"
   );
@@ -68,11 +75,29 @@ const WalletCard = () => {
 
   useEffect(() => {
     // Obtener valor de tokens a reclamar y guardar estado con el valor:
-    if (user.id) {
-      axios.post("/redeem", { user: user.id }).then((redeem) => {
-        settokentoredeem(redeem.data);
-      });
-    }
+
+    const getStatus = async () => {
+      if (user.id) {
+        //Consulta de Tokens por recuperar
+        const tokens = await axios.post("/redeem", { user: user.id });
+        settokentoredeem(tokens.data);
+        //Consulta de posición en ranking
+        const usersRanking = await axios.get("/ranking");
+        const rankingPos = usersRanking.data.findIndex(
+          (element) => element.referringId === user.id
+        );
+        setRanking(rankingPos + 1);
+
+        //Consulta de próximo Milestone
+        const milestones = await axios
+          .post("/userMilestones", { user: user.id })
+          .then((result) => result.data);
+        //console.log(milestones);
+        setLastMilestone(milestones.lastMilestone);
+        setNextMilestone(milestones.nextMilestone);
+      }
+    };
+    getStatus();
 
     const handleNetwork = async () => {
       await ethereum.request({
@@ -146,7 +171,6 @@ const WalletCard = () => {
         setErrorMessage(error.message);
       }
     };
-
     // const chainChangedHandler = () => {
     //   // reload the page to avoid any errors with chain change mid use of application
     //   window.location.reload();
@@ -175,7 +199,11 @@ const WalletCard = () => {
       setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
       axios.put("redeem", { user: user.id });
     } else {
-      alert("no hay tokens por reclamar");
+      Swal.fire({
+        icon: "info",
+        title: "No tenes tokens disponibles",
+        html: "<b> Segui invitando amigos para recibir tokens!</b>",
+      });
     }
   };
 
@@ -240,22 +268,18 @@ const WalletCard = () => {
               />{" "}
             </Link>
           </Box>
-
-          <Spacer />
         </Flex>
         <VStack spacing={4} align="flex-start" w="full">
+
           <Heading color="white">Bienvenido {user.nick_name}</Heading>
-          <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
-            {" "}
-            <Heading color="white"> Home</Heading>
-          </VStack>
+
           <Stat color="white">
-            <StatLabel>Balance actual</StatLabel>
-            <StatNumber>{userBalance}</StatNumber>
-            <StatHelpText>Direccion: {defaultAccount}</StatHelpText>
-            <StatLabel>Posicion en el ranking: 10</StatLabel>
-            <StatLabel>Proximo milestone: 30 referidos</StatLabel>
-            <StatLabel>Token por reclamar {tokentoredeem}</StatLabel>
+
+            <StatNumber> TukiTokens: {userBalance}</StatNumber>
+
+            <Text fontSize={"larger"}>Posicion en el ranking: {ranking}</Text>
+            <Text fontSize={"larger"}>Proximo milestone: {nextMilestone.name}</Text>
+            <Text fontSize={"larger"}>Token por reclamar {tokentoredeem}</Text>
           </Stat>
           <Reference />
         </VStack>
@@ -272,19 +296,65 @@ const WalletCard = () => {
         ) : (
           ""
         )}
+
+        <HStack spacing={"5"} mt="0%" direction="row">
+          <Link href="/logged/topInfluencers">
+            <Image
+              mt={"2.5"}
+              ml={"18%"}
+              mb={"-10"}
+              boxSize="50%"
+              objectFit="cover"
+              src="/ranking (2).png"
+              alt="Ranking footer"
+            />{" "}
+          </Link>{" "}
+          <Link href="/logged/milestones">
+            <Image
+              mt={"8"}
+              mb={"-4"}
+              ml={"30%"}
+              boxSize="40%"
+              objectFit="cover"
+              src="/value.png"
+              alt="Milestone footer"
+            />{" "}
+          </Link>{" "}
+          <Link href="#">
+            <Image
+              mb={"-5"}
+              ml={"47%"}
+              mt="9"
+              className="iconos"
+              onClick={() => {
+                LOGOUT();
+              }}
+              boxSize="31%"
+              objectFit="cover"
+              src="/logout (3).png"
+              alt="Logout footer"
+            />{" "}
+          </Link>{" "}
+        </HStack>
+        <HStack ml={"5%"} mt={"5"} spacing={"22%"}>
+          <Text fontSize={"xs"} color={"white"}>
+            {" "}
+            Ranking
+          </Text>
+          {/* <Button>Ranking </Button> */}
+          {/* <Button>Milestones </Button> */}
+          <Text fontSize={"xs"} color={"white"}>
+            {" "}
+            Milestones
+          </Text>
+          <Text fontSize={"xs"} color={"white"}>
+            {" "}
+            Log Out
+          </Text>
+          {/* <Button>Log Out </Button> */}
+        </HStack>
+
         {user.admin === true ? <AdminButton /> : ""}
-        <Button
-          ml="25%"
-          mt="100%"
-          colorScheme=""
-          variant="solid"
-          w={["50%", "auto"]}
-          onClick={() => {
-            LOGOUT();
-          }}
-        >
-          LOGOUT
-        </Button>
       </Box>
     </>
   );

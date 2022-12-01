@@ -28,8 +28,10 @@ export default function Registro() {
   const passwordCheck = handleInput();
   const referedCode = handleInput();
   const router = useRouter();
-  const [required, setRequired] = useState(false);
+  const [required, setRequired] = useState(0);
   let error = "";
+  let validMail =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   const togglePassword = () => {
     var input = document.getElementById("pwd");
@@ -49,11 +51,15 @@ export default function Registro() {
   };
   const handleSubmit = async (e) => {
     if (!nickName.value) {
-      setRequired(true);
+      setRequired(1);
     } else if (!email.value) {
-      setRequired(true);
+      setRequired(2);
+    } else if (!emailCheck.value) {
+      setRequired(3);
     } else if (!password.value) {
-      setRequired(true);
+      setRequired(4);
+    } else if (!passwordCheck.value) {
+      setRequired(5);
     } else if (
       password.value !== passwordCheck.value &&
       email.value !== emailCheck.value
@@ -61,7 +67,7 @@ export default function Registro() {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "El email y la contraseña no coinciden",
+        text: "Emails y contraseñas no coinciden",
       });
     } else if (password.value !== passwordCheck.value) {
       Swal.fire({
@@ -75,6 +81,10 @@ export default function Registro() {
         title: "Oops...",
         text: "El email no coincide",
       });
+    } else if (!email.value.match(validMail)) {
+      alert("ESTO NO ES MAIL");
+    } else if (!emailCheck.value.match(validMail)) {
+      alert("ESTO NO ES MAIL");
     } else {
       e.preventDefault();
       const newUser = {
@@ -108,9 +118,9 @@ export default function Registro() {
       borderRadius={10}
     >
       <VStack spacing={4} align="flex-start" w="full">
-        <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
+        <VStack spacing={1} align={["center", "center"]} mb={2} w="full">
           {" "}
-          <HStack mb={20}>
+          <HStack mb={2}>
             <Link href="/home">
               <Image
                 boxSize="40px"
@@ -130,13 +140,14 @@ export default function Registro() {
             _focusVisible={"white"}
             rounded="2xl"
             variant="filled"
+            type={"email"}
             {...email}
           />
         </FormControl>
-        {required === false ? (
-          ""
-        ) : (
+        {required === 2 ? (
           <div className="errorForm"> Campo requerido</div>
+        ) : (
+          <div className="rightForm"> Campo requerido</div>
         )}
 
         <FormControl>
@@ -148,10 +159,10 @@ export default function Registro() {
             {...emailCheck}
           />
         </FormControl>
-        {required === false ? (
-          ""
-        ) : (
+        {required === 3 ? (
           <div className="errorForm"> Campo requerido</div>
+        ) : (
+          <div className="rightForm"> Campo requerido</div>
         )}
 
         <FormControl>
@@ -163,10 +174,10 @@ export default function Registro() {
             {...nickName}
           />
         </FormControl>
-        {required === false ? (
-          ""
-        ) : (
+        {required === 1 ? (
           <div className="errorForm"> Campo requerido</div>
+        ) : (
+          <div className="rightForm"> Campo requerido</div>
         )}
 
         <FormControl>
@@ -186,10 +197,10 @@ export default function Registro() {
           </Button>
         </FormControl>
 
-        {required === false ? (
-          ""
-        ) : (
+        {required === 4 ? (
           <div className="errorForm"> Campo requerido</div>
+        ) : (
+          <div className="rightForm"> Campo requerido</div>
         )}
 
         <FormControl>
@@ -209,10 +220,10 @@ export default function Registro() {
           </Button>
         </FormControl>
 
-        {required === false ? (
-          ""
-        ) : (
+        {required === 5 ? (
           <div className="errorForm"> Campo requerido</div>
+        ) : (
+          <div className="rightForm"> Campo requerido</div>
         )}
 
         <FormControl>
