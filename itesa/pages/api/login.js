@@ -4,7 +4,9 @@ const tokens = require("../../auth/token/tokens");
 const Cookies = require("cookies");
 const speakeasy = require("speakeasy");
 const nodemailer = require("nodemailer");
-
+let handlebars = require("handlebars");
+const fs = require("fs");
+console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&", process.cwd());
 export default async function login(req, res) {
   const { method, body } = req;
   switch (method) {
@@ -45,29 +47,45 @@ export default async function login(req, res) {
                 pass: "rtspkviskcrhorey",
               },
             });
-            let mailOptions = {
-              from: "GetViral",
-              to: usuario.dataValues.email,
-              subject: "Verifica tu Identidad",
-              text: `Por favor, ingresa el siguiente código en la pantalla de Login ${token}`,
-            };
-            transporter.sendMail(mailOptions, (error, info) => {
-              if (error) {
-                console.log("Error de mail");
-                console.log(error.message);
-                //res.status(500).send(error.message);
-              } else {
-                res.status(200).send({
-                  email: null,
-                  nick_name: null,
-                  id: usuario.dataValues.id,
+            fs.readFile(
+              process.cwd() + "/views/2fa.html",
+              "utf-8",
+              function (err, html) {
+                if (err) {
+                  console.log(err);
+                  return;
+                }
+                let template = handlebars.compile(html);
+                let replacements = {
+                  userCode: token,
+                };
+                let htmlToSend = template(replacements);
+
+                let mailOptions = {
+                  from: "GetViral",
+                  to: usuario.dataValues.email,
+                  subject: "Verifica tu Identidad",
+                  html: htmlToSend,
+                };
+
+                transporter.sendMail(mailOptions, (error, info) => {
+                  if (error) {
+                    console.log("Error de mail");
+                    console.log(error.message);
+                    //res.status(500).send(error.message);
+                  } else {
+                    res.status(200).send({
+                      email: null,
+                      nick_name: null,
+                      id: usuario.dataValues.id,
+                    });
+                  }
                 });
               }
-            });
+            );
           }
         }
       }
-
       break;
     case "GET":
       {

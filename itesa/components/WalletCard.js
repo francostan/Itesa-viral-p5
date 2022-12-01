@@ -355,18 +355,6 @@ const WalletCard = () => {
         </HStack>
 
         {user.admin === true ? <AdminButton /> : ""}
-        <Button
-          ml="25%"
-          mt="100%"
-          colorScheme=""
-          variant="solid"
-          w={["50%", "auto"]}
-          onClick={() => {
-            LOGOUT();
-          }}
-        >
-          LOGOUT
-        </Button>
       </Box>
     </>
   );
