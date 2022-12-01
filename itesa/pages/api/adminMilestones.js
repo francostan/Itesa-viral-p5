@@ -28,7 +28,9 @@ export default async function adminMilestones(req, res) {
         } else {
           console.log(req.body.id);
           console.log("holas");
-          let milestoneAll = await Milestone.findAll();
+          let milestoneAll = await Milestone.findAll({
+            order: [["id", "ASC"]],
+          });
           res.send(milestoneAll);
         }
       } catch (error) {
@@ -38,6 +40,8 @@ export default async function adminMilestones(req, res) {
       break;
     case "PUT":
       try {
+        console.log("hola", req.body);
+
         let milestoneid = await Milestone.findOne({
           where: { id },
         });
