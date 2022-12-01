@@ -1,7 +1,5 @@
 const db = require("../../db/models/index");
-const User = db.User;
 const Award = db.Award;
-const Milestone = db.Milestone;
 import addXXInvitesAward from "../../utils/addXXInvitesAward";
 
 // req.body={
@@ -15,55 +13,16 @@ export default async function tokens(req, res) {
     case "POST":
       //Ruta que devuelve el total de tokens a ser transferidos
       {
-        // const registeredReferred = (await Award.findAll({ where: { referringId: id } })).length; //Total de usuarios que se registraron con el viral_code el usuario
-        // let awardsAchieved= await Award.findAll({attributes:["milestoneId"]},{where:{winnerId:id}}) //Array con todos los objetos award en los que el usuario es el winnerId
-        // awardsAchieved=awardsAchieved.map(elemento=>elemento.dataValues.milestoneId) // Ahora el array es un array de milestoneId
-        // let idMilestone
-        // let objetivo
-
         //Agregar milestone único de 10 invitados
         await addXXInvitesAward(id,3,10)
-
-        // idMilestone=3
-        // objetivo=10
-        // if(registeredReferred>=objetivo && !awardsAchieved.includes(idMilestone)){
-        //   const milestone=await Milestone.findByPk(idMilestone)
-        //   await Award.create({
-        //           tokenAmount: milestone.tokenAmount,
-        //           winnerId: id,
-        //           milestoneId: milestone.id,
-        //         })
-        // }
 
         //Agregar milestone único de 50 invitados
         await addXXInvitesAward(id,4,50)
 
-
-        // idMilestone=4
-        // objetivo=50
-        // if(registeredReferred>=objetivo && !awardsAchieved.includes(idMilestone)){
-        //   const milestone=await Milestone.findByPk(idMilestone)
-        //   await Award.create({
-        //           tokenAmount: milestone.tokenAmount,
-        //           winnerId: id,
-        //           milestoneId: milestone.id,
-        //         })
-        // }
-
         //Agregar milestone único de 100 invitados
         await addXXInvitesAward(id,5,100)
 
-
-        // idMilestone=5
-        // objetivo=100
-        // if(registeredReferred>=objetivo && !awardsAchieved.includes(idMilestone)){
-        //   const milestone=await Milestone.findByPk(idMilestone)
-        //   await Award.create({
-        //           tokenAmount: milestone.tokenAmount,
-        //           winnerId: id,
-        //           milestoneId: milestone.id,
-        //         })
-        // }
+        //
 
         // Calcula y envía al FRONT el total de tokens
         const pendingTokens = await Award.findAll({
