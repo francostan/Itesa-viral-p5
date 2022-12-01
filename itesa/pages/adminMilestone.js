@@ -61,6 +61,7 @@ export default function adminMilestone() {
     });
 
     setAddMilestone(newMilestone.data);
+
     setAdd(!add);
   };
 
