@@ -75,11 +75,10 @@ const WalletCard = () => {
     if (user.id) {
       axios
         .post("/redeem", { user: user.id }, { signal: controller.signal })
-        .then(
-          (redeem) => {
-            settokentoredeem(redeem.data);
-          }
-        ).catch(err=>console.log(err))
+        .then((redeem) => {
+          settokentoredeem(redeem.data);
+        })
+        .catch((err) => console.log(err));
     }
 
     const handleNetwork = async () => {
@@ -166,10 +165,9 @@ const WalletCard = () => {
     //   window.ethereum.on("chainChanged", chainChangedHandler);
     // }
 
-    return ()=>{
-      controller.abort()
-    }
-
+    return () => {
+      controller.abort();
+    };
   }, [user, userBalance, defaultAccount]);
 
   const handleTokens = async () => {
@@ -278,9 +276,6 @@ const WalletCard = () => {
           <Reference />
         </VStack>
 
-
-
-
         {loading ? (
           <Spinner
             className="loading"
@@ -293,7 +288,6 @@ const WalletCard = () => {
         ) : (
           ""
         )}
-
 
         <HStack spacing={"5"} mt="0%" direction="row">
           <Link href="/logged/topInfluencers">
@@ -353,19 +347,6 @@ const WalletCard = () => {
         </HStack>
 
         {user.admin === true ? <AdminButton /> : ""}
-        <Button
-          ml="25%"
-          mt="100%"
-          colorScheme=""
-          variant="solid"
-          w={["50%", "auto"]}
-          onClick={() => {
-            LOGOUT();
-          }}
-        >
-          LOGOUT
-        </Button>
-
       </Box>
     </>
   );

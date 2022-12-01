@@ -17,7 +17,7 @@ function invite(req, res) {
       });
 
       fs.readFile(
-        "/home/santiago/Bootcamp/Itesa/Itesa-viral-p5/itesa/views/mail.html",
+        process.cwd() + "/views/mail.html",
         "utf-8",
         function (err, html) {
           if (err) {
