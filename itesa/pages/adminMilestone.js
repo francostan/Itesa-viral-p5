@@ -96,6 +96,9 @@ export default function adminMilestone() {
                 const hanldeAdd = () => {
                   setAdd(!add);
                   setIden(id);
+                  nombre.setValue("");
+                  descripcion.setValue("");
+                  cantidadToken.setValue("");
                 };
 
                 const handleEdit = async () => {
