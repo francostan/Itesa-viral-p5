@@ -63,7 +63,7 @@ const inviteMail = () => {
         <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
           {" "}
           <HStack mb={20}>
-            <Link href="/home">
+            <Link href="/logged/homeuser">
               <Image
                 boxSize="40px"
                 objectFit="cover"
