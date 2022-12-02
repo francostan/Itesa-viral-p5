@@ -18,6 +18,10 @@ module.exports = {
       tokenAmount: {
         type: Sequelize.INTEGER
       },
+      quantityCondition: {
+        type: Sequelize.INTEGER,
+        defaultValue:0
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

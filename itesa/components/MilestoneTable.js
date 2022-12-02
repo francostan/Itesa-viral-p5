@@ -28,13 +28,11 @@ import { useSelector } from "react-redux";
 const MilestoneTable = () => {
   const [milestones, setMilestones] = React.useState([]);
   const user = useSelector((state) => state.user);
-  console.log(user);
 
   React.useEffect(() => {
     axios
       .post("/milestones", { user: user.id })
       .then((res) => {
-        console.log(res.data)
         return setMilestones(res.data)
       })
       .catch((err) => console.log(err));
