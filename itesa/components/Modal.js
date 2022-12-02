@@ -38,7 +38,7 @@ const Modale = ({ prop }) => {
 
         ml={"5%"}
         mt={"25%"}
-
+        mb={"20%"}
         variant="outline"
         onClick={() => {
           setOverlay(<OverlayOne />);

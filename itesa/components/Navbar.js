@@ -20,7 +20,7 @@ const Navbar = () => {
     <HStack
       position={"absolute"}
       bottom={"4"}
-      mt={"10%"}
+      mt={"25%"}
       spacing={"5"}
       direction="row"
     >

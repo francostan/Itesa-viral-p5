@@ -192,7 +192,7 @@ const WalletCard = () => {
     //   window.ethereum.on("accountsChanged", accountChangedHandler);
     //   window.ethereum.on("chainChanged", chainChangedHandler);
     // }
-  }, [user, userBalance, defaultAccount]);
+  }, [user, userBalance, defaultAccount,tokentoredeem]);
 
   const handleTokens = async () => {
     console.log("TOKENS");
@@ -208,7 +208,8 @@ const WalletCard = () => {
       setLoading(false);
       const balanceOfReceiver = await contract.balanceOf(defaultAccount);
       setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
-      axios.put("redeem", { user: user.id }).catch((err) => console.log(err));
+      const nuevaCantidad = await axios.put("redeem", { user: user.id }).catch((err) => console.log(err));
+      settokentoredeem(nuevaCantidad.data)
     } else {
       Swal.fire({
         icon: "info",
@@ -285,7 +286,7 @@ const WalletCard = () => {
           </div>
 
           <div>
-            {connButtonText === "Billetera conectada" ? (
+            {(connButtonText === "Billetera conectada" && tokentoredeem>0) ? (
               <button className="tokens-xs" onClick={handleTokens}>
                 Reclamar Tokens
               </button>
@@ -320,7 +321,7 @@ const WalletCard = () => {
           </Box>
         </Flex>
         <VStack spacing={4} align="flex-start" marginRight={"auto"} marginLeft={"auto"}>
-          <Heading color="white" marginTop={"10%"} marginBottom={"20%"} alignSelf={"center"}>Bienvenido {user.nick_name}</Heading>
+          <Heading color="white" marginTop={"10%"} marginBottom={"10%"} alignSelf={"center"}>Bienvenido {user.nick_name}</Heading>
           <Box backgroundColor={"#9d39fe"} borderRadius={"5%"} padding={"3%"} marginRight={"auto"} marginLeft={"auto"} alignSelf={"center"}>
             <Stat color="white">
             <VStack spacing={"2"} alignItems={"flex-start"} marginBottom={"3%"}>
@@ -366,7 +367,6 @@ const WalletCard = () => {
         ) : (
           ""
         )}
-        <Reference />
         <Navbar />
       </Box>
     </>

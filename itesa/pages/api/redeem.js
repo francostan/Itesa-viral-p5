@@ -77,8 +77,15 @@ export default async function tokens(req, res) {
         //  address
         // }
         //Actualizo DB
-        await Award.update({ transferred: true }, { where: { winnerId: id } });
-        res.status(202).send();
+        await Award.update({ transferred: true }, { where: { winnerId: userId } });
+        const pendingTokens = await Award.findAll({
+          where: { transferred: false, winnerId: userId },
+        });
+        let total = pendingTokens.reduce(
+          (acum, elemento) => acum + elemento.tokenAmount,
+          0
+        );
+        res.status(200).send(total);
       }
       break;
     default:
