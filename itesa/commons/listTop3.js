@@ -50,7 +50,7 @@ export default function ListTop3({ ranking }) {
             src={rankingVisual[index].img}
             alt={rankingVisual[index].alt}
             width={"35%"}
-            mb={"7%"}
+            mb={"6%"}
             mt={"5%"}
           />
           <HStack direction={"column"} justify={"space-around"}>
