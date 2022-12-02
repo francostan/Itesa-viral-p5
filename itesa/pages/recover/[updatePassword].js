@@ -26,6 +26,7 @@ export default function updatePassword() {
   const password = handleInput();
   const passwordCheck = handleInput();
   const [required, setRequired] = useState(0);
+  const code = handleInput();
 
   const togglePassword = () => {
     var input = document.getElementById("pwd");
@@ -64,6 +65,7 @@ export default function updatePassword() {
       const newPassword = {
         id: user.data.id,
         password: password.value,
+        secret: code.value,
       };
 
       await axios
@@ -150,6 +152,16 @@ export default function updatePassword() {
         ) : (
           <div className="rightForm"> Campo requerido</div>
         )}
+
+        <FormControl>
+          <FormLabel color="white"> Código de Verificación</FormLabel>{" "}
+          <Input
+            _focusVisible={"white"}
+            rounded="2xl"
+            variant="filled"
+            {...code}
+          />
+        </FormControl>
       </VStack>
       <Button
         colorScheme=""

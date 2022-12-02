@@ -3,14 +3,26 @@ const User = db.User;
 const nodemailer = require("nodemailer");
 let handlebars = require("handlebars");
 const fs = require("fs");
+const speakeasy = require("speakeasy");
 
-function emailResetPassword(req, res) {
+async function emailResetPassword(req, res) {
   const { method, body } = req;
-
-  console.log(req.body);
+  var temp_secret = speakeasy.generateSecret({});
 
   switch (method) {
     case "POST": {
+      await User.update(
+        { secret: temp_secret.base32 },
+        { where: { id: body.id } }
+      );
+
+      const usuario = await User.findOne({ where: { id: body.id } });
+
+      var token = speakeasy.totp({
+        secret: usuario.secret,
+        encoding: "base32",
+      });
+
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -31,6 +43,7 @@ function emailResetPassword(req, res) {
           let replacements = {
             email: body.email,
             userId: body.id,
+            userCode: token,
           };
           let htmlToSend = template(replacements);
           let mailOptions = {

@@ -1,11 +1,13 @@
 const db = require("../../db/models/index");
 const User = db.User;
 const bc = require("bcrypt");
+const speakeasy = require("speakeasy");
 
 export default async function newuser(req, res) {
   const { method } = req;
   const email = req.body.email;
   const id = req.body.id;
+  console.log("REQ BODYYYY", req.body);
 
   switch (method) {
     case "POST":
@@ -18,14 +20,19 @@ export default async function newuser(req, res) {
     case "PUT":
       {
         const user = await User.findByPk(id);
+
+        console.log("USER", user);
+
+        var validate = await speakeasy.totp.verify({
+          secret: user.secret,
+          encoding: "base32",
+          token: req.body.secret,
+          window: 5,
+        });
+
+        if (!validate) return res.status(404).json("Codigo incorrecto");
+
         const password = await bc.hash(req.body.password, user.salt);
-
-        console.log("PASSWORD", password);
-
-        // user.password = password;
-        // console.log("USERPASSWORD>>>", user.password);
-
-        // user.save();
 
         await User.update({ password }, { where: { id } });
 
