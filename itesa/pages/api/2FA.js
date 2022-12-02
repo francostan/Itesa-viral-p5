@@ -1,5 +1,8 @@
 const db = require("../../db/models/index");
-const User = db.User;
+const User=db.User
+const Award = db.Award;
+const Milestone = db.Milestone;
+const { Sequelize, Op } = require("sequelize");
 //const Cookies = require("cookies");
 const speakeasy = require("speakeasy");
 import { sign } from "../../auth/token/tokens";
@@ -27,6 +30,56 @@ export default async function newuser(req, res) {
             "set-cookie",
             `getViral=${token}; path=/; samesite=lax; httponly`
           );
+
+          //actualizo los awards en la DB antes de cargar el usuario en HomeUser
+          //Total de usuarios que se registraron con el viral_code el usuario
+          const registeredReferred = (
+            await Award.findAll({ where: { referringId: id } })
+          ).length;
+          //Array con todos los objetos award en los que el usuario es el winnerId
+          let awardsAchieved = await Award.findAll(
+            { attributes: ["milestoneId"] },
+            { where: { winnerId: id } }
+          );
+          // Convierto el array en un array de milestoneId
+          awardsAchieved = awardsAchieved.map(
+            (elemento) => elemento.dataValues.milestoneId
+          );
+          // Array de {id,tokenAmount,tokenQuantity,expirationDate} de todos los milestone a cumplir por cantidad de referidos
+          let currentAvailableMilestones = await Milestone.findAll({
+            attributes: [
+              "id",
+              "tokenAmount",
+              "quantityCondition",
+              "expirationDate",
+            ],
+            where: { id: { [Op.notIn]: [1, 2] } }, //Excluyo los milestone de registro y de invitación
+          });
+          currentAvailableMilestones = currentAvailableMilestones.map(
+            (element) => element.dataValues
+          );
+
+          //Mapeo el array currentAvailableMilestones para chequear cada Milestone disponible
+
+          const currentPromises = currentAvailableMilestones.map((elemento) => {
+            const today = new Date();
+            const expiration =
+              elemento.expirationDate || today.setDate(today.getDate() + 30);
+            if (new Date() < expiration) {
+              console.log("Ingresamos por fecha");
+              if (
+                registeredReferred >= elemento.quantityCondition &&
+                !awardsAchieved.includes(elemento.id)
+              ) {
+                Award.create({
+                  tokenAmount: elemento.tokenAmount,
+                  winnerId: id,
+                  milestoneId: elemento.id,
+                });
+              }
+            }
+          });
+
           res.status(200).send({
             nick_name: foundUser.nick_name,
             id: foundUser.id,

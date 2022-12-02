@@ -25,6 +25,7 @@ import {
   Spinner,
   Divider,
   Highlight,
+  Center,
 } from "@chakra-ui/react";
 
 import Link from "next/link";
@@ -207,7 +208,7 @@ const WalletCard = () => {
       setLoading(false);
       const balanceOfReceiver = await contract.balanceOf(defaultAccount);
       setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
-      axios.put("redeem", { user: user.id });
+      axios.put("redeem", { user: user.id }).catch((err) => console.log(err));
     } else {
       Swal.fire({
         icon: "info",
@@ -215,6 +216,33 @@ const WalletCard = () => {
         html: "<b> Segui invitando amigos para recibir tokens!</b>",
       });
     }
+  };
+
+  const handleUpdateAwards = async () => {
+    const tokens = await axios.post("/updateAwards", { user: user.id });
+    settokentoredeem(tokens.data);
+    //Consulta de posición en ranking
+    const usersRanking = await axios.get("/ranking");
+    const rankingPos = await usersRanking.data.findIndex(
+      (element) => element.referringId === user.id
+    );
+    setRanking(rankingPos + 1);
+    // const tempPoints=usersRanking[rankingPos].awards
+    // setPoints(tempPoints)
+
+    const tempRanking = await usersRanking.data.find(
+      (element) => element.referringId === user.id
+    );
+    setCurrentAwards(tempRanking);
+
+    //Consulta de próximo Milestone
+    const milestones = await axios
+      .post("/userMilestones", { user: user.id })
+      .then((result) => result.data);
+
+    setLastMilestone(milestones.lastMilestone);
+    setNextMilestone(milestones.nextMilestone);
+    //Determinar cuántos referidos faltan para próximo milestone
   };
 
   return (
@@ -291,36 +319,41 @@ const WalletCard = () => {
             </Link>
           </Box>
         </Flex>
-        <VStack spacing={4} align="flex-start" w="full">
-          <Heading color="white">Bienvenido {user.nick_name}</Heading>
-
-          <Stat color="white">
-            <StatNumber> TukiTokens: {userBalance}</StatNumber>
-
-            <Text fontSize={"larger"}>Posicion en el ranking: {ranking}</Text>
-
-
-            <Text fontSize={"larger"}>Puntos: {currentAwards.awards}</Text>
-            {nextMilestone.id ? (
-              <Text fontSize={"larger"}>
-                Te falta(n){" "}
-                {nextMilestone.quantityCondition - currentAwards.awards} punto(s)
-                para el próximo Milestone!!
+        <VStack spacing={4} align="flex-start" marginRight={"auto"} marginLeft={"auto"}>
+          <Heading color="white" marginTop={"10%"} marginBottom={"20%"} alignSelf={"center"}>Bienvenido {user.nick_name}</Heading>
+          <Box backgroundColor={"#9d39fe"} borderRadius={"5%"} padding={"3%"} marginRight={"auto"} marginLeft={"auto"} alignSelf={"center"}>
+            <Stat color="white">
+            <VStack spacing={"2"} alignItems={"flex-start"} marginBottom={"3%"}>
+              <StatNumber> TukiTokens: {userBalance}</StatNumber>
+              <Text fontSize={"sm"}> ◉ Posicion en el ranking: {ranking}</Text>
+              <Text fontSize={"sm"}> ◉ Puntos: {currentAwards.awards}</Text>
+              {nextMilestone.id ? (
+                <Text fontSize={"sm"}>
+                   ◉ Te falta(n){" "}
+                  {nextMilestone.quantityCondition - currentAwards.awards}{" "}
+                  punto(s) para el próximo Milestone!!
+                </Text>
+              ) : (
+                <Text fontSize={"sm"}>
+                     Has conseguido todos los Milestones!!
+                </Text>
+              )}
+              <Text fontSize={"sm"}>
+               ◉ Proximo milestone: {nextMilestone.name}
               </Text>
-            ) : (
-              <Text fontSize={"larger"}>
-                Has conseguido todos los Milestones!!
+              <Text fontSize={"sm"}>
+               ◉ Token por reclamar {tokentoredeem}
               </Text>
-            )}
-
-
-            <Text fontSize={"larger"}>
-              Proximo milestone: {nextMilestone.name}
-            </Text>
-            <Text fontSize={"larger"}>Token por reclamar {tokentoredeem}</Text>
-          </Stat>
+            </VStack>
+            </Stat>
+            <Flex justifyContent={"center"}>
+            <Button onClick={handleUpdateAwards} size="xs">
+              Actualizar
+            </Button>
+            </Flex>
+          </Box>
+          <Reference />
         </VStack>
-
         {loading ? (
           <Spinner
             className="loading"
@@ -333,7 +366,6 @@ const WalletCard = () => {
         ) : (
           ""
         )}
-
         <Reference />
         <Navbar />
       </Box>
