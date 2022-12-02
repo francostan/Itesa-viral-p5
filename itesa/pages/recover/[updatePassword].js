@@ -170,6 +170,7 @@ export default function updatePassword() {
         onClick={(e) => {
           handleSubmit(e);
         }}
+        mt={5}
       >
         {" "}
         Confirmar{" "}

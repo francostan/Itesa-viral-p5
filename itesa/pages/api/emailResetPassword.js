@@ -31,44 +31,43 @@ async function emailResetPassword(req, res) {
         },
       });
 
-      fs.readFile(
-        process.cwd() + "/views/pruebapassword.html",
-        "utf-8",
-        function (err, html) {
-          if (err) {
-            console.log(err);
-            return;
-          }
-          let template = handlebars.compile(html);
-          let replacements = {
-            email: body.email,
-            userId: body.id,
-            userCode: token,
-          };
-          let htmlToSend = template(replacements);
-          let mailOptions = {
-            from: "GetViral",
-            to: body.email,
-            subject: "Recuperar Contraseña",
-            html: htmlToSend,
-          };
-          transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-              console.log("Error de mail");
-              console.log(error.message);
-              res.status(404).send();
-              //.send(error.message);
-            } else {
-              res.status(200).send({
-                email: null,
-                nick_name: null,
-                id: usuario.dataValues.id,
-              });
-            }
-          });
-          res.status(202).send();
+      fs.readFile(process.cwd() + "/views/password.html", "utf-8", function (
+        err,
+        html
+      ) {
+        if (err) {
+          console.log(err);
+          return;
         }
-      );
+        let template = handlebars.compile(html);
+        let replacements = {
+          email: body.email,
+          userId: body.id,
+          userCode: token,
+        };
+        let htmlToSend = template(replacements);
+        let mailOptions = {
+          from: "GetViral",
+          to: body.email,
+          subject: "Recuperar Contraseña",
+          html: htmlToSend,
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log("Error de mail");
+            console.log(error.message);
+            res.status(404).send();
+            //.send(error.message);
+          } else {
+            res.status(200).send({
+              email: null,
+              nick_name: null,
+              id: usuario.dataValues.id,
+            });
+          }
+        });
+        res.status(202).send();
+      });
     }
   }
 }
