@@ -6,7 +6,6 @@ const speakeasy = require("speakeasy");
 const nodemailer = require("nodemailer");
 let handlebars = require("handlebars");
 const fs = require("fs");
-console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&", process.cwd());
 export default async function login(req, res) {
   const { method, body } = req;
   switch (method) {
@@ -70,7 +69,6 @@ export default async function login(req, res) {
 
                 transporter.sendMail(mailOptions, (error, info) => {
                   if (error) {
-                    console.log("Error de mail");
                     console.log(error.message);
                     //res.status(500).send(error.message);
                   } else {

@@ -39,7 +39,9 @@ const MilestoneTable = () => {
     axios
       .post("/milestones", { user: user.id })
       .then((res) => {
-        return setMilestones(res.data);
+
+        return setMilestones(res.data)
+
       })
       .catch((err) => console.log(err));
   }, []);

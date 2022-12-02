@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
   milestone.init({
     name: DataTypes.STRING,
     desc: DataTypes.STRING,
-    tokenAmount: DataTypes.INTEGER
+    tokenAmount: DataTypes.INTEGER,
+    quantityCondition:DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'milestone',

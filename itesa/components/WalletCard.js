@@ -52,6 +52,7 @@ const WalletCard = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [ranking, setRanking] = useState(0);
+  const [currentAwards, setCurrentAwards] = useState({});
   const [lastMilestone, setLastMilestone, getLastMilestone] = useState({});
   const [nextMilestone, setNextMilestone, getNextMilestone] = useState({});
   const provider = new ethers.providers.JsonRpcProvider(
@@ -84,18 +85,26 @@ const WalletCard = () => {
         settokentoredeem(tokens.data);
         //Consulta de posición en ranking
         const usersRanking = await axios.get("/ranking");
-        const rankingPos = usersRanking.data.findIndex(
+        const rankingPos = await usersRanking.data.findIndex(
           (element) => element.referringId === user.id
         );
         setRanking(rankingPos + 1);
+        // const tempPoints=usersRanking[rankingPos].awards
+        // setPoints(tempPoints)
+
+        const tempRanking = await usersRanking.data.find(
+          (element) => element.referringId === user.id
+        );
+        setCurrentAwards(tempRanking);
 
         //Consulta de próximo Milestone
         const milestones = await axios
           .post("/userMilestones", { user: user.id })
           .then((result) => result.data);
-        //console.log(milestones);
+
         setLastMilestone(milestones.lastMilestone);
         setNextMilestone(milestones.nextMilestone);
+        //Determinar cuántos referidos faltan para próximo milestone
       }
     };
     getStatus();
@@ -289,6 +298,22 @@ const WalletCard = () => {
             <StatNumber> TukiTokens: {userBalance}</StatNumber>
 
             <Text fontSize={"larger"}>Posicion en el ranking: {ranking}</Text>
+
+
+            <Text fontSize={"larger"}>Puntos: {currentAwards.awards}</Text>
+            {nextMilestone.id ? (
+              <Text fontSize={"larger"}>
+                Te falta(n){" "}
+                {nextMilestone.quantityCondition - currentAwards.awards} punto(s)
+                para el próximo Milestone!!
+              </Text>
+            ) : (
+              <Text fontSize={"larger"}>
+                Has conseguido todos los Milestones!!
+              </Text>
+            )}
+
+
             <Text fontSize={"larger"}>
               Proximo milestone: {nextMilestone.name}
             </Text>

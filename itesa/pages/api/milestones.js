@@ -5,7 +5,6 @@ const Milestone = db.Milestone;
 
 export default async function milestones(req, res) {
   const { method, body } = req;
-  console.log(body)
   const id = body.user;
   switch (method) {
     case "POST":
