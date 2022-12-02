@@ -36,8 +36,9 @@ import axios from "../config/axios";
 import Persistence from "./Persistence";
 import Head from "next/head";
 import Reference from "./Reference";
-import AdminButton from "./AdminButton";
+
 import next from "next";
+import Navbar from "./Navbar";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
@@ -260,9 +261,20 @@ const WalletCard = () => {
 
       {isLargerThan1280 ? (
         <div>
-          <button className="metamask-xl" id="connect">
-            {connButtonText}
-          </button>
+          <div>
+            <button className="metamask-xl" id="connect">
+              {connButtonText}
+            </button>
+          </div>
+          <div>
+            {connButtonText === "Billetera conectada" ? (
+              <button className="tokens-xl" onClick={handleTokens}>
+                Reclamar Tokens
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       ) : (
         <div>
@@ -285,6 +297,7 @@ const WalletCard = () => {
       )}
 
       <Box
+        minH={"100vh"}
         backgroundColor="#101311"
         h="100%"
         w="100%"
@@ -308,7 +321,6 @@ const WalletCard = () => {
         </Flex>
         <VStack spacing={4} align="flex-start" marginRight={"auto"} marginLeft={"auto"}>
           <Heading color="white" marginTop={"10%"} marginBottom={"20%"} alignSelf={"center"}>Bienvenido {user.nick_name}</Heading>
-
           <Box backgroundColor={"#9d39fe"} borderRadius={"5%"} padding={"3%"} marginRight={"auto"} marginLeft={"auto"} alignSelf={"center"}>
             <Stat color="white">
             <VStack spacing={"2"} alignItems={"flex-start"} marginBottom={"3%"}>
@@ -340,10 +352,8 @@ const WalletCard = () => {
             </Button>
             </Flex>
           </Box>
-
           <Reference />
         </VStack>
-
         {loading ? (
           <Spinner
             className="loading"
@@ -356,65 +366,8 @@ const WalletCard = () => {
         ) : (
           ""
         )}
-
-        <HStack spacing={"5"} mt="0%" direction="row">
-          <Link href="/logged/topInfluencers">
-            <Image
-              mt={"2.5"}
-              ml={"18%"}
-              mb={"-10"}
-              boxSize="50%"
-              objectFit="cover"
-              src="/ranking (2).png"
-              alt="Ranking footer"
-            />{" "}
-          </Link>{" "}
-          <Link href="/logged/milestones">
-            <Image
-              mt={"8"}
-              mb={"-4"}
-              ml={"30%"}
-              boxSize="40%"
-              objectFit="cover"
-              src="/value.png"
-              alt="Milestone footer"
-            />{" "}
-          </Link>{" "}
-          <Link href="#">
-            <Image
-              mb={"-5"}
-              ml={"47%"}
-              mt="9"
-              className="iconos"
-              onClick={() => {
-                LOGOUT();
-              }}
-              boxSize="31%"
-              objectFit="cover"
-              src="/logout (3).png"
-              alt="Logout footer"
-            />{" "}
-          </Link>{" "}
-        </HStack>
-        <HStack ml={"5%"} mt={"5"} spacing={"22%"}>
-          <Text fontSize={"xs"} color={"white"}>
-            {" "}
-            Ranking
-          </Text>
-          {/* <Button>Ranking </Button> */}
-          {/* <Button>Milestones </Button> */}
-          <Text fontSize={"xs"} color={"white"}>
-            {" "}
-            Milestones
-          </Text>
-          <Text fontSize={"xs"} color={"white"}>
-            {" "}
-            Log Out
-          </Text>
-          {/* <Button>Log Out </Button> */}
-        </HStack>
-
-        {user.admin === true ? <AdminButton /> : ""}
+        <Reference />
+        <Navbar />
       </Box>
     </>
   );
