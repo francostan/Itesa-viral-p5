@@ -1,11 +1,11 @@
 const db = require("../../db/models/index");
 const User = db.User;
+const bc = require("bcrypt");
 
 export default async function newuser(req, res) {
   const { method } = req;
   const email = req.body.email;
   const id = req.body.id;
-  const password = req.body.password;
 
   switch (method) {
     case "POST":
@@ -17,8 +17,15 @@ export default async function newuser(req, res) {
 
     case "PUT":
       {
-        console.log("id", id);
-        console.log("password", password);
+        const user = await User.findByPk(id);
+        const password = await bc.hash(req.body.password, user.salt);
+
+        console.log("PASSWORD", password);
+
+        // user.password = password;
+        // console.log("USERPASSWORD>>>", user.password);
+
+        // user.save();
 
         await User.update({ password }, { where: { id } });
 
