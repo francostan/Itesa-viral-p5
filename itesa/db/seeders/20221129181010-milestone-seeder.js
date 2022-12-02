@@ -12,7 +12,7 @@ module.exports = {
           tokenAmount: "25",
           createdAt: new Date(),
           updatedAt: new Date(),
-          quantityCondition:0,
+          quantityCondition: 0,
         },
         {
           name: "Invitation",
@@ -20,7 +20,7 @@ module.exports = {
           tokenAmount: "50",
           createdAt: new Date(),
           updatedAt: new Date(),
-          quantityCondition:1,
+          quantityCondition: 1,
         },
         {
           name: "10 invitations",
@@ -28,7 +28,7 @@ module.exports = {
           tokenAmount: "60",
           createdAt: new Date(),
           updatedAt: new Date(),
-          quantityCondition:10,
+          quantityCondition: 4,
         },
         {
           name: "50 invitations",
@@ -36,7 +36,7 @@ module.exports = {
           tokenAmount: "150",
           createdAt: new Date(),
           updatedAt: new Date(),
-          quantityCondition:50,
+          quantityCondition: 8,
         },
         {
           name: "100 invitations",
@@ -44,7 +44,7 @@ module.exports = {
           tokenAmount: "200",
           createdAt: new Date(),
           updatedAt: new Date(),
-          quantityCondition:100,
+          quantityCondition: 12,
         },
       ],
       {}

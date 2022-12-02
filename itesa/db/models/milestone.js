@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { Milestone } = require('.');
 module.exports = (sequelize, DataTypes) => {
   class milestone extends Model {
     /**
@@ -18,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     desc: DataTypes.STRING,
     tokenAmount: DataTypes.INTEGER,
-    quantityCondition:DataTypes.INTEGER
+    quantityCondition:DataTypes.INTEGER,
+    expirationDate:DataTypes.STRING
   }, {
     sequelize,
     modelName: 'milestone',
