@@ -22,7 +22,7 @@ import { useState } from "react";
 
 export default function updatePassword() {
   const router = useRouter();
-  const idUsuario = router.query.updatePassword;
+  const { idUsuario } = router.query;
 
   const password = handleInput();
   const passwordCheck = handleInput();

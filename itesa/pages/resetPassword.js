@@ -37,17 +37,18 @@ export default function resetPassword() {
 
     if (user.data) {
       setFoundUser(true);
+
+      // Si se encuentra un usuario con el mail ingresado se le mando un mail:
+      await axios.post("/emailResetPassword", {
+        email: user.data.email,
+        id: user.data.id,
+      });
     } else {
       Swal.fire({
         icon: "error",
         title: "No hay ningun usuario registrado con este mail",
       });
     }
-
-    // await axios.post("/emailResetPassword", {
-    //   email: email.value,
-    //   id: user.data.id,
-    // });
   };
 
   return (
