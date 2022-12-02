@@ -7,25 +7,20 @@ import {
   Text,
   Input,
   HStack,
-  Checkbox,
   Button,
   Image,
-  Spinner,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import handleInput from "../reactHooks/handleInput";
-import { login } from "../store/reducers/userSlice";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import axios from "../config/axios";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import Persistence from "../components/Persistence";
 
 export default function resetPassword() {
   const email = handleInput();
   const [sentEmail, setSentEmail] = useState(false);
+  const [foundUser, setFoundUser] = useState(false);
 
   const handleLoading = (e) => {
     e.preventDefault();
@@ -34,9 +29,25 @@ export default function resetPassword() {
 
   const handleEmail = async (e) => {
     e.preventDefault();
-    await axios.post("/emailResetPassword", {
+
+    // Verifico si el email existe, y obtengo info del usuario:
+    const user = await axios.post("/resetPassword", {
       email: email.value,
     });
+
+    if (user.data) {
+      setFoundUser(true);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "No hay ningun usuario registrado con este mail",
+      });
+    }
+
+    // await axios.post("/emailResetPassword", {
+    //   email: email.value,
+    //   id: user.data.id,
+    // });
   };
 
   return (
@@ -77,15 +88,16 @@ export default function resetPassword() {
             _focusVisible={"white"}
             rounded="2xl"
             variant="filled"
+            type="email"
             {...email}
           />
         </FormControl>
 
-        {sentEmail ? (
+        {sentEmail && foundUser ? (
           <Box>
             <HStack>
               <Text color="red">
-                * Se ha enviado un mail a su casilla de correo. Por favor siga
+                * Hemos enviado un mail a su casilla de correo. Por favor siga
                 los pasos indicados en el mismo para recuperar su contraseña.
               </Text>
             </HStack>
@@ -102,7 +114,7 @@ export default function resetPassword() {
             w={["full", "auto"]}
             onClick={(e) => {
               handleLoading(e);
-              //   handleLogin(e);
+              handleEmail(e);
             }}
           >
             {" "}
