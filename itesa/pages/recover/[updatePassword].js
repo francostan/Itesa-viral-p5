@@ -14,24 +14,18 @@ import {
 
 import Swal from "sweetalert2";
 import { ViewIcon } from "@chakra-ui/icons";
-import handleInput from "../reactHooks/handleInput";
-import axios from "../config/axios";
+import handleInput from "../../reactHooks/handleInput";
+import axios from "../../config/axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 export default function updatePassword() {
   const router = useRouter();
-  const { idUsuario } = router.query;
+  const idUsuario = router.query.updatePassword;
   const password = handleInput();
   const passwordCheck = handleInput();
   const [required, setRequired] = useState(0);
-  const [user, setUser] = useState({});
-
-  //Obtengo usuario para con un get. Saco el id del URL:
-  // useEffect(() => {
-  //   axios.post("/user", { id: idUsuario }).then((usuario) => setUser(usuario));
-  // }, []);
 
   const togglePassword = () => {
     var input = document.getElementById("pwd");
@@ -64,14 +58,18 @@ export default function updatePassword() {
       });
     } else {
       e.preventDefault();
+
+      const user = await axios.post("/user", { id: idUsuario });
+
       const newPassword = {
-        id: user.id,
+        id: user.data.id,
         password: password.value,
       };
-      // await axios
-      //   .post("/newPassword", newPassword)
-      //   .then(() => router.push("/login"))
-      //   .catch((err) => console.log(err));
+
+      await axios
+        .put("/resetPassword", newPassword)
+        .then(() => router.push("/login"))
+        .catch((err) => console.log(err));
     }
   };
 
@@ -106,7 +104,7 @@ export default function updatePassword() {
 
         <Box>
           <Text color="white" fontSize="xl" as="b">
-            Bienvenido devuelta {user.nickName}!
+            Bienvenido devuelta!
           </Text>
         </Box>
 

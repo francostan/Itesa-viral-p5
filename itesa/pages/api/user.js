@@ -5,6 +5,8 @@ export default async function newuser(req, res) {
   const { method } = req;
   const id = req.body.id;
 
+  console.log("IDDD>>>>", req.body);
+
   switch (method) {
     case "POST":
       {

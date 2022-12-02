@@ -40,7 +40,6 @@ module.exports = (sequelize, DataTypes) => {
       address: { type: DataTypes.STRING, unique: true },
       viral_code: { type: DataTypes.STRING, unique: true },
       admin: { type: DataTypes.BOOLEAN, defaultValue: false },
-
     },
     {
       sequelize,
@@ -61,14 +60,18 @@ module.exports = (sequelize, DataTypes) => {
       .then((result) => {
         user.password = result;
       })
-      .then()
       .catch((err) => console.log(err));
   });
 
   User.addHook("beforeUpdate", (user) => {
     const token = jwt.sign(user.address, SECRET, {});
     user.address = token;
-    return user;
+    return user
+      .createHash(user.password, user.salt)
+      .then((result) => {
+        user.password = result;
+      })
+      .catch((err) => console.log(err));
   });
 
   return User;

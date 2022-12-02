@@ -7,8 +7,6 @@ export default async function newuser(req, res) {
   const id = req.body.id;
   const password = req.body.password;
 
-  console.log("REQQQQ BODYYYYY>>>>", req.body);
-
   switch (method) {
     case "POST":
       {
@@ -19,11 +17,10 @@ export default async function newuser(req, res) {
 
     case "PUT":
       {
-        const user = await User.findByPk(id);
+        console.log("id", id);
+        console.log("password", password);
 
-        user.password = password;
-
-        user.save();
+        await User.update({ password }, { where: { id } });
 
         res.send("Se ha actualizado la constraseña correctamente");
       }
