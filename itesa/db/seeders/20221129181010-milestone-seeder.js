@@ -46,6 +46,14 @@ module.exports = {
           updatedAt: new Date(),
           quantityCondition: 12,
         },
+        {
+          name: "16 invitations",
+          desc: "16 Referred Users successfully registered",
+          tokenAmount: "200",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          quantityCondition: 16,
+        },
       ],
       {}
     );
