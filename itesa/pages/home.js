@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 import Persistence from "../components/Persistence";
 import { useSelector } from "react-redux";
+import Footer from "../components/Footer";
 
 const Index = () => {
   return (
@@ -44,7 +45,7 @@ const Index = () => {
       <GridItem
         h={"60vh"}
         w={"100%"}
-        mb="20%"
+        mb="10%"
         align={"center"}
         bgRepeat="no-repeat"
         bgPosition={"center"}
@@ -62,48 +63,8 @@ const Index = () => {
           <Text color={"white"}>Unite a nuestro universo</Text>
           <Text color={"white"}>de criptomonedas</Text>
         </Flex>
-        <HStack
-          position={"absolute"}
-          bottom={"10%"}
-          spacing={"3"}
-          direction="row"
-        >
-          <VStack>
-            {" "}
-            <Link href="/register">
-              <Image
-                boxSize="40%"
-                objectFit="cover"
-                src="/edit.png"
-                alt="Ranking footer"
-              />{" "}
-            </Link>{" "}
-            <Text fontSize={"xs"} color={"white"}>
-              {" "}
-              Register
-            </Text>
-          </VStack>
-          <VStack>
-            <Link href="/login">
-              <Image
-                boxSize="30%"
-                objectFit="cover"
-                src="/user-interface.png"
-                alt="Milestone footer"
-              />{" "}
-            </Link>{" "}
-            <Text
-              position={"absolute"}
-              bottom={"-5%"}
-              fontSize={"xs"}
-              color={"white"}
-            >
-              {" "}
-              Login
-            </Text>
-          </VStack>
-        </HStack>
       </GridItem>
+      <Footer />
     </Grid>
   );
 };
