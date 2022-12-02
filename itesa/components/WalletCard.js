@@ -23,7 +23,10 @@ import {
   StatArrow,
   StatGroup,
   Spinner,
+  Divider,
+  Highlight,
 } from "@chakra-ui/react";
+
 import Link from "next/link";
 import { logout } from "../store/reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,6 +35,9 @@ import axios from "../config/axios";
 import Persistence from "./Persistence";
 import Head from "next/head";
 import Reference from "./Reference";
+
+import next from "next";
+import Navbar from "./Navbar";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
@@ -45,6 +51,10 @@ const WalletCard = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const [ranking, setRanking] = useState(0);
+  const [currentAwards, setCurrentAwards] = useState({});
+  const [lastMilestone, setLastMilestone, getLastMilestone] = useState({});
+  const [nextMilestone, setNextMilestone, getNextMilestone] = useState({});
   const provider = new ethers.providers.JsonRpcProvider(
     "https://goerli.infura.io/v3/07844f3846764830b55e143f3d6f324d"
   );
@@ -67,11 +77,37 @@ const WalletCard = () => {
 
   useEffect(() => {
     // Obtener valor de tokens a reclamar y guardar estado con el valor:
-    if (user.id) {
-      axios.post("/redeem", { user: user.id }).then((redeem) => {
-        settokentoredeem(redeem.data);
-      });
-    }
+
+    const getStatus = async () => {
+      if (user.id) {
+        //Consulta de Tokens por recuperar
+        const tokens = await axios.post("/redeem", { user: user.id });
+        settokentoredeem(tokens.data);
+        //Consulta de posición en ranking
+        const usersRanking = await axios.get("/ranking");
+        const rankingPos = await usersRanking.data.findIndex(
+          (element) => element.referringId === user.id
+        );
+        setRanking(rankingPos + 1);
+        // const tempPoints=usersRanking[rankingPos].awards
+        // setPoints(tempPoints)
+
+        const tempRanking = await usersRanking.data.find(
+          (element) => element.referringId === user.id
+        );
+        setCurrentAwards(tempRanking);
+
+        //Consulta de próximo Milestone
+        const milestones = await axios
+          .post("/userMilestones", { user: user.id })
+          .then((result) => result.data);
+
+        setLastMilestone(milestones.lastMilestone);
+        setNextMilestone(milestones.nextMilestone);
+        //Determinar cuántos referidos faltan para próximo milestone
+      }
+    };
+    getStatus();
 
     const handleNetwork = async () => {
       await ethereum.request({
@@ -145,7 +181,6 @@ const WalletCard = () => {
         setErrorMessage(error.message);
       }
     };
-
     // const chainChangedHandler = () => {
     //   // reload the page to avoid any errors with chain change mid use of application
     //   window.location.reload();
@@ -174,7 +209,11 @@ const WalletCard = () => {
       setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
       axios.put("redeem", { user: user.id });
     } else {
-      alert("no hay tokens por reclamar");
+      Swal.fire({
+        icon: "info",
+        title: "No tenes tokens disponibles",
+        html: "<b> Segui invitando amigos para recibir tokens!</b>",
+      });
     }
   };
 
@@ -194,9 +233,20 @@ const WalletCard = () => {
 
       {isLargerThan1280 ? (
         <div>
-          <button className="metamask-xl" id="connect">
-            {connButtonText}
-          </button>
+          <div>
+            <button className="metamask-xl" id="connect">
+              {connButtonText}
+            </button>
+          </div>
+          <div>
+            {connButtonText === "Billetera conectada" ? (
+              <button className="tokens-xl" onClick={handleTokens}>
+                Reclamar Tokens
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       ) : (
         <div>
@@ -205,7 +255,7 @@ const WalletCard = () => {
               {connButtonText}
             </button>
           </div>
-      
+
           <div>
             {connButtonText === "Billetera conectada" ? (
               <button className="tokens-xs" onClick={handleTokens}>
@@ -219,6 +269,7 @@ const WalletCard = () => {
       )}
 
       <Box
+        minH={"100vh"}
         backgroundColor="#101311"
         h="100%"
         w="100%"
@@ -239,27 +290,38 @@ const WalletCard = () => {
               />{" "}
             </Link>
           </Box>
-
-          <Spacer />
         </Flex>
         <VStack spacing={4} align="flex-start" w="full">
           <Heading color="white">Bienvenido {user.nick_name}</Heading>
-          <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
-            {" "}
-            <Heading color="white"> Home</Heading>
-          </VStack>
+
           <Stat color="white">
-            <StatLabel>Balance actual</StatLabel>
-            <StatNumber>{userBalance}</StatNumber>
-            <StatHelpText>Direccion: {defaultAccount}</StatHelpText>
-            <StatLabel>Posicion en el ranking: 10</StatLabel>
-            <StatLabel>Proximo milestone: 30 referidos</StatLabel>
-            <StatLabel>Token por reclamar {tokentoredeem}</StatLabel>
+            <StatNumber> TukiTokens: {userBalance}</StatNumber>
+
+            <Text fontSize={"larger"}>Posicion en el ranking: {ranking}</Text>
+
+
+            <Text fontSize={"larger"}>Puntos: {currentAwards.awards}</Text>
+            {nextMilestone.id ? (
+              <Text fontSize={"larger"}>
+                Te falta(n){" "}
+                {nextMilestone.quantityCondition - currentAwards.awards} punto(s)
+                para el próximo Milestone!!
+              </Text>
+            ) : (
+              <Text fontSize={"larger"}>
+                Has conseguido todos los Milestones!!
+              </Text>
+            )}
+
+
+            <Text fontSize={"larger"}>
+              Proximo milestone: {nextMilestone.name}
+            </Text>
+            <Text fontSize={"larger"}>Token por reclamar {tokentoredeem}</Text>
           </Stat>
-          <Reference />
         </VStack>
 
-  {loading ? (
+        {loading ? (
           <Spinner
             className="loading"
             thickness="4px"
@@ -271,19 +333,9 @@ const WalletCard = () => {
         ) : (
           ""
         )}
-        <Button
-          ml="25%"
-          mt="100%"
-          colorScheme=""
-          variant="solid"
-          w={["50%", "auto"]}
-          onClick={() => {
-            LOGOUT();
-          }}
-        >
-          LOGOUT
-        </Button>
 
+        <Reference />
+        <Navbar />
       </Box>
     </>
   );

@@ -11,31 +11,25 @@ import {
   VStack,
   Flex,
   Box,
+  Center,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import Persistence from "../components/Persistence";
 import { useSelector } from "react-redux";
+import Footer from "../components/Footer";
 
 const Index = () => {
-  //<Heading fontFamily={"poppins"} color={"white"} fontSize={"60px"} >Index</Heading>
-  /*  <Image
-        src="https://media.discordapp.net/attachments/1040681301201666089/1045049523577299075/Screen_Shot_2021-08-24_at_17.58.36.png?width=386&height=414"
-        alt="logo"
-        objectFit="cover"
-        boxSize="300px"
-        borderRadius={"20%"}
-      /> */
-
   return (
     <Grid
+      minH={"100vh"}
       backgroundColor="#101311"
       placeItems={"center"}
-      h={"100vh"}
+      h={"100%"}
       w="100%"
-      padding={"0"}
+      p={[8, 10]}
     >
-      <Persistence/>
-      <HStack>
+      <Persistence />
+      <HStack bg="#101311">
         <Image
           src="/banana.png"
           alt="logo"
@@ -51,6 +45,7 @@ const Index = () => {
       <GridItem
         h={"60vh"}
         w={"100%"}
+        mb="10%"
         align={"center"}
         bgRepeat="no-repeat"
         bgPosition={"center"}
@@ -69,25 +64,7 @@ const Index = () => {
           <Text color={"white"}>de criptomonedas</Text>
         </Flex>
       </GridItem>
-
-      <HStack
-        w={"100%"}
-        h={"100%"}
-        paddingBottom={"0"}
-        justifyContent={"center"}
-        bg={"white"}
-      >
-        <Link href="/register">
-          <Button colorScheme="" variant="solid" w={["auto"]}>
-            Register
-          </Button>
-        </Link>
-        <Link href="/login">
-          <Button colorScheme="" variant="solid" w={["auto"]}>
-            Login
-          </Button>
-        </Link>
-      </HStack>
+      <Footer />
     </Grid>
   );
 };

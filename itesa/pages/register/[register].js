@@ -28,32 +28,44 @@ export default function Registro() {
   const password = handleInput();
   const passwordCheck = handleInput();
   const emailCheck = handleInput();
-  const [required, setRequired] = useState(false);
+  const [required, setRequired] = useState(0);
+  const [contraseña, setContraseña] = useState(false);
+  const [contraseñaCheck, setContraseñaCheck] = useState(false);
+  let validMail =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   const togglePassword = () => {
     var input = document.getElementById("pwd");
     if (input.type === "password") {
       input.type = "text";
+      setContraseña(true);
     } else {
       input.type = "password";
+      setContraseña(false);
     }
   };
   const togglePasswordCheck = () => {
     var input = document.getElementById("pwd2");
     if (input.type === "password") {
       input.type = "text";
+      setContraseñaCheck(true);
     } else {
       input.type = "password";
+      setContraseñaCheck(false);
     }
   };
 
   const handleSubmit = async (e) => {
     if (!nickName.value) {
-      setRequired(true);
+      setRequired(1);
     } else if (!email.value) {
-      setRequired(true);
+      setRequired(2);
+    } else if (!emailCheck.value) {
+      setRequired(3);
     } else if (!password.value) {
-      setRequired(true);
+      setRequired(4);
+    } else if (!passwordCheck.value) {
+      setRequired(5);
     } else if (
       password.value !== passwordCheck.value &&
       email.value !== emailCheck.value
@@ -75,6 +87,10 @@ export default function Registro() {
         title: "Oops...",
         text: "El email no coincide",
       });
+    } else if (!email.value.match(validMail)) {
+      alert("ESTO NO ES MAIL");
+    } else if (!emailCheck.value.match(validMail)) {
+      alert("ESTO NO ES MAIL");
     } else {
       e.preventDefault();
       const newUser = {
@@ -133,10 +149,10 @@ export default function Registro() {
             {...email}
           />
         </FormControl>
-        {required === false ? (
-          ""
-        ) : (
+        {required === 2 ? (
           <div className="errorForm"> Campo requerido</div>
+        ) : (
+          <div className="rightForm"> Campo requerido</div>
         )}
         <FormControl>
           <FormLabel color="white"> Repita correo electronico</FormLabel>{" "}
@@ -147,10 +163,10 @@ export default function Registro() {
             {...emailCheck}
           />
         </FormControl>
-        {required === false ? (
-          ""
-        ) : (
+        {required === 3 ? (
           <div className="errorForm"> Campo requerido</div>
+        ) : (
+          <div className="rightForm"> Campo requerido</div>
         )}
         <FormControl>
           <FormLabel color="white"> Nombre de Usuario</FormLabel>{" "}
@@ -161,10 +177,10 @@ export default function Registro() {
             {...nickName}
           />
         </FormControl>
-        {required === false ? (
-          ""
-        ) : (
+        {required === 1 ? (
           <div className="errorForm"> Campo requerido</div>
+        ) : (
+          <div className="rightForm"> Campo requerido</div>
         )}
         <FormControl>
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
@@ -177,15 +193,22 @@ export default function Registro() {
             type="password"
             {...password}
           />
-          <Button className="btnViewPwd" onClick={() => togglePassword()}>
-            {" "}
-            <ViewIcon />
-          </Button>
+          {contraseña === true ? (
+            <Button variant={"registro"} onClick={() => togglePassword()}>
+              {" "}
+              <ViewOffIcon />
+            </Button>
+          ) : (
+            <Button variant={"registro"} onClick={() => togglePassword()}>
+              {" "}
+              <ViewIcon />
+            </Button>
+          )}
         </FormControl>
-        {required === false ? (
-          ""
-        ) : (
+        {required === 4 ? (
           <div className="errorForm"> Campo requerido</div>
+        ) : (
+          <div className="rightForm"> Campo requerido</div>
         )}
         <FormControl>
           <FormLabel color="white"> Repita contraseña</FormLabel>{" "}
@@ -198,15 +221,22 @@ export default function Registro() {
             type="password"
             {...passwordCheck}
           />
-          <Button className="btnViewPwd" onClick={() => togglePasswordCheck()}>
-            {" "}
-            <ViewIcon />
-          </Button>
+          {contraseñaCheck === true ? (
+            <Button variant={"registro"} onClick={() => togglePasswordCheck()}>
+              {" "}
+              <ViewOffIcon />
+            </Button>
+          ) : (
+            <Button variant={"registro"} onClick={() => togglePasswordCheck()}>
+              {" "}
+              <ViewIcon />
+            </Button>
+          )}
         </FormControl>
-        {required === false ? (
-          ""
-        ) : (
+        {required === 5 ? (
           <div className="errorForm"> Campo requerido</div>
+        ) : (
+          <div className="rightForm"> Campo requerido</div>
         )}
         <FormLabel color="white"> Codigo de referido</FormLabel>{" "}
         <Input

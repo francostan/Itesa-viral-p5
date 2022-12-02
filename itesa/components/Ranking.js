@@ -1,25 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "../config/axios";
 import ListTop3 from "../commons/listTop3";
+import { useState } from "react";
+import {
+  Button,
+  Grid,
+  List,
+  ListItem,
+  HStack,
+  Text,
+  Flex,
+  Divider,
+} from "@chakra-ui/react";
 
 const Ranking = () => {
   const [ranking, setRanking] = React.useState([]);
+  const [mostrar, setMostrar] = useState(false);
+  const [rankingBottom, setRankingBottom] = useState([]);
 
   React.useEffect(() => {
     axios.get("/ranking").then((response) => {
       setRanking(response.data);
     });
   }, []);
-  return (
-    <div>
-      <h1>Ranking</h1>
 
+  return (
+    <Flex direction={"column"} w={"100%"} h="100%">
       {ranking.length > 0 ? (
-        <ListTop3 top3={ranking.slice(0,3)}/>
+        <ListTop3 ranking={ranking} />
       ) : (
         <p>No hay ranking disponible</p>
       )}
-    </div>
+    </Flex>
   );
 };
 

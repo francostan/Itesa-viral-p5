@@ -9,16 +9,12 @@ import {
   ModalCloseButton,
   Text,
   Button,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
   useToast,
   useDisclosure,
   Box,
 } from "@chakra-ui/react";
-import Swal from "sweetalert2";
-import { CopyIcon } from "@chakra-ui/icons";
+import Link from "next/link";
+import { CopyIcon, EmailIcon } from "@chakra-ui/icons";
 
 const Modale = ({ prop }) => {
   const toast = useToast();
@@ -39,6 +35,8 @@ const Modale = ({ prop }) => {
   return (
     <>
       <Button
+        m={"auto"}
+        variant="outline"
         onClick={() => {
           setOverlay(<OverlayOne />);
           onOpen();
@@ -56,6 +54,11 @@ const Modale = ({ prop }) => {
             <Text>{prop}</Text>
           </ModalBody>
           <ModalFooter>
+            <Link href="/logged/invite">
+              <Button>
+                <EmailIcon></EmailIcon>
+              </Button>
+            </Link>
             <Button
               onClick={() => {
                 handleCopy();
