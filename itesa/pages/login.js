@@ -133,10 +133,12 @@ export default function Login() {
         </FormControl>
 
         <HStack>
-          <Button variant="link" colorScheme="purple">
-            {" "}
-            Forgot Password?
-          </Button>
+          <Link href="/resetPassword">
+            <Button variant="link" colorScheme="purple">
+              {" "}
+              Forgot Password?
+            </Button>
+          </Link>
         </HStack>
 
         <Link href="/2fa">
