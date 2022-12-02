@@ -29,6 +29,8 @@ export default function Login() {
   const dispatch = useDispatch();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [contraseña, setContraseña] = useState(false);
+
   const user = useSelector((state) => state.user);
 
   const handleLoading = (e) => {
@@ -37,11 +39,12 @@ export default function Login() {
   };
   const togglePassword = () => {
     var input = document.getElementById("pwd");
-
     if (input.type === "password") {
       input.type = "text";
+      setContraseña(true);
     } else {
       input.type = "password";
+      setContraseña(false);
     }
   };
   const handleLogin = async (e) => {
@@ -72,7 +75,7 @@ export default function Login() {
   return (
     <Box
       backgroundColor="#101311"
-      h="99vh"
+      minH={"100vh"}
       w="100%"
       p={[8, 10]}
       mx="auto"
@@ -111,17 +114,24 @@ export default function Login() {
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
           <Input
             id="pwd"
-            width="93%"
+            width="89%"
             rounded="2xl"
             variant="filled"
             _focusVisible={"white"}
             type="password"
             {...password}
           />
-          <Button className="btnViewPwd" onClick={() => togglePassword()}>
-            {" "}
-            <ViewIcon />
-          </Button>
+          {contraseña === true ? (
+            <Button variant={"registro"} onClick={() => togglePassword()}>
+              {" "}
+              <ViewOffIcon />
+            </Button>
+          ) : (
+            <Button variant={"registro"} onClick={() => togglePassword()}>
+              {" "}
+              <ViewIcon />
+            </Button>
+          )}
         </FormControl>
 
         <HStack>

@@ -22,27 +22,32 @@ import {
   Spacer,
   Image,
   VStack,
+  Progress,
+  Heading,
+  Center,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
+import Navbar from "./Navbar";
 
 const MilestoneTable = () => {
   const [milestones, setMilestones] = React.useState([]);
+
   const user = useSelector((state) => state.user);
-  console.log(user);
 
   React.useEffect(() => {
     axios
       .post("/milestones", { user: user.id })
       .then((res) => {
-        console.log(res.data)
-        return setMilestones(res.data)
+        return setMilestones(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
 
   return (
     <Box
-      backgroundColor="#101311"
+      minH={"100vh"}
+      bgGradient="linear(black,#9d39fe)"
       h="100%"
       w="100%"
       p={[8, 10]}
@@ -51,147 +56,101 @@ const MilestoneTable = () => {
       borderColor={["", "gray.300"]}
       borderRadius={10}
     >
-      <Flex mb={20}>
-        <Box>
-          <Link href="/logged/homeuser">
-            <Image
-              boxSize="40px"
-              objectFit="cover"
-              src="/banana.png"
-              alt="Itesa Coin"
-            />{" "}
-          </Link>
-        </Box>
-
-        <Spacer />
-      </Flex>
-      <Box marginBottom={10}>
-        <VStack>
-          <Text bg={"green"} color={"white"} p={2} borderRadius={10}>
-            {" "}
-            COMPLETED ITEM{" "}
-          </Text>
-          <Text bg={"red"} color={"white"} p={2} borderRadius={10}>
-            {" "}
-            NOT COMPLETED ITEM
-          </Text>
-        </VStack>
-      </Box>
-
-      <Box alignContent={"center"}>
-        <TableContainer bg={"white"}>
-          <Table variant="simple" size="md">
-            <TableCaption>
-              Conviertete en el primero de tus amigos en completar todos los
-              milestones!
-            </TableCaption>
-            <Thead>
-              <Tr>
-                <Th>Nombre</Th>
-                <Th>Descripcion</Th>
-                <Th isNumeric>Cantidad de tokens</Th>
-              </Tr>
-            </Thead>
-            {milestones.length > 0 ? (
-              milestones.map((miles) => {
-                if (miles.completed) {
-                  return (
-                    <Tbody>
-                      <Tr bg={"green"}>
-                        <Td>{miles.name}</Td>
-                        <Td>{miles.desc} </Td>
-                        <Td isNumeric>{miles.tokenAmount}</Td>
-                      </Tr>
-                    </Tbody>
-                  );
-                } else {
-                  return (
-                    <Tbody>
-                      <Tr bg={"red"}>
-                        <Td>{miles.name}</Td>
-                        <Td>{miles.desc} </Td>
-                        <Td isNumeric>{miles.tokenAmount}</Td>
-                      </Tr>
-                    </Tbody>
-                  );
-                }
-              })
-            ) : (
-              <Tbody>
-                <Tr>
-                  <Td>Empty</Td>
-                  <Td>Empty </Td>
-                  <Td isNumeric>0</Td>
-                </Tr>
-              </Tbody>
-            )}
-            <Tfoot>
-              <Tr>
-                <Th>Nombre</Th>
-                <Th>Descripcion</Th>
-                <Th isNumeric>Cantidad de tokens</Th>
-              </Tr>
-            </Tfoot>
-          </Table>
-        </TableContainer>
-      </Box>
-
-      <HStack spacing={"5"} mt="0%" direction="row">
-        <Link href="/logged/topInfluencers">
+      <HStack mb={"20%"} spacing={"20%"}>
+        <Link href="/logged/homeuser">
           <Image
-            mt={"2.5"}
-            ml={"18%"}
-            mb={"-10"}
-            boxSize="50%"
+            boxSize="40px"
             objectFit="cover"
-            src="/ranking (2).png"
-            alt="Ranking footer"
+            src="/banana.png"
+            alt="Itesa Coin"
           />{" "}
         </Link>{" "}
-        <Link href="#">
-          <Image
-            mt={"8"}
-            mb={"-4"}
-            ml={"30%"}
-            boxSize="40%"
-            objectFit="cover"
-            src="/value.png"
-            alt="Milestone footer"
-          />{" "}
-        </Link>{" "}
-        <Link href="#">
-          <Image
-            mb={"-5"}
-            ml={"47%"}
-            mt="9"
-            className="iconos"
-            onClick={() => {
-              LOGOUT();
-            }}
-            boxSize="31%"
-            objectFit="cover"
-            src="/logout (3).png"
-            alt="Logout footer"
-          />{" "}
-        </Link>{" "}
+        <Heading m={"auto"} ml="26%" color={"#E5EB2F"}>
+          {" "}
+          Milestones{" "}
+        </Heading>
       </HStack>
-      <HStack ml={"5%"} mt={"5"} spacing={"22%"}>
-        <Text fontSize={"xs"} color={"white"}>
-          {" "}
-          Ranking
-        </Text>
-        {/* <Button>Ranking </Button> */}
-        {/* <Button>Milestones </Button> */}
-        <Text fontSize={"xs"} color={"white"}>
-          {" "}
-          Milestones
-        </Text>
-        <Text fontSize={"xs"} color={"white"}>
-          {" "}
-          Log Out
-        </Text>
-        {/* <Button>Log Out </Button> */}
-      </HStack>
+      <>
+        <Table variant="simple" size={"xl"} color={"white"}>
+          <Thead>
+            <Tr>
+              <Th fontSize={"lg"} color={"#E5EB2F"}>
+                Nombre
+              </Th>
+              <Th fontSize={"lg"} color={"#E5EB2F"}>
+                Descripcion
+              </Th>
+              <Th fontSize={"lg"} color={"#E5EB2F"}>
+                Tokens
+              </Th>
+            </Tr>
+          </Thead>
+          {milestones.length > 0 ? (
+            milestones.map((miles, i) => {
+              if (miles.completed) {
+                return (
+                  <Tbody bg={"transparent"}>
+                    <Tr key={i}>
+                      <Td fontWeight={"extrabold"} color={"#2ad37c"}>
+                        {miles.name}
+                      </Td>
+                      <Td color={"#2ad37c"}>{miles.desc} </Td>
+                      <Td isNumeric color={"#2ad37c"}>
+                        {miles.tokenAmount}
+                      </Td>
+                    </Tr>
+                  </Tbody>
+                );
+              } else {
+                return (
+                  <Tbody bg={"transparent"}>
+                    <Tr>
+                      <Td fontWeight={"extrabold"} color={"#DE5A3F"}>
+                        {miles.name}
+                      </Td>
+                      <Td color={"#DE5A3F"}>{miles.desc} </Td>
+                      <Td color={"#DE5A3F"} isNumeric>
+                        {miles.tokenAmount}
+                      </Td>
+                    </Tr>
+                  </Tbody>
+                );
+              }
+            })
+          ) : (
+            <Tbody>
+              <Tr>
+                <Td>Empty</Td>
+                <Td>Empty </Td>
+                <Td isNumeric>0</Td>
+              </Tr>
+            </Tbody>
+          )}
+          <TableCaption
+            margin={"auto"}
+            ml="-5%"
+            fontSize={"xl"}
+            fontWeight="extrabold"
+            color={"#E5EB2F"}
+          >
+            Conviertete en el primero de tus amigos en completar todos los
+            milestones!
+          </TableCaption>
+        </Table>
+      </>
+      <Spacer color={"#4C1281"}>.</Spacer>
+      <Spacer color={"#4C1281"}>.</Spacer>
+      <Spacer color={"#4C1281"}>.</Spacer>
+      {/* <Text color={"white"}> Progreso de milestones:</Text> */}
+      {/* <Progress
+        mb={"20%"}
+        hasStripe
+        colorScheme={"whatsapp"}
+        isAnimated
+        size="md"
+        value={40}
+      /> */}
+      <Navbar />
     </Box>
   );
 };

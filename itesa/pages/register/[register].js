@@ -29,6 +29,8 @@ export default function Registro() {
   const passwordCheck = handleInput();
   const emailCheck = handleInput();
   const [required, setRequired] = useState(0);
+  const [contraseña, setContraseña] = useState(false);
+  const [contraseñaCheck, setContraseñaCheck] = useState(false);
   let validMail =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -36,16 +38,20 @@ export default function Registro() {
     var input = document.getElementById("pwd");
     if (input.type === "password") {
       input.type = "text";
+      setContraseña(true);
     } else {
       input.type = "password";
+      setContraseña(false);
     }
   };
   const togglePasswordCheck = () => {
     var input = document.getElementById("pwd2");
     if (input.type === "password") {
       input.type = "text";
+      setContraseñaCheck(true);
     } else {
       input.type = "password";
+      setContraseñaCheck(false);
     }
   };
 
@@ -187,10 +193,17 @@ export default function Registro() {
             type="password"
             {...password}
           />
-          <Button className="btnViewPwd" onClick={() => togglePassword()}>
-            {" "}
-            <ViewIcon />
-          </Button>
+          {contraseña === true ? (
+            <Button variant={"registro"} onClick={() => togglePassword()}>
+              {" "}
+              <ViewOffIcon />
+            </Button>
+          ) : (
+            <Button variant={"registro"} onClick={() => togglePassword()}>
+              {" "}
+              <ViewIcon />
+            </Button>
+          )}
         </FormControl>
         {required === 4 ? (
           <div className="errorForm"> Campo requerido</div>
@@ -208,10 +221,17 @@ export default function Registro() {
             type="password"
             {...passwordCheck}
           />
-          <Button className="btnViewPwd" onClick={() => togglePasswordCheck()}>
-            {" "}
-            <ViewIcon />
-          </Button>
+          {contraseñaCheck === true ? (
+            <Button variant={"registro"} onClick={() => togglePasswordCheck()}>
+              {" "}
+              <ViewOffIcon />
+            </Button>
+          ) : (
+            <Button variant={"registro"} onClick={() => togglePasswordCheck()}>
+              {" "}
+              <ViewIcon />
+            </Button>
+          )}
         </FormControl>
         {required === 5 ? (
           <div className="errorForm"> Campo requerido</div>
