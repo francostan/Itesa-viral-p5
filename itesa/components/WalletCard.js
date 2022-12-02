@@ -192,7 +192,7 @@ const WalletCard = () => {
     //   window.ethereum.on("accountsChanged", accountChangedHandler);
     //   window.ethereum.on("chainChanged", chainChangedHandler);
     // }
-  }, [user, userBalance, defaultAccount,tokentoredeem]);
+  }, [user, userBalance, defaultAccount, tokentoredeem]);
 
   const handleTokens = async () => {
     console.log("TOKENS");
@@ -208,8 +208,10 @@ const WalletCard = () => {
       setLoading(false);
       const balanceOfReceiver = await contract.balanceOf(defaultAccount);
       setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
-      const nuevaCantidad = await axios.put("redeem", { user: user.id }).catch((err) => console.log(err));
-      settokentoredeem(nuevaCantidad.data)
+      const nuevaCantidad = await axios
+        .put("redeem", { user: user.id })
+        .catch((err) => console.log(err));
+      settokentoredeem(nuevaCantidad.data);
     } else {
       Swal.fire({
         icon: "info",
@@ -267,15 +269,7 @@ const WalletCard = () => {
               {connButtonText}
             </button>
           </div>
-          <div>
-            {connButtonText === "Billetera conectada" ? (
-              <button className="tokens-xl" onClick={handleTokens}>
-                Reclamar Tokens
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
+          <div></div>
         </div>
       ) : (
         <div>
@@ -285,15 +279,7 @@ const WalletCard = () => {
             </button>
           </div>
 
-          <div>
-            {(connButtonText === "Billetera conectada" && tokentoredeem>0) ? (
-              <button className="tokens-xs" onClick={handleTokens}>
-                Reclamar Tokens
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
+          <div></div>
         </div>
       )}
 
@@ -320,53 +306,90 @@ const WalletCard = () => {
             </Link>
           </Box>
         </Flex>
-        <VStack spacing={4} align="flex-start" marginRight={"auto"} marginLeft={"auto"}>
-          <Heading color="white" marginTop={"10%"} marginBottom={"10%"} alignSelf={"center"}>Bienvenido {user.nick_name}</Heading>
-          <Box backgroundColor={"#9d39fe"} borderRadius={"5%"} padding={"3%"} marginRight={"auto"} marginLeft={"auto"} alignSelf={"center"}>
+        <VStack
+          spacing={4}
+          align="flex-start"
+          marginRight={"auto"}
+          marginLeft={"auto"}
+        >
+          {loading ? (
+            <Spinner
+              className="loading"
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="purple.500"
+              size="xl"
+              mr={"auto"}
+              ml={"auto"}
+            />
+          ) : (
+            ""
+          )}
+          <Heading
+            color="white"
+            marginTop={"10%"}
+            marginBottom={"10%"}
+            alignSelf={"center"}
+          >
+            Bienvenido {user.nick_name}
+          </Heading>
+
+          <Box
+            backgroundColor={"#9d39fe"}
+            borderRadius={"5%"}
+            padding={"3%"}
+            marginRight={"auto"}
+            marginLeft={"auto"}
+            alignSelf={"center"}
+          >
             <Stat color="white">
-            <VStack spacing={"2"} alignItems={"flex-start"} marginBottom={"3%"}>
-              <StatNumber> TukiTokens: {userBalance}</StatNumber>
-              <Text fontSize={"sm"}> ◉ Posicion en el ranking: {ranking}</Text>
-              <Text fontSize={"sm"}> ◉ Puntos: {currentAwards.awards}</Text>
-              {nextMilestone.id ? (
+              <VStack
+                spacing={"2"}
+                alignItems={"flex-start"}
+                marginBottom={"3%"}
+              >
+                <StatNumber> TukiTokens: {userBalance}</StatNumber>
                 <Text fontSize={"sm"}>
-                   ◉ Te falta(n){" "}
-                  {nextMilestone.quantityCondition - currentAwards.awards}{" "}
-                  punto(s) para el próximo Milestone!!
+                  {" "}
+                  ◉ Posicion en el ranking: {ranking}
                 </Text>
-              ) : (
+                <Text fontSize={"sm"}> ◉ Puntos: {currentAwards.awards}</Text>
+                {nextMilestone.id ? (
+                  <Text fontSize={"sm"}>
+                    ◉ Te falta(n){" "}
+                    {nextMilestone.quantityCondition - currentAwards.awards}{" "}
+                    punto(s) para el próximo Milestone!!
+                  </Text>
+                ) : (
+                  <Text fontSize={"sm"}>
+                    Has conseguido todos los Milestones!!
+                  </Text>
+                )}
                 <Text fontSize={"sm"}>
-                     Has conseguido todos los Milestones!!
+                  ◉ Proximo milestone: {nextMilestone.name}
                 </Text>
-              )}
-              <Text fontSize={"sm"}>
-               ◉ Proximo milestone: {nextMilestone.name}
-              </Text>
-              <Text fontSize={"sm"}>
-               ◉ Token por reclamar {tokentoredeem}
-              </Text>
-            </VStack>
+                <Text fontSize={"sm"}>
+                  ◉ Token por reclamar {tokentoredeem}
+                </Text>
+              </VStack>
             </Stat>
-            <Flex justifyContent={"center"}>
-            <Button onClick={handleUpdateAwards} size="xs">
-              Actualizar
-            </Button>
-            </Flex>
+
+            <HStack>
+              {connButtonText === "Billetera conectada" && tokentoredeem > 0 ? (
+                <Button justifySelf={"center"} onClick={handleTokens}>
+                  Reclamar Tokens
+                </Button>
+              ) : (
+                ""
+              )}
+              <Flex justifyContent={"center"}>
+                <Button onClick={handleUpdateAwards}>Actualizar</Button>
+              </Flex>
+            </HStack>
           </Box>
           <Reference />
         </VStack>
-        {loading ? (
-          <Spinner
-            className="loading"
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="purple.500"
-            size="xl"
-          />
-        ) : (
-          ""
-        )}
         <Navbar />
       </Box>
     </>
