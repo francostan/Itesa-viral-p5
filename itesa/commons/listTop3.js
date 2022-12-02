@@ -12,7 +12,6 @@ import {
 export default function ListTop3({ top3 }) {
   //Single ranked va a venir como un objeto con un id(refferingId) y una cantidad de invitados
   // top3 = [{referringId: 1, awards: 19, referringId: 2, awards: 18, referringId: 3, awards: 17}]
-  console.log(top3);
   return (
     <Grid alignContent={"center"}>
       <Flex

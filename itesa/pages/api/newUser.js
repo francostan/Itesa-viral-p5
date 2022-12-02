@@ -8,7 +8,6 @@ export default async function newuser(req, res) {
   const { method, body } = req;
   const id = req.body.id;
   // const { nick_name, email, password } = body;
-  // console.log("-=-------------------------", nick_name, email, password);
 
   switch (method) {
     case "POST":
@@ -22,22 +21,13 @@ export default async function newuser(req, res) {
         });
         // Creación de award por registro
         const registerMilestone = await Milestone.findByPk(1);
-        console.log(
-          "----------------------- registerMilestone",
-          registerMilestone
-        );
-        console.log("-----------------");
-        console.log("created: ", created.id);
         const registerAward = await Award.create({
           tokenAmount: registerMilestone.tokenAmount,
           winnerId: created.id,
           milestoneId: registerMilestone.id,
         });
-        console.log("-----------------");
-        console.log("---------------------,CREATED", registerAward);
         //Para el caso en que el registro es con código de referido
         if (body.referring) {
-          console.log("&&&&&&&&&&&&&&&&&&&&&&", body.referring);
           const referringUser = await User.findOne({
             where: { viral_code: body.referring },
           });

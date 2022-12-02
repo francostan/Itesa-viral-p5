@@ -39,7 +39,6 @@ function invite(req, res) {
           };
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log("Error de mail");
               console.log(error.message);
               res.status(404).send();
               //.send(error.message);

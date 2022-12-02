@@ -92,7 +92,7 @@ const WalletCard = () => {
         const milestones = await axios
           .post("/userMilestones", { user: user.id })
           .then((result) => result.data);
-        //console.log(milestones);
+
         setLastMilestone(milestones.lastMilestone);
         setNextMilestone(milestones.nextMilestone);
       }
