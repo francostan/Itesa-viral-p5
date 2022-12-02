@@ -29,7 +29,7 @@ export default async function userMilestones(req, res) {
           completedMilestones[0].milestoneId + 1
         )
       }else{
-        nextMilestone={milestoneId:"You Got the Last One!",name:"More coming soon",desc:"Check Back"}
+        nextMilestone={id:null,milestoneId:"You Got the Last One!",name:"More coming soon",desc:"Check Back"}
       }
 
       
