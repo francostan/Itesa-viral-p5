@@ -20,15 +20,14 @@ export default async function adminMilestones(req, res) {
     case "GET":
       try {
         if (req.body.id) {
-          console.log("hola id2");
           let milestoneid = await Milestone.findOne({
             where: { id },
           });
           res.send(milestoneid);
         } else {
-          console.log(req.body.id);
-          console.log("holas");
-          let milestoneAll = await Milestone.findAll();
+          let milestoneAll = await Milestone.findAll({
+            order: [["id", "ASC"]],
+          });
           res.send(milestoneAll);
         }
       } catch (error) {

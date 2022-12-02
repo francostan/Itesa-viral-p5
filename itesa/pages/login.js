@@ -52,8 +52,6 @@ export default function Login() {
     };
     const loggedUser = await axios.post("/login", user);
 
-    //console.log(loggedUser);
-
     if (loggedUser.status === 200) {
       dispatch(login(loggedUser.data));
       router.push("/2fa");

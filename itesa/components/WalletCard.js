@@ -36,6 +36,7 @@ import Persistence from "./Persistence";
 import Head from "next/head";
 import Reference from "./Reference";
 import AdminButton from "./AdminButton";
+import next from "next";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
@@ -49,6 +50,9 @@ const WalletCard = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const [ranking, setRanking] = useState(0);
+  const [lastMilestone, setLastMilestone, getLastMilestone] = useState({});
+  const [nextMilestone, setNextMilestone, getNextMilestone] = useState({});
   const provider = new ethers.providers.JsonRpcProvider(
     "https://goerli.infura.io/v3/07844f3846764830b55e143f3d6f324d"
   );
@@ -71,15 +75,29 @@ const WalletCard = () => {
 
   useEffect(() => {
     // Obtener valor de tokens a reclamar y guardar estado con el valor:
-    const controller = new AbortController();
-    if (user.id) {
-      axios
-        .post("/redeem", { user: user.id }, { signal: controller.signal })
-        .then((redeem) => {
-          settokentoredeem(redeem.data);
-        })
-        .catch((err) => console.log(err));
-    }
+
+    const getStatus = async () => {
+      if (user.id) {
+        //Consulta de Tokens por recuperar
+        const tokens = await axios.post("/redeem", { user: user.id });
+        settokentoredeem(tokens.data);
+        //Consulta de posición en ranking
+        const usersRanking = await axios.get("/ranking");
+        const rankingPos = usersRanking.data.findIndex(
+          (element) => element.referringId === user.id
+        );
+        setRanking(rankingPos + 1);
+
+        //Consulta de próximo Milestone
+        const milestones = await axios
+          .post("/userMilestones", { user: user.id })
+          .then((result) => result.data);
+
+        setLastMilestone(milestones.lastMilestone);
+        setNextMilestone(milestones.nextMilestone);
+      }
+    };
+    getStatus();
 
     const handleNetwork = async () => {
       await ethereum.request({
@@ -153,7 +171,6 @@ const WalletCard = () => {
         setErrorMessage(error.message);
       }
     };
-
     // const chainChangedHandler = () => {
     //   // reload the page to avoid any errors with chain change mid use of application
     //   window.location.reload();
@@ -164,10 +181,6 @@ const WalletCard = () => {
     //   window.ethereum.on("accountsChanged", accountChangedHandler);
     //   window.ethereum.on("chainChanged", chainChangedHandler);
     // }
-
-    return () => {
-      controller.abort();
-    };
   }, [user, userBalance, defaultAccount]);
 
   const handleTokens = async () => {
@@ -255,22 +268,17 @@ const WalletCard = () => {
               />{" "}
             </Link>
           </Box>
-
-          <Spacer />
         </Flex>
         <VStack spacing={4} align="flex-start" w="full">
-          <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
-            {" "}
-            <Heading color="white"> Home</Heading>
-          </VStack>
+
           <Heading color="white">Bienvenido {user.nick_name}</Heading>
 
           <Stat color="white">
-            <StatLabel>Balance actual</StatLabel>
-            <StatNumber>{userBalance}</StatNumber>
 
-            <Text fontSize={"larger"}>Posicion en el ranking: 10</Text>
-            <Text fontSize={"larger"}>Proximo milestone: 30 referidos</Text>
+            <StatNumber> TukiTokens: {userBalance}</StatNumber>
+
+            <Text fontSize={"larger"}>Posicion en el ranking: {ranking}</Text>
+            <Text fontSize={"larger"}>Proximo milestone: {nextMilestone.name}</Text>
             <Text fontSize={"larger"}>Token por reclamar {tokentoredeem}</Text>
           </Stat>
           <Reference />
@@ -301,7 +309,7 @@ const WalletCard = () => {
               alt="Ranking footer"
             />{" "}
           </Link>{" "}
-          <Link href="#">
+          <Link href="/logged/milestones">
             <Image
               mt={"8"}
               mb={"-4"}

@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "migrate": "sequelize db:migrate",
-    "seed": "sequelize-cli db:seed:all"
+    "seed": "sequelize-cli db:seed:all",
+    "users":"node db/seeders/users/seeder.js"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.13",

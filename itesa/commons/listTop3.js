@@ -14,13 +14,14 @@ import {
 
 export default function ListTop3({ ranking }) {
   //Single ranked va a venir como un objeto con un id(refferingId) y una cantidad de invitados
-  // ranking = [{referringId: 1, awards: 19, referringId: 2, awards: 18, referringId: 3, awards: 17}]
+
 
   const rankingVisual = [
     { img: "/gold.png", alt: "Primer puesto" },
     { img: "/silver.png", alt: "Segundo puesto" },
     { img: "/bronze.png", alt: "Tercer puesto" },
   ];
+
   return (
     <Grid
       alignContent={"flex-start"}
