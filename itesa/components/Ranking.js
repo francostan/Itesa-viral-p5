@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "../config/axios";
-import ListTop3 from "../commons/RankUsers";
+import ListTop3 from "../commons/listTop3";
 import { useState } from "react";
 import {
   Button,
