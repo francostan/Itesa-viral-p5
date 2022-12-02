@@ -25,7 +25,7 @@ const Ranking = () => {
   }, []);
 
   return (
-    <Flex direction={"column"} w={400} h="100vh">
+    <Flex direction={"column"} w={"100%"} h="100%">
       {ranking.length > 0 ? (
         <ListTop3 ranking={ranking} />
       ) : (
