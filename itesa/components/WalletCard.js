@@ -312,6 +312,7 @@ const WalletCard = () => {
           marginRight={"auto"}
           marginLeft={"auto"}
         >
+          <Box w={"30px"} h={"30px"} alignSelf={"center"}>
           {loading ? (
             <Spinner
               className="loading"
@@ -326,6 +327,7 @@ const WalletCard = () => {
           ) : (
             ""
           )}
+          </Box>
           <Heading
             color="white"
             marginTop={"10%"}

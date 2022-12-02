@@ -46,7 +46,6 @@ export default async function tokens(req, res) {
           const today=new Date()
           const expiration = elemento.expirationDate || today.setDate(today.getDate()+30)
           if( new Date()< expiration){
-            console.log("Ingresamos por fecha");
             if (registeredReferred >= elemento.quantityCondition && !awardsAchieved.includes(elemento.id)) {
               Award.create({
                 tokenAmount: elemento.tokenAmount,
