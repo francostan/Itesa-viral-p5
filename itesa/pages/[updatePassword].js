@@ -18,17 +18,20 @@ import handleInput from "../reactHooks/handleInput";
 import axios from "../config/axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function updatePassword() {
   const router = useRouter();
   const { idUsuario } = router.query;
-
   const password = handleInput();
   const passwordCheck = handleInput();
   const [required, setRequired] = useState(0);
+  const [user, setUser] = useState({});
 
-  console.log(idUsuario);
+  //Obtengo usuario para con un get. Saco el id del URL:
+  // useEffect(() => {
+  //   axios.post("/user", { id: idUsuario }).then((usuario) => setUser(usuario));
+  // }, []);
 
   const togglePassword = () => {
     var input = document.getElementById("pwd");
@@ -100,6 +103,12 @@ export default function updatePassword() {
           </HStack>
           <Heading color="white"> Nueva Contraseña</Heading>
         </VStack>
+
+        <Box>
+          <Text color="white" fontSize="xl" as="b">
+            Bienvenido devuelta {user.nickName}!
+          </Text>
+        </Box>
 
         <FormControl>
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
