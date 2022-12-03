@@ -1,5 +1,5 @@
 const db = require("../../db/models/index");
-const User=db.User
+const User = db.User;
 const Award = db.Award;
 const Milestone = db.Milestone;
 const { Sequelize, Op } = require("sequelize");
@@ -30,6 +30,14 @@ export default async function newuser(req, res) {
             "set-cookie",
             `getViral=${token}; path=/; samesite=lax; httponly`
           );
+
+          //Reseteo la cantidad de referidos si pasó la fecha de expiración de la campaña
+          const today = new Date();
+          const expDate = await Milestone.findOne(
+            { attributes: expirationDate },
+            { where: { expired: false, id: { [Op.notIn]: [1, 2] } } }
+          );
+            
 
           //actualizo los awards en la DB antes de cargar el usuario en HomeUser
           //Total de usuarios que se registraron con el viral_code el usuario
