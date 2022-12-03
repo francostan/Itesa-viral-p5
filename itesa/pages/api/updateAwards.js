@@ -3,7 +3,6 @@ const Award = db.Award;
 const Milestone = db.Milestone;
 const { Sequelize, Op } = require("sequelize");
 
-
 // req.body={
 //         user={información del usuario}
 //}
@@ -36,25 +35,27 @@ export default async function tokens(req, res) {
             "quantityCondition",
             "expirationDate",
           ],
-          where: { id: { [Op.notIn]: [1, 2] } }, //Excluyo los milestone de registro y de invitación
+          where: { id: { [Op.notIn]: [1, 2] }, expired: false }, //Excluyo los milestone de registro y de invitación
         });
-        currentAvailableMilestones=currentAvailableMilestones.map(element=>element.dataValues)
-        
-        //Mapeo el array currentAvailableMilestones para chequear cada Milestone disponible
+        currentAvailableMilestones = currentAvailableMilestones.map(
+          (element) => element.dataValues
+        );
 
-        const currentPromises = currentAvailableMilestones.map((elemento)=>{
-          const today=new Date()
-          const expiration = elemento.expirationDate || today.setDate(today.getDate()+30)
-          if( new Date()< expiration){
-            if (registeredReferred >= elemento.quantityCondition && !awardsAchieved.includes(elemento.id)) {
+        //Mapeo el array currentAvailableMilestones para chequear cada Milestone disponible
+        if (currentAvailableMilestones.length > 0) {
+          const currentPromises = currentAvailableMilestones.map((elemento) => {
+            if (
+              registeredReferred >= elemento.quantityCondition &&
+              !awardsAchieved.includes(elemento.id)
+            ) {
               Award.create({
                 tokenAmount: elemento.tokenAmount,
                 winnerId: userId,
-                milestoneId: elemento.id
+                milestoneId: elemento.id,
               });
             }
-          }
-        })
+          });
+        }
 
         // Calcula y envía al FRONT el total de tokens
         const pendingTokens = await Award.findAll({

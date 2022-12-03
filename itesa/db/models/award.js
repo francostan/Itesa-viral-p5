@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       milestoneId: {
         type: DataTypes.INTEGER,
       },
+      currentCampaign:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:true,
+      }
     },
     {
       sequelize,

@@ -13,6 +13,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           quantityCondition: 0,
+          campaignId:0,
         },
         {
           name: "Referido",
@@ -21,6 +22,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           quantityCondition: 1,
+          campaignId:0,
         },
         {
           name: "4 Referidos",
@@ -29,6 +31,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           quantityCondition: 4,
+          campaignId:1,
         },
         {
           name: "8 Referidos",
@@ -37,6 +40,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           quantityCondition: 8,
+          campaignId:1,
         },
         {
           name: "12 Referidos",
@@ -45,6 +49,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           quantityCondition: 12,
+          campaignId:1,
         },
         {
           name: "16 Referidos",
@@ -53,6 +58,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           quantityCondition: 16,
+          campaignId:1,
         },
       ],
       {}
