@@ -53,8 +53,9 @@ const WalletCard = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [ranking, setRanking] = useState(0);
+  const [rankingCurrent, setRankingCurrent] = useState(0);
+  const [totalAwards, setTotalAwards] = useState({});
   const [currentAwards, setCurrentAwards] = useState({});
-  const [lastMilestone, setLastMilestone, getLastMilestone] = useState({});
   const [nextMilestone, setNextMilestone, getNextMilestone] = useState({});
   const provider = new ethers.providers.JsonRpcProvider(
     "https://goerli.infura.io/v3/07844f3846764830b55e143f3d6f324d"
@@ -84,26 +85,40 @@ const WalletCard = () => {
         //Consulta de Tokens por recuperar
         const tokens = await axios.post("/redeem", { user: user.id });
         settokentoredeem(tokens.data);
-        //Consulta de posición en ranking
-        const usersRanking = await axios.get("/ranking");
-        const rankingPos = await usersRanking.data.findIndex(
+        //Consulta Ranking Histórico y de Ranking Actual
+        const { usersRanking, usersRankingCurrent } = await axios
+          .get("/ranking")
+          .then((result) => result.data);
+        const rankingPos = await usersRanking.findIndex(
           (element) => element.referringId === user.id
         );
         setRanking(rankingPos + 1);
         // const tempPoints=usersRanking[rankingPos].awards
         // setPoints(tempPoints)
-
-        const tempRanking = await usersRanking.data.find(
+        const tempRanking = await usersRanking.find(
           (element) => element.referringId === user.id
         );
-        setCurrentAwards(tempRanking);
+        setTotalAwards(tempRanking);
+
+        //Seteo de estados de la Campaña Actual
+        if (usersRankingCurrent.length > 0) {
+          const rankingPosCurrent = await usersRankingCurrent.findIndex(
+            (element) => element.referringId === user.id
+          );
+          setRankingCurrent(rankingPosCurrent + 1);
+          const currentRanking = await usersRankingCurrent.find(
+            (element) => element.referringId === user.id
+          );
+          setCurrentAwards(currentRanking);
+        } else {
+          setRankingCurrent("No hay Ranking Todavía");
+          setCurrentAwards({ awards: 0 });
+        }
 
         //Consulta de próximo Milestone
         const milestones = await axios
           .post("/userMilestones", { user: user.id })
           .then((result) => result.data);
-
-        setLastMilestone(milestones.lastMilestone);
         setNextMilestone(milestones.nextMilestone);
         //Determinar cuántos referidos faltan para próximo milestone
       }
@@ -222,30 +237,44 @@ const WalletCard = () => {
   };
 
   const handleUpdateAwards = async () => {
-    const tokens = await axios.post("/updateAwards", { user: user.id });
+    const tokens = await axios.post("/updateAwards", { user: user.id,admin:user.admin });
     settokentoredeem(tokens.data);
-    //Consulta de posición en ranking
-    const usersRanking = await axios.get("/ranking");
-    const rankingPos = await usersRanking.data.findIndex(
+
+    //Consulta Ranking Histórico y de Ranking Actual
+    const { usersRanking, usersRankingCurrent } = await axios
+      .get("/ranking")
+      .then((result) => result.data);
+    const rankingPos = await usersRanking.findIndex(
       (element) => element.referringId === user.id
     );
     setRanking(rankingPos + 1);
     // const tempPoints=usersRanking[rankingPos].awards
     // setPoints(tempPoints)
-
-    const tempRanking = await usersRanking.data.find(
+    const tempRanking = await usersRanking.find(
       (element) => element.referringId === user.id
     );
-    setCurrentAwards(tempRanking);
+    setTotalAwards(tempRanking);
+
+    //Seteo de estados de la Campaña Actual
+    if (usersRankingCurrent.length > 0) {
+      const rankingPosCurrent = await usersRankingCurrent.findIndex(
+        (element) => element.referringId === user.id
+      );
+      setRankingCurrent(rankingPosCurrent + 1);
+      const currentRanking = await usersRankingCurrent.find(
+        (element) => element.referringId === user.id
+      );
+      setCurrentAwards(currentRanking);
+    } else {
+      setRankingCurrent("No hay Ranking Todavía");
+      setCurrentAwards({ awards: 0 });
+    }
 
     //Consulta de próximo Milestone
     const milestones = await axios
       .post("/userMilestones", { user: user.id })
       .then((result) => result.data);
-
-    setLastMilestone(milestones.lastMilestone);
     setNextMilestone(milestones.nextMilestone);
-    //Determinar cuántos referidos faltan para próximo milestone
   };
 
   return (
@@ -313,20 +342,20 @@ const WalletCard = () => {
           marginLeft={"auto"}
         >
           <Box w={"30px"} h={"30px"} alignSelf={"center"}>
-          {loading ? (
-            <Spinner
-              className="loading"
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="purple.500"
-              size="xl"
-              mr={"auto"}
-              ml={"auto"}
-            />
-          ) : (
-            ""
-          )}
+            {loading ? (
+              <Spinner
+                className="loading"
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="purple.500"
+                size="xl"
+                mr={"auto"}
+                ml={"auto"}
+              />
+            ) : (
+              ""
+            )}
           </Box>
           <Heading
             color="white"
@@ -353,24 +382,40 @@ const WalletCard = () => {
               >
                 <StatNumber> TukiTokens: {userBalance}</StatNumber>
                 <Text fontSize={"sm"}>
-                  {" "}
-                  ◉ Posicion en el ranking: {ranking}
+                  ◉ Posicion en el ranking Histórico: {ranking}
                 </Text>
-                <Text fontSize={"sm"}> ◉ Puntos: {currentAwards.awards}</Text>
-                {nextMilestone.id ? (
-                  <Text fontSize={"sm"}>
-                    ◉ Te falta(n){" "}
-                    {nextMilestone.quantityCondition - currentAwards.awards}{" "}
-                    punto(s) para el próximo Milestone!!
-                  </Text>
-                ) : (
-                  <Text fontSize={"sm"}>
-                    Has conseguido todos los Milestones!!
-                  </Text>
-                )}
                 <Text fontSize={"sm"}>
-                  ◉ Proximo milestone: {nextMilestone.name}
+                  ◉ Puntos Totales: {totalAwards.awards}
                 </Text>
+
+                {nextMilestone.id || nextMilestone.milestoneId != "" ? (
+                  <>
+                    <Text fontSize={"sm"}>
+                      {" "}
+                      ◉ Posicion en el ranking en esta Campaña: {rankingCurrent}
+                    </Text>
+                    <Text fontSize={"sm"}>
+                      {" "}
+                      ◉ Puntos Para esta Campaña: {currentAwards.awards}
+                    </Text>
+                    {nextMilestone.quantityCondition ? (
+                      <Text fontSize={"sm"}>
+                        ◉ Te falta(n){" "}
+                        {nextMilestone.quantityCondition - currentAwards.awards}{" "}
+                        punto(s) para el próximo Milestone!!
+                      </Text>
+                    ) : (
+                      ""
+                    )}
+
+                    <Text fontSize={"sm"}>
+                      ◉ Proximo milestone: {nextMilestone.name}
+                    </Text>
+                  </>
+                ) : (
+                  <StatNumber> No hay campaña vigente </StatNumber>
+                )}
+
                 <Text fontSize={"sm"}>
                   ◉ Token por reclamar {tokentoredeem}
                 </Text>

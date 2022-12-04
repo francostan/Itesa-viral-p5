@@ -31,7 +31,9 @@ export default function Login() {
       id: user.id,
       token: secreto.value,
     };
-    const loggedUser = await axios.post("/2FA", secret);
+    const loggedUser = await axios.post("/2FA", secret).catch((error) => {
+      router.push("/login");
+    });
     if (loggedUser.status === 200) {
       dispatch(login(loggedUser.data));
       router.push("/logged/homeuser");

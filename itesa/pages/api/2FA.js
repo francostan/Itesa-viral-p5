@@ -13,7 +13,7 @@ export default async function newuser(req, res) {
     case "POST":
       {
         const foundUser = await User.findByPk(body.id);
-
+        //Validación del usuario
         var validate = await speakeasy.totp.verify({
           secret: foundUser.secret,
           encoding: "base32",
@@ -21,8 +21,8 @@ export default async function newuser(req, res) {
           window: 5,
         });
 
+        //Generación de Cookie y guardado en browser
         if (validate) {
-          //Generación de Cookie y guardado en browser
           const { nick_name, email, id, viral_code, admin } = foundUser;
           const payload = { nick_name, email, id, viral_code, admin };
           const token = await sign(payload);
@@ -30,20 +30,41 @@ export default async function newuser(req, res) {
             "set-cookie",
             `getViral=${token}; path=/; samesite=lax; httponly`
           );
+            console.log("que es admin???",admin);
 
-          //Reseteo la cantidad de referidos si pasó la fecha de expiración de la campaña
-          const today = new Date();
-          const expDate = await Milestone.findOne(
-            { attributes: expirationDate },
-            { where: { expired: false, id: { [Op.notIn]: [1, 2] } } }
-          );
-            
+          //Seteo en la DB los controles de expiración de Awards y de Milestone (Awards pasan a currentCampaign:False y Milestone pasa a expired:true)
+          
+          //////////////////////////////////////////////////////////////////////////////// tambine se usa en updateAwards
+          if (admin) {
+            const today = new Date();
+            let expDate = await Milestone.findOne({
+              where: { expired: false, id: { [Op.notIn]: [1, 2] } },
+            });
+            if(expDate)  expDate = new Date(expDate.expirationDate) 
+            else expDate = new Date();
+            if (today > expDate) {
+              await Milestone.update(
+                { expired: true },
+                { where: { expired: false } }
+              );
+              await Award.update(
+                { currentCampaign: false },
+                { where: { currentCampaign: true } }
+              );
+            }
+          }
+          ////////////////////////////////////////////////////////////////////////////////
 
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// también se usa en 2FA (back)
           //actualizo los awards en la DB antes de cargar el usuario en HomeUser
+
           //Total de usuarios que se registraron con el viral_code el usuario
           const registeredReferred = (
-            await Award.findAll({ where: { referringId: id } })
+            await Award.findAll({
+              where: { referringId: id, currentCampaign: true },
+            })
           ).length;
+
           //Array con todos los objetos award en los que el usuario es el winnerId
           let awardsAchieved = await Award.findAll(
             { attributes: ["milestoneId"] },
@@ -61,32 +82,30 @@ export default async function newuser(req, res) {
               "quantityCondition",
               "expirationDate",
             ],
-            where: { id: { [Op.notIn]: [1, 2] } }, //Excluyo los milestone de registro y de invitación
+            where: { id: { [Op.notIn]: [1, 2] }, expired: false }, //Excluyo los milestone de registro y de invitación
           });
           currentAvailableMilestones = currentAvailableMilestones.map(
             (element) => element.dataValues
           );
 
           //Mapeo el array currentAvailableMilestones para chequear cada Milestone disponible
-
-          const currentPromises = currentAvailableMilestones.map((elemento) => {
-            const today = new Date();
-            const expiration =
-              elemento.expirationDate || today.setDate(today.getDate() + 30);
-            if (new Date() < expiration) {
-              console.log("Ingresamos por fecha");
-              if (
-                registeredReferred >= elemento.quantityCondition &&
-                !awardsAchieved.includes(elemento.id)
-              ) {
-                Award.create({
-                  tokenAmount: elemento.tokenAmount,
-                  winnerId: id,
-                  milestoneId: elemento.id,
-                });
+          if (currentAvailableMilestones.length > 0 && registeredReferred > 0) {
+            const currentPromises = currentAvailableMilestones.map(
+              (elemento) => {
+                if (
+                  registeredReferred >= elemento.quantityCondition &&
+                  !awardsAchieved.includes(elemento.id)
+                ) {
+                  Award.create({
+                    tokenAmount: elemento.tokenAmount,
+                    winnerId: id,
+                    milestoneId: elemento.id,
+                  });
+                }
               }
-            }
-          });
+            );
+          }
+          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
           res.status(200).send({
             nick_name: foundUser.nick_name,

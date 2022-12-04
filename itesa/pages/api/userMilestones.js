@@ -12,28 +12,39 @@ export default async function userMilestones(req, res) {
       // }
       const availableMilestones = await Milestone.findAll({
         attributes: ["id"],
+        where: { expired: false },
         order: [["id", "DESC"]],
       });
-      const completedMilestones = await Award.findAll({
-        attributes: ["milestoneId"],
-        group: ["milestoneId"],
-        where: { winnerId: body.user },
-        order: [["milestoneId", "DESC"]],
-      });
-      const lastMilestone = await Milestone.findByPk(
-        completedMilestones[0].milestoneId
-      );
-        let nextMilestone
-      if (availableMilestones[0].id > completedMilestones[0].milestoneId) {
-        nextMilestone = await Milestone.findByPk(
-          completedMilestones[0].milestoneId + 1
-        )
-      }else{
-        nextMilestone={id:null,milestoneId:"You Got the Last One!",name:"More coming soon",desc:"Check Back"}
+      let nextMilestone;
+      if (availableMilestones.length > 0) {
+        const completedMilestones = await Award.findAll({
+          attributes: ["milestoneId"],
+          group: ["milestoneId"],
+          where: { winnerId: body.user },
+          order: [["milestoneId", "DESC"]],
+        });
+        if (availableMilestones[0].id > completedMilestones[0].milestoneId) {
+          nextMilestone = await Milestone.findByPk(
+            completedMilestones[0].milestoneId + 1
+          );
+        } else {
+          nextMilestone = {
+            id: null,
+            milestoneId: "Conseguiste Todos",
+            name: "A esperar la siguiente campaña",
+            desc: "",
+          };
+        }
+      } else {
+          nextMilestone = {
+          id: null,
+          milestoneId: "",
+          name: "A esperar la siguiente campaña",
+          desc: "",
+        };
       }
 
-      
-      res.status(200).send({lastMilestone,nextMilestone});
+      res.status(200).send({nextMilestone });
 
       break;
 
