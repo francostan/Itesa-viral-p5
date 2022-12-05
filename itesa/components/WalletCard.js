@@ -313,20 +313,20 @@ const WalletCard = () => {
           marginLeft={"auto"}
         >
           <Box w={"30px"} h={"30px"} alignSelf={"center"}>
-          {loading ? (
-            <Spinner
-              className="loading"
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="purple.500"
-              size="xl"
-              mr={"auto"}
-              ml={"auto"}
-            />
-          ) : (
-            ""
-          )}
+            {loading ? (
+              <Spinner
+                className="loading"
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="purple.500"
+                size="xl"
+                mr={"auto"}
+                ml={"auto"}
+              />
+            ) : (
+              ""
+            )}
           </Box>
           <Heading
             color="white"
@@ -376,19 +376,21 @@ const WalletCard = () => {
                 </Text>
               </VStack>
             </Stat>
-
-            <HStack>
-              {connButtonText === "Billetera conectada" && tokentoredeem > 0 ? (
-                <Button justifySelf={"center"} onClick={handleTokens}>
-                  Reclamar Tokens
-                </Button>
-              ) : (
-                ""
-              )}
-              <Flex justifyContent={"center"}>
-                <Button onClick={handleUpdateAwards}>Actualizar</Button>
-              </Flex>
-            </HStack>
+            <Center>
+              <HStack>
+                {connButtonText === "Billetera conectada" &&
+                tokentoredeem > 0 ? (
+                  <Button justifySelf={"center"} onClick={handleTokens}>
+                    Reclamar Tokens
+                  </Button>
+                ) : (
+                  ""
+                )}
+                <Flex justifyContent={"center"}>
+                  <Button onClick={handleUpdateAwards}>Actualizar</Button>
+                </Flex>
+              </HStack>
+            </Center>
           </Box>
           <Reference />
         </VStack>

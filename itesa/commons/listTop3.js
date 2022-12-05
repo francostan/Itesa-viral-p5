@@ -12,6 +12,7 @@ import {
   Link,
   VStack,
 } from "@chakra-ui/react";
+import Navbar from "../components/Navbar";
 
 export default function ListTop3({ ranking }) {
   //Single ranked va a venir como un objeto con un id(refferingId) y una cantidad de invitados
