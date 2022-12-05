@@ -63,7 +63,7 @@ const Navbar = () => {
       {user.admin === true ? (
         <VStack>
           {" "}
-          <Link href="/logged/adminMilestone">
+          <Link href="/logged/admin/home">
             <Image
               m={"auto"}
               boxSize="40%"

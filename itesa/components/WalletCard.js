@@ -279,7 +279,6 @@ const WalletCard = () => {
         setNextMilestone(result.nextMilestone)});
     ;
   };
-  console.log(nextMilestone);
   return (
     <>
       {/* <div className="walletCard">
@@ -391,7 +390,7 @@ const WalletCard = () => {
                   ◉ Puntos Totales: {totalAwards.awards}
                 </Text>
 
-                {nextMilestone.id || nextMilestone.id != "" ? (
+                {nextMilestone.id ? (
                   <>
                     <Text fontSize={"sm"}>
                       {" "}

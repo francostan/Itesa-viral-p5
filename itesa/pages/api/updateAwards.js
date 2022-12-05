@@ -22,7 +22,8 @@ export default async function tokens(req, res) {
             let expDate = await Milestone.findOne({
               where: { expired: false, id: { [Op.notIn]: [1, 2] } },
             });
-            expDate = new Date(expDate.expirationDate);
+            if(expDate)  expDate = new Date(expDate.expirationDate) 
+            else expDate = new Date();
             if (today > expDate) {
               await Milestone.update(
                 { expired: true },

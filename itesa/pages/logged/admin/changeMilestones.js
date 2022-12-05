@@ -39,11 +39,11 @@ import {
   CheckIcon,
   CloseIcon,
 } from "@chakra-ui/icons";
-import axios from "../../config/axios";
+import axios from "../../../config/axios";
 import Link from "next/link";
-import Persistence from "../../components/Persistence";
+import Persistence from "../../../components/Persistence";
 import React, { useState, useEffect } from "react";
-import handleInput from "../../reactHooks/handleInput";
+import handleInput from "../../../reactHooks/handleInput";
 
 export default function adminMilestone() {
   const [milestones, setMilestones] = useState([]);

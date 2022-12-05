@@ -19,7 +19,6 @@ export default async function userMilestones(req, res) {
         where: { expired: false },
         order: [["id", "DESC"]],
       });
-      const currentCampaignId = availableMilestones[0].dataValues.campaignId;
       let nextMilestone;
       if (availableMilestones.length > 0) {
         //si availableMilestones.length es mayor a 0 es que hay milestones disponibles
@@ -36,12 +35,10 @@ export default async function userMilestones(req, res) {
           );
         } else {
           if (availableMilestones[0].id > completedMilestones[0].milestoneId) {
-            console.log("availableMilestones[0].id > completedMilestones[0].milestoneId");
             nextMilestone = await Milestone.findByPk(
               completedMilestones[0].milestoneId + 1
             );
           } else {
-            console.log("availableMilestones[0].id = completedMilestones[0].milestoneId");
             nextMilestone = {
               id: null,
               milestoneId: "Conseguiste Todos",

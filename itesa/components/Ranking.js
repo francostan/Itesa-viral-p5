@@ -46,8 +46,9 @@ const Ranking = () => {
       direction={"column"}
       padding={"5%"}
       w={"100%"}
-      height={"100%"}
+      height={"100vh"}
       bgGradient="linear(black,#9d39fe)"
+      overflowY={"scroll"}
     >
       {/* Mapear el array de las campañas que haya */}
       <Select color={"white"} onChange={handleOption}>
@@ -57,7 +58,7 @@ const Ranking = () => {
       {ranking.length > 0 ? (
         <ListTop3 ranking={ranking} />
       ) : (
-        <p>No hay ranking disponible</p>
+        <Text color={"white"}>No hay ranking disponible</Text>
       )}
     </Flex>
   );
