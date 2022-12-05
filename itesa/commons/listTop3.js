@@ -26,10 +26,9 @@ export default function ListTop3({ ranking }) {
     <Grid
       alignContent={"flex-start"}
       color="white"
-      bgGradient="linear(black,#9d39fe)"
       h="100%"
     >
-      <HStack spacing={12}>
+      <HStack spacing={12} >
         <Text textAlign="center" as={"h1"} fontSize={"6xl"} fontWeight={"bold"}>
           {" "}
           Ranking
@@ -45,7 +44,7 @@ export default function ListTop3({ ranking }) {
         </Link>
       </HStack>
       {ranking?.slice(0, 3).map((puesto, index) => (
-        <HStack align={"center"} direction={"column"} mx={"2"}>
+        <HStack align={"center"} direction={"column"} mx={"2"} backgroundColor={"transparent"}>
           <Image
             src={rankingVisual[index].img}
             alt={rankingVisual[index].alt}

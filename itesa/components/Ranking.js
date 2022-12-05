@@ -46,7 +46,7 @@ const Ranking = () => {
       direction={"column"}
       padding={"5%"}
       w={"100%"}
-      h="100%"
+      height={"100%"}
       bgGradient="linear(black,#9d39fe)"
     >
       {/* Mapear el array de las campañas que haya */}

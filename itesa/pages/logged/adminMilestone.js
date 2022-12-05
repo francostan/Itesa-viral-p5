@@ -88,12 +88,8 @@ export default function adminMilestone() {
             <Heading color="#9d39fe"> Coin</Heading>{" "}
           </HStack>
           <Heading color="white"> Administrador de Premios</Heading>
-          <VStack>
-            <VStack
-              spacing={4}
-              //   templateColumns="repeat(auto-fill, minmax(150px, 1fr))"
-              align="stretch"
-            >
+          <VStack w={"100%"}>
+            <VStack spacing={4} align="stretch" w={"100%"}>
               {milestones.map(
                 (
                   {

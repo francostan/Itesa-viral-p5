@@ -118,7 +118,9 @@ const WalletCard = () => {
         //Consulta de próximo Milestone
         const milestones = await axios
           .post("/userMilestones", { user: user.id })
-          .then((result) => setNextMilestone(result.data));
+          .then((result) => {
+          result=result.data
+          setNextMilestone(result.nextMilestone)});
         
       }
     };
@@ -272,9 +274,12 @@ const WalletCard = () => {
     //Consulta de próximo Milestone
     const milestones = await axios
       .post("/userMilestones", { user: user.id })
-      .then((result) =>setNextMilestone(result.data) );
+      .then((result) =>{
+        result=result.data
+        setNextMilestone(result.nextMilestone)});
     ;
   };
+  console.log(nextMilestone);
   return (
     <>
       {/* <div className="walletCard">
@@ -386,7 +391,7 @@ const WalletCard = () => {
                   ◉ Puntos Totales: {totalAwards.awards}
                 </Text>
 
-                {nextMilestone.id || nextMilestone.milestoneId != "" ? (
+                {nextMilestone.id || nextMilestone.id != "" ? (
                   <>
                     <Text fontSize={"sm"}>
                       {" "}
@@ -398,14 +403,13 @@ const WalletCard = () => {
                     </Text>
                     {nextMilestone.quantityCondition ? (
                       <Text fontSize={"sm"}>
-                        ◉ Te falta(n){" "}
-                        {nextMilestone.quantityCondition - currentAwards.awards}{" "}
+                        ◉ Te falta(n)
+                        {" "}{nextMilestone.quantityCondition - currentAwards.awards}{" "}
                         punto(s) para el próximo Milestone!!
                       </Text>
                     ) : (
                       ""
                     )}
-
                     <Text fontSize={"sm"}>
                       ◉ Proximo milestone: {nextMilestone.name}
                     </Text>
