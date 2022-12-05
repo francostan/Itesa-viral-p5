@@ -27,10 +27,19 @@ const Navbar = () => {
   return (
     <Center>
       <HStack mt={"5%"} spacing={"5"} direction="row" color={"white"} backgroundColor="#101311">
-        <Link href={"#"}>
-        <Box>Dashboard</Box>
+      <Link href="/logged/homeuser">
+          <Image
+            src="/banana.png"
+            alt="logo"
+            border="1px"
+            boxSize="50px"
+            borderRadius={"20%"}
+          />
         </Link>
-        <Link href={"#"}>
+        <Link href={"/logged/admi/home"}>
+        <Box>Home</Box>
+        </Link>
+        <Link href={"/logged/admin/changeMilestones"}>
         <Box>Milestones</Box>
         </Link>
         <Link href={"/logged/admin/manageCampaign"}>

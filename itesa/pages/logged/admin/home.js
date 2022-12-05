@@ -61,7 +61,7 @@ import {
   
     return (<>
       <Persistence />
-      <Box minH={"100vh"} h={"100%"} w={"100%"} p={"5%"} bg={"black"}>
+      <Box minH={"100vh"} h={"100%"} w={"100%"} p={"5%"} bg={"#101311"}>
 
       <AdminNavbar/>
       {/* <Flex

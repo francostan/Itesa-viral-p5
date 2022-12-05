@@ -9,7 +9,6 @@ export default async function historicCampaign(req, res) {
 
   switch (method) {
     case "POST": {
-      console.log(body.newCampaign);
       // Crea una nueva campaña
       //     newCampaign={
       //         expirationDate: Fecha en la que expirará la campaña (todos los milestones que la componen)
@@ -34,9 +33,8 @@ export default async function historicCampaign(req, res) {
       ); //Elimino duplicados
 
 
-      const lastCampaignId=campaigns[campaigns.length-1].num
+      const lastCampaignId=campaigns[campaigns.length-1]
       const campaignId=lastCampaignId+1  
-
       //Antes de insertar Milestones, si existe campaña vigente la forzará a expirar (setea expire en true, y currentCampaign en Awards a false)
       const expireOthers = await Milestone.update(
         { expired: true },

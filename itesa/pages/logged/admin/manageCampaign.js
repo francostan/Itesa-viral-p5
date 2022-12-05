@@ -66,16 +66,13 @@ export default function home() {
       tokenAmount: tokenQty.value,
       quantityCondition: refReq.value,
     });
-    await setMilestones(tempArray);
+    return setMilestones(tempArray);
   };
-  const handleDelete = async (e) => {
+  const handleDelete = async (e,i) => {
     const id = e.target.id;
-    console.log("id----", id);
     let tempArray = [...milestones];
-    milestones.splice(id, 1);
-    console.log(tempArray);
-    if (milestones.length === 1) return setMilestones([]);
-    setMilestones(tempArray);
+    tempArray.splice(i, 1);
+    return setMilestones(tempArray);
   };
 
   const generarCampaña = async () => {
@@ -87,7 +84,7 @@ export default function home() {
       milestones: tempArray,
     };
     console.log(newCampaign);
-    await axios.post("/campaign", newCampaign);
+    await axios.post("/campaign", {newCampaign:newCampaign});
   };
 
   return (
@@ -200,35 +197,35 @@ export default function home() {
                 type="submit"
                 mt={"10%"}
                 alignSelf={"flex-end"}
-                isDisabled={proceed}
                 onClick={generarCampaña}
+                isDisabled={milestones.length===0}
               >
                 {" "}
                 Confirmar Campaña{" "}
               </Button>
             </Flex>
           </FormControl>
-          <Box h={"50vh"} overflow={"scroll"}>
+          <Box>
             <Table size={"sm"} padding={"6%"}>
               <TableCaption>Milestones Cargados</TableCaption>
               <Thead>
-                <Tr>
-                  <Th>#</Th>
-                  <Th>Nombre</Th>
-                  <Th>Recompensa</Th>
-                  <Th>Requisito</Th>
+                <Tr color={"white"}>
+                  <Th color={"white"}>#</Th>
+                  <Th color={"white"}>Nombre</Th>
+                  <Th color={"white"}>Recompensa</Th>
+                  <Th color={"white"}>Requisito</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {milestones.map((element, i) => {
+                {milestones?.map((element, i) => {
                   return (
                     <Tr key={i}>
                       <Td>{i}</Td>
                       <Td>{element.name}</Td>
                       <Td>{element.tokenAmount}</Td>
                       <Td>{element.quantityCondition}</Td>
-                      <Button id={i} size={"sm"} onClick={handleDelete}>
-                        <DeleteIcon id={i} size={"sm"} onClick={handleDelete} />
+                      <Button id={i} size={"sm"} onClick={async (e)=>handleDelete(e,i)}>
+                        <DeleteIcon/>
                       </Button>
                     </Tr>
                   );
