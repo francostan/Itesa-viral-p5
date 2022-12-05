@@ -12,6 +12,7 @@ import {
   Flex,
   Divider,
 } from "@chakra-ui/react";
+import Navbar from "./Navbar";
 
 const Ranking = () => {
   const [ranking, setRanking] = React.useState([]);
@@ -25,7 +26,7 @@ const Ranking = () => {
   }, []);
 
   return (
-    <Flex direction={"column"} w={"100%"} h="100%">
+    <Flex direction={"column"} w={"100%"} h="100%" npm run migrate>
       {ranking.length > 0 ? (
         <ListTop3 ranking={ranking} />
       ) : (

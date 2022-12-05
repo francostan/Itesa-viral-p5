@@ -67,11 +67,6 @@ module.exports = (sequelize, DataTypes) => {
     const token = jwt.sign(user.address, SECRET, {});
     user.address = token;
     return user
-      .createHash(user.password, user.salt)
-      .then((result) => {
-        user.password = result;
-      })
-      .catch((err) => console.log(err));
   });
 
   return User;

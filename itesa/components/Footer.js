@@ -1,5 +1,5 @@
 import React from "react";
-import { VStack, Text, HStack, Image, Button } from "@chakra-ui/react";
+import { VStack, Text, HStack, Image, Button, Center } from "@chakra-ui/react";
 import Link from "next/link";
 
 const Footer = () => {
@@ -23,6 +23,7 @@ const Footer = () => {
           Register
         </Text>
       </VStack>
+
       <VStack>
         <Link href="/login">
           <Image

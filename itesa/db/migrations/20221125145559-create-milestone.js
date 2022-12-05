@@ -22,6 +22,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue:0
       },
+      expirationDate:{
+        type:Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
