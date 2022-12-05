@@ -82,9 +82,11 @@ const WalletCard = () => {
 
     const getStatus = async () => {
       if (user.id) {
+
         //Consulta de Tokens por recuperar
         const tokens = await axios.post("/redeem", { user: user.id });
         settokentoredeem(tokens.data);
+
         //Consulta Ranking Histórico y de Ranking Actual
         const { usersRanking, usersRankingCurrent } = await axios
           .get("/ranking")
@@ -93,8 +95,6 @@ const WalletCard = () => {
           (element) => element.referringId === user.id
         );
         setRanking(rankingPos + 1);
-        // const tempPoints=usersRanking[rankingPos].awards
-        // setPoints(tempPoints)
         const tempRanking = await usersRanking.find(
           (element) => element.referringId === user.id
         );
@@ -118,9 +118,8 @@ const WalletCard = () => {
         //Consulta de próximo Milestone
         const milestones = await axios
           .post("/userMilestones", { user: user.id })
-          .then((result) => result.data);
-        setNextMilestone(milestones.nextMilestone);
-        //Determinar cuántos referidos faltan para próximo milestone
+          .then((result) => setNextMilestone(result.data));
+        
       }
     };
     getStatus();
@@ -273,10 +272,9 @@ const WalletCard = () => {
     //Consulta de próximo Milestone
     const milestones = await axios
       .post("/userMilestones", { user: user.id })
-      .then((result) => result.data);
-    setNextMilestone(milestones.nextMilestone);
+      .then((result) =>setNextMilestone(result.data) );
+    ;
   };
-
   return (
     <>
       {/* <div className="walletCard">

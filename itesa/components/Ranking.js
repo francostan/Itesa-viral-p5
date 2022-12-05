@@ -19,14 +19,12 @@ const Ranking = () => {
   const [mostrar, setMostrar] = useState(false);
   const [rankingBottom, setRankingBottom] = useState([]);
   const [selectedCampaign,setSelectedCampaign]=useState(0)
+  const [campaigns,setCampaigns]=useState([])
 
   React.useEffect(() => {
 
-
-    // PARA QUE TODO ESTO ANDE HAY QUE AGREGAR COLUMNA DE CAMPAIGN ID A LA TABLA DE AWARDS
-    // AGREGAR EN LA LÓGICA DE REGISTRO QUE CUANDO ALGUIEN SE LOGUEA CON UN CÓDIGO DE REFERIDO, SE REGISTRE TAMBIÉN EL CÓDIGO DE CAMPAÑA VIGENTE (O 0 SI NO LA HAY)
-    // Tengo que armar ruta para traer un array con todas las campañas que haya
-
+    axios.get("/campaign").then(response=>setCampaigns(response.data))
+    
     axios.get("/ranking").then((response) => { //Modificar para que traiga el ranking de la campaña seleccionada
       setRanking(response.data.usersRanking);
     });
@@ -34,24 +32,26 @@ const Ranking = () => {
 
 
   }, []);
-  const handleOption = (e)=>{
+
+  
+  const handleOption = async (e)=>{
     setSelectedCampaign(e.target.value)
-    console.log(e.target.value);
+    await axios.post("/ranking",{campaignId:e.target.value}).then((response) => { //Modificar para que traiga el ranking de la campaña seleccionada
+      setRanking(response.data);
+    });
   }
 
   return (
     <Flex
       direction={"column"}
-      paddingLeft={"5%"}
+      padding={"5%"}
       w={"100%"}
       h="100%"
       bgGradient="linear(black,#9d39fe)"
     >
       {/* Mapear el array de las campañas que haya */}
-      <Select color={"white"} onChange={handleOption}> 
-        <option value="0" defaultChecked>Historial General</option>
-        <option value="1">Campaña 1</option>
-        <option value="2">Campaña 2</option>
+      <Select color={"white"} onChange={handleOption}>
+        {campaigns.map((element)=> <option value={element.num}>{element.campaignName}</option>)}
       </Select>
 
       {ranking.length > 0 ? (

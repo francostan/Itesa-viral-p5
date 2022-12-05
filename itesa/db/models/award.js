@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
       currentCampaign:{
         type:DataTypes.BOOLEAN,
         defaultValue:true,
+      },
+      campaignId:{
+        type:DataTypes.INTEGER,
+        defaultValue:0
       }
     },
     {

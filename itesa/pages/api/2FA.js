@@ -34,7 +34,7 @@ export default async function newuser(req, res) {
 
           //Seteo en la DB los controles de expiración de Awards y de Milestone (Awards pasan a currentCampaign:False y Milestone pasa a expired:true)
           
-          //////////////////////////////////////////////////////////////////////////////// tambine se usa en updateAwards
+          //////////////////////////////////////////////////////////////////////////////// tambien se usa en updateAwards
           if (admin) {
             const today = new Date();
             let expDate = await Milestone.findOne({
@@ -55,7 +55,7 @@ export default async function newuser(req, res) {
           }
           ////////////////////////////////////////////////////////////////////////////////
 
-          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// también se usa en 2FA (back)
+
           //actualizo los awards en la DB antes de cargar el usuario en HomeUser
 
           //Total de usuarios que se registraron con el viral_code el usuario
@@ -88,7 +88,7 @@ export default async function newuser(req, res) {
             (element) => element.dataValues
           );
 
-          //Mapeo el array currentAvailableMilestones para chequear cada Milestone disponible
+          //Mapeo el array currentAvailableMilestones para chequear cada Milestone disponible y creo los Award que correspondan
           if (currentAvailableMilestones.length > 0 && registeredReferred > 0) {
             const currentPromises = currentAvailableMilestones.map(
               (elemento) => {
@@ -105,7 +105,6 @@ export default async function newuser(req, res) {
               }
             );
           }
-          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
           res.status(200).send({
             nick_name: foundUser.nick_name,

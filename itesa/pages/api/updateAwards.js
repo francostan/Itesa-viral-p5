@@ -16,7 +16,7 @@ export default async function tokens(req, res) {
       //Ruta que devuelve el total de tokens a ser transferidos
       {
 
-          //////////////////////////////////////////////////////////////////////////////// tambine se usa en updateAwards
+          //////////////////////////////////////////////////////////////////////////////// tambine se usa en 2FA
           if (admin) {
             const today = new Date();
             let expDate = await Milestone.findOne({

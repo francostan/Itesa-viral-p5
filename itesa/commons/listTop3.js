@@ -103,30 +103,3 @@ export default function ListTop3({ ranking }) {
     </Grid>
   );
 }
-
-{
-  /* <Flex align={"center"} mx={"2"}>
-          <Image src="/silver.png" width={"25%"} />
-          <Box mx={"4"}>
-            <Text as={"h2"} fontSize={"2xl"} fontWeight={"bold"} mb={"2"}>
-              {top3[1].nick_name}
-            </Text>
-            <Text as={"h3"} fontSize={"lg"} fontWeight={"light"}>
-              Total de invitados : {top3[1].awards}
-            </Text>
-          </Box>
-        </Flex>
-        <Divider orientation="horizontal" borderColor={"black"} my={"2"} />
-        <Flex align={"center"} mx={"2"}>
-          <Image src="/bronze.png" alt="Tercer Puesto" width={"20%"} />
-          <Box mx={"4"}>
-            <Text as={"h2"} fontSize={"lg"} fontWeight={"bold"} mb={"2"}>
-              {top3[2].nick_name}
-            </Text>
-            <Text as={"h3"} fontSize={"lg"} fontWeight={"light"}>
-              Total de invitados :{top3[2].awards}
-            </Text>
-          </Box>
-        </Flex>
-        <Divider orientation="horizontal" borderColor={"black"} my={"2"} /> */
-}
