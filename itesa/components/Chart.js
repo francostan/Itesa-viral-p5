@@ -5,7 +5,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 export default class Graficos extends Component {
   constructor(props) {
     super(props);
-
+    console.log(props);
     this.state = {
       options: {
         chart: {
