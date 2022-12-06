@@ -88,7 +88,6 @@ const WalletCard = () => {
 
     const getStatus = async () => {
       if (user.id) {
-
         //Consulta de Tokens por recuperar
         const tokens = await axios.post("/redeem", { user: user.id });
         settokentoredeem(tokens.data);
@@ -125,9 +124,9 @@ const WalletCard = () => {
         const milestones = await axios
           .post("/userMilestones", { user: user.id })
           .then((result) => {
-          result=result.data
-          setNextMilestone(result.nextMilestone)});
-        
+            result = result.data;
+            setNextMilestone(result.nextMilestone);
+          });
       }
     };
     getStatus();
@@ -244,7 +243,10 @@ const WalletCard = () => {
   };
 
   const handleUpdateAwards = async () => {
-    const tokens = await axios.post("/updateAwards", { user: user.id,admin:user.admin });
+    const tokens = await axios.post("/updateAwards", {
+      user: user.id,
+      admin: user.admin,
+    });
     settokentoredeem(tokens.data);
 
     //Consulta Ranking Histórico y de Ranking Actual
@@ -280,10 +282,10 @@ const WalletCard = () => {
     //Consulta de próximo Milestone
     const milestones = await axios
       .post("/userMilestones", { user: user.id })
-      .then((result) =>{
-        result=result.data
-        setNextMilestone(result.nextMilestone)});
-    ;
+      .then((result) => {
+        result = result.data;
+        setNextMilestone(result.nextMilestone);
+      });
   };
 
   // TRANSACTION:
@@ -295,65 +297,74 @@ const WalletCard = () => {
 
   const handleBuy = async () => {
     const inputToken = buyAmount.value;
-    const amount = ethers.utils.parseEther(buyAmount.value.toString());
+
     const providerAccount = "0x5D8CCC0e151Cb27CFc75124D5472df32583c8EC4";
     const providerBalanceToken = await contract.balanceOf(providerAccount);
     const provBalanceValue = ethers.utils.formatEther(providerBalanceToken);
     const contractWithWallet = contract.connect(wallet);
 
-    if (provBalanceValue >= inputToken) {
-      if (defaultAccount) {
-        setLoading(true);
-        try {
-          let params2 = {
-            from: defaultAccount,
-            to: providerAccount,
-            value: amount._hex,
-            chainId: "0x5",
-          };
-          const transaction = await ethereum.request({
-            method: "eth_sendTransaction",
-            params: [params2],
-          });
-          if (transaction) {
-            const tx = await contractWithWallet.transfer(
-              defaultAccount,
-              params2.value
-            );
-            await tx.wait();
+    if (inputToken <= 0) {
+      Swal.fire({
+        icon: "info",
+        title: "Porfavor ingrese un valor mayor a cero",
+      });
+    } else {
+      if (provBalanceValue >= inputToken) {
+        const amount = ethers.utils.parseEther(buyAmount.value.toString());
 
-            const result = await contract.balanceOf(defaultAccount);
-            setUserBalance(ethers.utils.formatEther(result));
+        if (defaultAccount) {
+          setLoading(true);
+          try {
+            let params2 = {
+              from: defaultAccount,
+              to: providerAccount,
+              value: amount._hex,
+              chainId: "0x5",
+            };
+            const transaction = await ethereum.request({
+              method: "eth_sendTransaction",
+              params: [params2],
+            });
+            if (transaction) {
+              const tx = await contractWithWallet.transfer(
+                defaultAccount,
+                params2.value
+              );
+              await tx.wait();
 
+              const result = await contract.balanceOf(defaultAccount);
+              setUserBalance(ethers.utils.formatEther(result));
+
+              Swal.fire({
+                icon: "success",
+                title: "La compra se ha realizado con éxito!",
+              });
+            }
+            buyAmount.setValue("");
+            setLoading(false);
+          } catch (error) {
+            setLoading(false);
+            console.log(error);
             Swal.fire({
-              icon: "success",
-              title: "La compra se ha realizado con éxito!",
+              icon: "info",
+              title: "Se ha cancelado la transacción",
             });
           }
-          buyAmount.setValue("");
-          setLoading(false);
-        } catch (error) {
-          setLoading(false);
-          console.log(error);
+        } else {
           Swal.fire({
             icon: "info",
-            title: "Se ha cancelado la transacción",
+            title: "No hay ninguna billetera conectada",
+            html: "<b> Por favor conectar billetera</b>",
           });
         }
       } else {
         Swal.fire({
           icon: "info",
-          title: "No hay ninguna billetera conectada",
-          html: "<b> Por favor conectar billetera</b>",
+          title:
+            "Lo lamentamos, en este momento no se pueden realizar transacciones",
+          html: "<b> Intente mas tarde, gracias</b>",
         });
       }
-    } else {
-      Swal.fire({
-        icon: "info",
-        title:
-          "Lo lamentamos, en este momento no se pueden realizar transacciones",
-        html: "<b> Intente mas tarde, gracias</b>",
-      });
     }
   };
 
@@ -403,7 +414,7 @@ const WalletCard = () => {
         borderColor={["", "gray.300"]}
         borderRadius={10}
       >
-        <Flex mb={20}>
+        <Flex>
           <Box>
             <Link href="/logged/homeuser">
               <Image
@@ -415,13 +426,8 @@ const WalletCard = () => {
             </Link>
           </Box>
         </Flex>
-        <VStack
-          spacing={1}
-          align="flex-start"
-          marginRight={"auto"}
-          marginLeft={"auto"}
-        >
-          <Box w={"30px"} h={"30px"} alignSelf={"center"}>
+        <VStack spacing={1} marginRight={"auto"} marginLeft={"auto"}>
+          <Box w={"30px"} h={"30px"} mb={8} alignSelf={"center"}>
             {loading ? (
               <Spinner
                 className="loading"
@@ -479,8 +485,8 @@ const WalletCard = () => {
                     </Text>
                     {nextMilestone.quantityCondition ? (
                       <Text fontSize={"sm"}>
-                        ◉ Te falta(n)
-                        {" "}{nextMilestone.quantityCondition - currentAwards.awards}{" "}
+                        ◉ Te falta(n){" "}
+                        {nextMilestone.quantityCondition - currentAwards.awards}{" "}
                         punto(s) para el próximo Milestone!!
                       </Text>
                     ) : (
@@ -514,32 +520,33 @@ const WalletCard = () => {
             </HStack>
           </Box>
           <Reference />
-                      <Box>
-              <FormControl>
-                <FormLabel color="white" textAlign="center">
-                  {" "}
-                  Comprar Token
-                </FormLabel>{" "}
-                <HStack>
-                  <Input
-                    _focusVisible={"white"}
-                    rounded="2xl"
-                    variant="filled"
-                    {...buyAmount}
-                  />
+          <Box>
+            <FormControl>
+              <FormLabel color="white" textAlign="center">
+                {" "}
+                Comprar Token
+              </FormLabel>{" "}
+              <HStack>
+                <Input
+                  type={"number"}
+                  _focusVisible={"white"}
+                  rounded="2xl"
+                  variant="filled"
+                  {...buyAmount}
+                />
 
-                  <Button
-                    colorScheme=""
-                    variant="solid"
-                    w={["full", "auto"]}
-                    onClick={handleBuy}
-                  >
-                    {" "}
-                    Comprar{" "}
-                  </Button>
-                </HStack>
-              </FormControl>
-            </Box>
+                <Button
+                  colorScheme=""
+                  variant="solid"
+                  w={["full", "auto"]}
+                  onClick={handleBuy}
+                >
+                  {" "}
+                  Comprar{" "}
+                </Button>
+              </HStack>
+            </FormControl>
+          </Box>
         </VStack>
         <Navbar />
       </Box>

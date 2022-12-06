@@ -51,7 +51,7 @@ export default class Graficos extends Component {
   render() {
     return (
       <div>
-        {typeof window !== "undefined" && (
+        {/* {typeof window !== "undefined" && (
           <Chart
             options={this.state.options}
             series={this.state.series}
@@ -61,7 +61,7 @@ export default class Graficos extends Component {
             width={"100%"}
 
           />
-        )}
+        )} */}
       </div>
     );
   }

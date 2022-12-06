@@ -76,7 +76,10 @@ export default function adminMilestone() {
       <AdminNavbar />
       <VStack spacing={4} align="flex-start" w="full">
         <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
-          <Heading color="white" mt={"5%"} mr={"auto"} ml={"auto"}> Administrador de Premios</Heading>
+          <Heading color="white" mt={"5%"} mr={"auto"} ml={"auto"}>
+            {" "}
+            Administrador de Premios
+          </Heading>
           <VStack w={"100%"}>
             <VStack spacing={4} align="stretch" w={"100%"}>
               {milestones.map(
@@ -137,15 +140,25 @@ export default function adminMilestone() {
                       {add && id === iden ? (
                         <Card backgroundColor="whiteAlpha.100">
                           <CardHeader>
-                            <Input placeholder={name} {...nombre} />
+                            <Input
+                              color={"white"}
+                              placeholder={name}
+                              {...nombre}
+                            />
                           </CardHeader>
                           <CardBody>
-                            <Textarea placeholder={desc} {...descripcion} />
+                            <Textarea
+                              color={"white"}
+                              placeholder={desc}
+                              {...descripcion}
+                            />
                             <Input
+                              color={"white"}
                               placeholder={tokenAmount}
                               {...cantidadToken}
                             />
                             <Input
+                              color={"white"}
                               placeholder={quantityCondition}
                               {...quantityState}
                             />
