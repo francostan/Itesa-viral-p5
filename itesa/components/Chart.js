@@ -5,7 +5,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 export default class Graficos extends Component {
   constructor(props) {
     super(props);
-    console.log("&&&&&&&&&&&", props);
+
     this.state = {
       options: {
         chart: {
@@ -22,13 +22,28 @@ export default class Graficos extends Component {
         dataLabels: {
           enabled: false,
         },
+
         xaxis: {
-          categories: props.datos, //
+          categories: props.campaign,
+        },
+        title: {
+          text: props.text,
+          align: "left",
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: "14px",
+            fontWeight: "bold",
+            fontFamily: undefined,
+            color: "#263238",
+          },
         },
       },
       series: [
         {
-          data: props.datos,
+          data: props.quantity,
         },
       ],
     };
@@ -41,8 +56,8 @@ export default class Graficos extends Component {
             options={this.state.options}
             series={this.state.series}
             type="bar"
-            height={350}
-            width={600}
+            height={"100%"}
+            width={"100%"}
           />
         )}
       </div>
