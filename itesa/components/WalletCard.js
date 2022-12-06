@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import Swal from "sweetalert2";
 import {
   Box,
@@ -26,8 +26,12 @@ import {
   Divider,
   Highlight,
   Center,
+  Stack,
+  InputGroup,
+  InputRightElement,
+  InputLeftElement,
 } from "@chakra-ui/react";
-
+import { CheckIcon } from "@chakra-ui/react";
 import Link from "next/link";
 import { logout } from "../store/reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,9 +40,9 @@ import axios from "../config/axios";
 import Persistence from "./Persistence";
 import Head from "next/head";
 import Reference from "./Reference";
-
 import next from "next";
 import Navbar from "./Navbar";
+import handleInput from "../reactHooks/handleInput";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
@@ -69,6 +73,8 @@ const WalletCard = () => {
   ];
   const address = "0x319d484fA709D449dc60a5C916a1d229E589aB59";
   const contract = new ethers.Contract(address, ERC20_ABI, provider);
+  const buyAmount = handleInput();
+  const [compra, setCompra] = useState({});
 
   const LOGOUT = () => {
     localStorage.setItem("VT", "");
@@ -131,23 +137,23 @@ const WalletCard = () => {
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x5" }],
       });
-      const Istoken = localStorage.getItem("VT");
-      if (Istoken !== "true") {
-        await ethereum.request({
-          method: "wallet_watchAsset",
-          params: {
-            type: "ERC20", // Initially only supports ERC20, but eventually more!
-            options: {
-              address: address, // The address that the token is at.
-              symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
-              decimals: "18", // The number of decimals in the token
-              image:
-                "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
-            },
-          },
-        });
-        localStorage.setItem("VT", "true");
-      }
+      // const Istoken = localStorage.getItem("VT");
+      // if (Istoken !== "true") {
+      //   await ethereum.request({
+      //     method: "wallet_watchAsset",
+      //     params: {
+      //       type: "ERC20", // Initially only supports ERC20, but eventually more!
+      //       options: {
+      //         address: address, // The address that the token is at.
+      //         symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
+      //         decimals: "18", // The number of decimals in the token
+      //         image:
+      //           "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
+      //       },
+      //     },
+      //   });
+      //   localStorage.setItem("VT", "true");
+      // }
     };
 
     // Vinculacion con billetera MetaMask:
@@ -204,11 +210,11 @@ const WalletCard = () => {
     // };
 
     // listen for account changes
-    // if (window.ethereum && window.ethereum.isMetaMask) {
-    //   window.ethereum.on("accountsChanged", accountChangedHandler);
-    //   window.ethereum.on("chainChanged", chainChangedHandler);
-    // }
-  }, [user, userBalance, defaultAccount, tokentoredeem]);
+    if (window.ethereum && window.ethereum.isMetaMask) {
+      window.ethereum.on("accountsChanged", accountChangedHandler);
+      // window.ethereum.on("chainChanged", chainChangedHandler);
+    }
+  }, [user, userBalance, defaultAccount, tokentoredeem, compra]);
 
   const handleTokens = async () => {
     console.log("TOKENS");
@@ -279,6 +285,78 @@ const WalletCard = () => {
         setNextMilestone(result.nextMilestone)});
     ;
   };
+
+  // TRANSACTION:
+
+  /*
+  HEX: 0x9184e72a
+  Valor: 0.0000315
+  */
+
+  const handleBuy = async () => {
+    const inputToken = buyAmount.value;
+    const amount = ethers.utils.parseEther(buyAmount.value.toString());
+    const providerAccount = "0x5D8CCC0e151Cb27CFc75124D5472df32583c8EC4";
+    const providerBalanceToken = await contract.balanceOf(providerAccount);
+    const provBalanceValue = ethers.utils.formatEther(providerBalanceToken);
+    const contractWithWallet = contract.connect(wallet);
+
+    if (provBalanceValue >= inputToken) {
+      if (defaultAccount) {
+        setLoading(true);
+        try {
+          let params2 = {
+            from: defaultAccount,
+            to: providerAccount,
+            value: amount._hex,
+            chainId: "0x5",
+          };
+          const transaction = await ethereum.request({
+            method: "eth_sendTransaction",
+            params: [params2],
+          });
+          if (transaction) {
+            const tx = await contractWithWallet.transfer(
+              defaultAccount,
+              params2.value
+            );
+            await tx.wait();
+
+            const result = await contract.balanceOf(defaultAccount);
+            setUserBalance(ethers.utils.formatEther(result));
+
+            Swal.fire({
+              icon: "success",
+              title: "La compra se ha realizado con éxito!",
+            });
+          }
+          buyAmount.setValue("");
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+          console.log(error);
+          Swal.fire({
+            icon: "info",
+            title: "Se ha cancelado la transacción",
+          });
+        }
+      } else {
+        Swal.fire({
+          icon: "info",
+          title: "No hay ninguna billetera conectada",
+          html: "<b> Por favor conectar billetera</b>",
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: "info",
+        title:
+          "Lo lamentamos, en este momento no se pueden realizar transacciones",
+        html: "<b> Intente mas tarde, gracias</b>",
+      });
+    }
+  };
+
   return (
     <>
       {/* <div className="walletCard">
@@ -374,7 +452,6 @@ const WalletCard = () => {
             padding={"3%"}
             marginRight={"auto"}
             marginLeft={"auto"}
-            alignSelf={"center"}
           >
             <Stat color="white">
               <VStack
@@ -437,6 +514,32 @@ const WalletCard = () => {
             </HStack>
           </Box>
           <Reference />
+                      <Box>
+              <FormControl>
+                <FormLabel color="white" textAlign="center">
+                  {" "}
+                  Comprar Token
+                </FormLabel>{" "}
+                <HStack>
+                  <Input
+                    _focusVisible={"white"}
+                    rounded="2xl"
+                    variant="filled"
+                    {...buyAmount}
+                  />
+
+                  <Button
+                    colorScheme=""
+                    variant="solid"
+                    w={["full", "auto"]}
+                    onClick={handleBuy}
+                  >
+                    {" "}
+                    Comprar{" "}
+                  </Button>
+                </HStack>
+              </FormControl>
+            </Box>
         </VStack>
         <Navbar />
       </Box>

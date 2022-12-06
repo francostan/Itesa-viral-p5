@@ -13,6 +13,7 @@ import {
   Divider,
   Select,
 } from "@chakra-ui/react";
+import Navbar from "./Navbar";
 
 const Ranking = () => {
   const [ranking, setRanking] = React.useState([]);
@@ -42,6 +43,7 @@ const Ranking = () => {
   }
 
   return (
+
     <Flex
       direction={"column"}
       padding={"5%"}
@@ -54,7 +56,6 @@ const Ranking = () => {
       <Select color={"white"} onChange={handleOption}>
         {campaigns.map((element)=> <option value={element.num}>{element.campaignName}</option>)}
       </Select>
-
       {ranking.length > 0 ? (
         <ListTop3 ranking={ranking} />
       ) : (

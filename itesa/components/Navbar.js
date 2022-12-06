@@ -1,5 +1,5 @@
 import React from "react";
-import { VStack, Text, HStack, Image, Button } from "@chakra-ui/react";
+import { VStack, Text, HStack, Image, Button, Center } from "@chakra-ui/react";
 import Link from "next/link";
 import { logout } from "../store/reducers/userSlice";
 import axios from "../config/axios";
@@ -16,101 +16,107 @@ const Navbar = () => {
     dispatch(logout());
     router.push("/home");
   };
+  const sizers = {
+    base: "30px", // 0-48em
+    md: "60px", // 48em-80em,
+    xl: "60px", // 80em+
+  };
   return (
-    <HStack
-      position={"absolute"}
-      bottom={"4"}
-      mt={"25%"}
-      spacing={"5"}
-      direction="row"
-    >
-      <VStack>
-        {" "}
-        <Link href="/logged/topInfluencers">
-          <Image
-            m={"auto"}
-            boxSize="50%"
-            objectFit="cover"
-            src="/ranking (2).png"
-            alt="Ranking footer"
-          />{" "}
-        </Link>{" "}
-        <Text fontSize={"xs"} color={"white"}>
-          {" "}
-          Ranking
-        </Text>
-      </VStack>
-      <VStack>
-        <Link href="/logged/milestones">
-          <Image
-            m={"auto"}
-            boxSize="40%"
-            objectFit="cover"
-            src="/value.png"
-            alt="Milestone footer"
-          />{" "}
-        </Link>{" "}
-        <Text
-          position={"absolute"}
-          bottom={"-5%"}
-          fontSize={"xs"}
-          color={"white"}
-        >
-          {" "}
-          Milestones
-        </Text>
-      </VStack>
-      {user.admin === true ? (
+    <Center>
+      <HStack
+        justifySelf={"center"}
+        position={"absolute"}
+        bottom={"4"}
+        mt={"25%"}
+        spacing={{ base: "30px", md: "100px", xl: "200px" }}
+        direction="row"
+      >
         <VStack>
           {" "}
-          <Link href="/logged/admin/home">
-            <Image
-              m={"auto"}
-              boxSize="40%"
-              objectFit="cover"
-              src="/admin (2).png"
-              alt="Milestone footer"
-            />{" "}
-          </Link>
-          <Text
-            position={"absolute"}
-            bottom={"-5%"}
-            fontSize={"xs"}
-            color={"white"}
-          >
-            {" "}
-            Admin
-          </Text>
+          <Center flexDirection={"column"}>
+            <Link href="/logged/topInfluencers">
+              <Image
+                m={"auto"}
+                height={sizers}
+                width={sizers}
+                objectFit="cover"
+                src="/ranking (2).png"
+                alt="Ranking footer"
+              />{" "}
+            </Link>{" "}
+            <Text fontSize={"xs"} color={"white"}>
+              {" "}
+              Ranking
+            </Text>
+          </Center>
         </VStack>
-      ) : (
-        ""
-      )}
-      <VStack>
-        {" "}
-        <Link href="#">
-          <Image
-            m={"auto"}
-            className="iconos"
-            onClick={() => {
-              LOGOUT();
-            }}
-            boxSize="31%"
-            objectFit="cover"
-            src="/logout (3).png"
-            alt="Logout footer"
-          />{" "}
-        </Link>
-        <Text
-          position={"absolute"}
-          bottom={"-4%"}
-          fontSize={"xs"}
-          color={"white"}
-        >
+
+        <VStack>
+          <Center flexDirection={"column"}>
+            <Link href="/logged/milestones">
+              <Image
+                m={"auto"}
+                height={sizers}
+                width={sizers}
+                objectFit="cover"
+                src="/value.png"
+                alt="Milestone footer"
+              />{" "}
+            </Link>{" "}
+            <Text fontSize={"xs"} color={"white"}>
+              {" "}
+              Milestones
+            </Text>
+          </Center>
+        </VStack>
+        {user.admin === true ? (
+          <VStack>
+            {" "}
+            <Center flexDirection={"column"}>
+              <Link href="/adminMilestone">
+                <Image
+                  m={"auto"}
+                  height={sizers}
+                  width={sizers}
+                  objectFit="cover"
+                  src="/admin (2).png"
+                  alt="Milestone footer"
+                />{" "}
+              </Link>
+              <Text fontSize={"xs"} color={"white"}>
+                {" "}
+                Admin
+              </Text>
+            </Center>
+          </VStack>
+        ) : (
+          ""
+        )}
+        <VStack>
           {" "}
-          Log Out
-        </Text>
-      </VStack>
-    </HStack>
+          <Center flexDirection={"column"}>
+            <Link href="#">
+              <Image
+                m={"auto"}
+                className="iconos"
+                onClick={() => {
+                  LOGOUT();
+                }}
+                height={sizers}
+                width={sizers}
+                objectFit="cover"
+                src="/log-out.png"
+                alt="Logout footer"
+              />{" "}
+            </Link>
+            <Text fontSize={"xs"} color={"white"}>
+              {" "}
+              Log Out
+            </Text>
+          </Center>
+        </VStack>
+      </HStack>
+    </Center>
   );
 };
 export default Navbar;

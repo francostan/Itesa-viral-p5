@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Button, useDisclosure } from "@chakra-ui/react";
+import { Alert, Button, Center, useDisclosure, Box } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import Modale from "./Modal";
 

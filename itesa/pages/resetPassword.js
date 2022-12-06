@@ -9,6 +9,7 @@ import {
   HStack,
   Button,
   Image,
+  Center,
 } from "@chakra-ui/react";
 import handleInput from "../reactHooks/handleInput";
 import { useState } from "react";
@@ -97,7 +98,7 @@ export default function resetPassword() {
         {sentEmail && foundUser ? (
           <Box>
             <HStack>
-              <Text color="red">
+              <Text m={"auto"} alignContent={"center"} color="white">
                 * Hemos enviado un mail a su casilla de correo. Por favor siga
                 los pasos indicados en el mismo para recuperar su contraseña.
               </Text>
