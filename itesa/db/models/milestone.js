@@ -1,8 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-const { Milestone } = require('.');
+"use strict";
+const { Model } = require("sequelize");
+const { Milestone } = require(".");
 module.exports = (sequelize, DataTypes) => {
   class milestone extends Model {
     /**
@@ -11,19 +9,25 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-//      this.hasMany(models.award)
+      //      this.hasMany(models.award)
       // define association here
     }
   }
-  milestone.init({
-    name: DataTypes.STRING,
-    desc: DataTypes.STRING,
-    tokenAmount: DataTypes.INTEGER,
-    quantityCondition:DataTypes.INTEGER,
-    expirationDate:DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'milestone',
-  });
+  milestone.init(
+    {
+      name: DataTypes.STRING,
+      desc: DataTypes.STRING,
+      tokenAmount: DataTypes.INTEGER,
+      quantityCondition: DataTypes.INTEGER,
+      expirationDate: DataTypes.STRING,
+      deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+      expired: { type: DataTypes.BOOLEAN, defaultValue: false },
+      campaignId: DataTypes.INTEGER
+    },
+    {
+      sequelize,
+      modelName: "milestone",
+    }
+  );
   return milestone;
 };

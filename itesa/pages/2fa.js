@@ -32,6 +32,7 @@ export default function Login() {
       id: user.id,
       token: secreto.value,
     };
+
     try {
       let res = await axios.post("/2FA", secret);
       dispatch(login(res.data));

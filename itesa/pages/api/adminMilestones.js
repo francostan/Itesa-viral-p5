@@ -1,15 +1,25 @@
+import { Op } from "sequelize";
+
 const db = require("../../db/models/index");
 const User = db.User;
-
+const Award=db.Award
 const Milestone = db.Milestone;
 
 export default async function adminMilestones(req, res) {
   const { method } = req;
-  const { name, desc, tokenAmount, id } = req.body;
+  const { name, desc, tokenAmount, id, expirationDate, quantityCondition } =
+    req.body;
   switch (method) {
     case "POST":
       try {
-        let milestone = await Milestone.create({ name, desc, tokenAmount });
+        let milestone = await Milestone.create({
+          name,
+          desc,
+          tokenAmount,
+          id,
+          expirationDate,
+          quantityCondition,
+        });
 
         res.send(milestone);
       } catch (error) {
@@ -19,6 +29,13 @@ export default async function adminMilestones(req, res) {
       break;
     case "GET":
       try {
+        
+        let campaigns = (
+          await Milestone.findAll({ where: { expired:false },order:[["id","ASC"],["campaignId","ASC"]] })
+        );
+        let currentCampaignId
+        if (campaigns.length>0) {currentCampaignId=campaigns[campaigns.length-1].dataValues.campaignId}
+        else {currentCampaignId=0}
         if (req.body.id) {
           let milestoneid = await Milestone.findOne({
             where: { id },
@@ -26,6 +43,7 @@ export default async function adminMilestones(req, res) {
           res.send(milestoneid);
         } else {
           let milestoneAll = await Milestone.findAll({
+            where: { deleted: false, campaignId:{[Op.in]:[0,currentCampaignId]} },
             order: [["id", "ASC"]],
           });
           res.send(milestoneAll);
@@ -40,7 +58,14 @@ export default async function adminMilestones(req, res) {
         let milestoneid = await Milestone.findOne({
           where: { id },
         });
-        await milestoneid.update({ name, desc, tokenAmount });
+        await milestoneid.update({
+          name,
+          desc,
+          tokenAmount,
+          id,
+          expirationDate,
+          quantityCondition,
+        });
         res.send("se ha actualizado");
       } catch (error) {
         console.log(error);
@@ -48,9 +73,13 @@ export default async function adminMilestones(req, res) {
       break;
     case "DELETE":
       try {
-        let milestoneid = await Milestone.destroy({
-          where: { id },
-        });
+        console.log("ENTRAMOS A DELETE", req.body);
+        let milestoneid = await Milestone.update(
+          { deleted: true },
+          {
+            where: { id },
+          }
+        );
 
         res.send("se ha eliminado");
       } catch (error) {

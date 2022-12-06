@@ -28,10 +28,10 @@ export default function ListTop3({ ranking }) {
     <Grid
       alignContent={"flex-start"}
       color="white"
-      bgGradient="linear(black,#9d39fe)"
       h="100%"
       p={[8, 10]}
     >
+
       <Flex mb={20}>
         <Box>
           <Link href="/logged/homeuser">
@@ -59,7 +59,7 @@ export default function ListTop3({ ranking }) {
       </Text>
 
       {ranking?.slice(0, 3).map((puesto, index) => (
-        <HStack align={"center"} direction={"column"} mx={"2"}>
+        <HStack align={"center"} direction={"column"} mx={"2"} backgroundColor={"transparent"}>
           <Image
             height={{ base: "45%", md: "100px", xl: "40%" }}
             src={rankingVisual[index].img}
@@ -117,31 +117,4 @@ export default function ListTop3({ ranking }) {
       </List>
     </Grid>
   );
-}
-
-{
-  /* <Flex align={"center"} mx={"2"}>
-          <Image src="/silver.png" width={"25%"} />
-          <Box mx={"4"}>
-            <Text as={"h2"} fontSize={"2xl"} fontWeight={"bold"} mb={"2"}>
-              {top3[1].nick_name}
-            </Text>
-            <Text as={"h3"} fontSize={"lg"} fontWeight={"light"}>
-              Total de invitados : {top3[1].awards}
-            </Text>
-          </Box>
-        </Flex>
-        <Divider orientation="horizontal" borderColor={"black"} my={"2"} />
-        <Flex align={"center"} mx={"2"}>
-          <Image src="/bronze.png" alt="Tercer Puesto" width={"20%"} />
-          <Box mx={"4"}>
-            <Text as={"h2"} fontSize={"lg"} fontWeight={"bold"} mb={"2"}>
-              {top3[2].nick_name}
-            </Text>
-            <Text as={"h3"} fontSize={"lg"} fontWeight={"light"}>
-              Total de invitados :{top3[2].awards}
-            </Text>
-          </Box>
-        </Flex>
-        <Divider orientation="horizontal" borderColor={"black"} my={"2"} /> */
 }

@@ -1,7 +1,10 @@
+import { RESPONSE_LIMIT_DEFAULT } from "next/dist/server/api-utils";
+
 const db = require("../../db/models/index");
 const User = db.User;
 const Award = db.Award;
 const Milestone = db.Milestone;
+const { Sequelize, Op } = require("sequelize");
 
 export default async function userMilestones(req, res) {
   const { method, body } = req;
@@ -11,29 +14,53 @@ export default async function userMilestones(req, res) {
       //     user:id
       // }
       const availableMilestones = await Milestone.findAll({
-        attributes: ["id"],
+        //Devuelve array con id de todos los milestones disponibles
+        attributes: ["id", "campaignId"],
+        where: { expired: false },
         order: [["id", "DESC"]],
       });
-      const completedMilestones = await Award.findAll({
-        attributes: ["milestoneId"],
-        group: ["milestoneId"],
-        where: { winnerId: body.user },
-        order: [["milestoneId", "DESC"]],
-      });
-      const lastMilestone = await Milestone.findByPk(
-        completedMilestones[0].milestoneId
-      );
-        let nextMilestone
-      if (availableMilestones[0].id > completedMilestones[0].milestoneId) {
-        nextMilestone = await Milestone.findByPk(
-          completedMilestones[0].milestoneId + 1
-        )
-      }else{
-        nextMilestone={id:null,milestoneId:"You Got the Last One!",name:"More coming soon",desc:"Check Back"}
+      let nextMilestone;
+      if (availableMilestones.length > 0) {
+        //si availableMilestones.length es mayor a 0 es que hay milestones disponibles
+        let completedMilestones = await Award.findAll({
+          attributes: ["milestoneId"],
+          group: ["milestoneId"],
+          where: {
+            winnerId: body.user,
+            milestoneId: { [Op.notIn]: [1, 2] },
+            currentCampaign: true,
+          },
+          order: [["milestoneId", "DESC"]],
+        }); // completedMilestones es un array con todos los milestoneId que el usuario completó ordenados de forma descencente (el último completado queda primero)
+        //Si no hay milestones completados, el nextMilestone es el primero de la campaña
+        if (completedMilestones.length === 0) {
+          nextMilestone = await Milestone.findByPk(
+            availableMilestones[availableMilestones.length - 1].id
+          );
+        } else {
+          if (availableMilestones[0].id > completedMilestones[0].milestoneId) {
+            nextMilestone = await Milestone.findByPk(
+              completedMilestones[0].milestoneId + 1
+            );
+          } else {
+            nextMilestone = {
+              id: null,
+              milestoneId: "Conseguiste Todos",
+              name: "A esperar la siguiente campaña",
+              desc: "",
+            };
+          }
+        }
+      } else {
+        nextMilestone = {
+          id: null,
+          milestoneId: "",
+          name: "A esperar la siguiente campaña",
+          desc: "",
+        };
       }
 
-      
-      res.status(200).send({lastMilestone,nextMilestone});
+      res.status(200).send({ nextMilestone });
 
       break;
 
