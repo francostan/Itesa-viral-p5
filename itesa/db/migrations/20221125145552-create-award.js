@@ -27,6 +27,14 @@ module.exports = {
       milestoneId:{
         type:Sequelize.INTEGER
       },
+      currentCampaign:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:true
+      },
+      campaignId:{
+        type:Sequelize.INTEGER,
+        defaultValue:0
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

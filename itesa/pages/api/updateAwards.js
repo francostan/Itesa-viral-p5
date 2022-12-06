@@ -3,22 +3,50 @@ const Award = db.Award;
 const Milestone = db.Milestone;
 const { Sequelize, Op } = require("sequelize");
 
-
 // req.body={
 //         user={información del usuario}
 //}
 export default async function tokens(req, res) {
   const { method, body } = req;
-  const userId = req.body.user;
+  const userId = body.user;
+  const admin=body.admin
 
   switch (method) {
     case "POST":
       //Ruta que devuelve el total de tokens a ser transferidos
       {
+
+          //////////////////////////////////////////////////////////////////////////////// tambine se usa en 2FA
+          if (admin) {
+            const today = new Date();
+            let expDate = await Milestone.findOne({
+              where: { expired: false, id: { [Op.notIn]: [1, 2] } },
+            });
+            if(expDate)  expDate = new Date(expDate.expirationDate) 
+            else expDate = new Date();
+            if (today > expDate) {
+              await Milestone.update(
+                { expired: true },
+                { where: { expired: false } }
+              );
+              await Award.update(
+                { currentCampaign: false },
+                { where: { currentCampaign: true } }
+              );
+            }
+          }
+          ////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Total de usuarios que se registraron con el viral_code el usuario
-        const registeredReferred = (
-          await Award.findAll({ where: { referringId: userId } })
-        ).length;
+        let registeredReferred = (
+          await Award.findAll({ where: { referringId: userId,currentCampaign:true } })
+        );
+        const currentCampaignId=registeredReferred[0].dataValues.campaignId || 0
+
+        registeredReferred=registeredReferred.length
+
         //Array con todos los objetos award en los que el usuario es el winnerId
         let awardsAchieved = await Award.findAll(
           { attributes: ["milestoneId"] },
@@ -36,25 +64,31 @@ export default async function tokens(req, res) {
             "quantityCondition",
             "expirationDate",
           ],
-          where: { id: { [Op.notIn]: [1, 2] } }, //Excluyo los milestone de registro y de invitación
+          where: { id: { [Op.notIn]: [1, 2] }, expired: false }, //Excluyo los milestone de registro y de invitación
         });
-        currentAvailableMilestones=currentAvailableMilestones.map(element=>element.dataValues)
-        
-        //Mapeo el array currentAvailableMilestones para chequear cada Milestone disponible
+        currentAvailableMilestones = currentAvailableMilestones.map(
+          (element) => element.dataValues
+        );
 
-        const currentPromises = currentAvailableMilestones.map((elemento)=>{
-          const today=new Date()
-          const expiration = elemento.expirationDate || today.setDate(today.getDate()+30)
-          if( new Date()< expiration){
-            if (registeredReferred >= elemento.quantityCondition && !awardsAchieved.includes(elemento.id)) {
+        //Mapeo el array currentAvailableMilestones para chequear cada Milestone disponible
+        if (currentAvailableMilestones.length > 0 && registeredReferred>0) {
+          const currentPromises = currentAvailableMilestones.map((elemento) => {
+            if (
+              registeredReferred >= elemento.quantityCondition &&
+              !awardsAchieved.includes(elemento.id)
+            ) {
               Award.create({
                 tokenAmount: elemento.tokenAmount,
                 winnerId: userId,
-                milestoneId: elemento.id
+                milestoneId: elemento.id,
+                campaignId:currentCampaignId
               });
             }
-          }
-        })
+          });
+        }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
         // Calcula y envía al FRONT el total de tokens
         const pendingTokens = await Award.findAll({

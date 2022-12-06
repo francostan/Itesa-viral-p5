@@ -56,8 +56,10 @@ export default class Graficos extends Component {
             options={this.state.options}
             series={this.state.series}
             type="bar"
+
             height={"100%"}
             width={"100%"}
+
           />
         )}
       </div>
