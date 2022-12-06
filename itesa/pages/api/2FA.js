@@ -1,5 +1,5 @@
 const db = require("../../db/models/index");
-const User=db.User
+const User = db.User;
 const Award = db.Award;
 const Milestone = db.Milestone;
 const { Sequelize, Op } = require("sequelize");

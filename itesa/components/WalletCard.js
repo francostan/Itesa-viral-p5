@@ -383,67 +383,69 @@ const WalletCard = () => {
             </Link>
           </Box>
         </Flex>
-        <VStack
-          spacing={4}
-          align="flex-start"
-          marginRight={"auto"}
-          marginLeft={"auto"}
-        >
-          <Box w={"30px"} h={"30px"} alignSelf={"center"}>
-            {loading ? (
-              <Spinner
-                className="loading"
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="purple.500"
-                size="xl"
-                mr={"auto"}
-                ml={"auto"}
-              />
-            ) : (
-              ""
-            )}
-          </Box>
-          <Heading
-            color="white"
-            marginTop={"10%"}
-            marginBottom={"10%"}
-            alignSelf={"center"}
-          >
-            Bienvenido {user.nick_name}
-          </Heading>
-
-          <Box
-            backgroundColor={"#9d39fe"}
-            borderRadius={"5%"}
-            padding={"3%"}
+        <Center>
+          <VStack
+            spacing={4}
+            align="flex-start"
             marginRight={"auto"}
             marginLeft={"auto"}
-            alignSelf={"center"}
           >
-            <Stat color="white">
-              <VStack
-                spacing={"2"}
-                alignItems={"flex-start"}
-                marginBottom={"3%"}
-              >
-                <StatNumber> TukiTokens: {userBalance}</StatNumber>
-                <Text fontSize={"sm"}>
-                  {" "}
-                  ◉ Posicion en el ranking: {ranking}
-                </Text>
-                <Text fontSize={"sm"}> ◉ Puntos: {currentAwards.awards}</Text>
-                {nextMilestone.id ? (
+            <Box w={"30px"} h={"30px"} alignSelf={"center"}>
+              {loading ? (
+                <Spinner
+                  className="loading"
+                  thickness="4px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                  color="purple.500"
+                  size="xl"
+                  mr={"auto"}
+                  ml={"auto"}
+                />
+              ) : (
+                ""
+              )}
+            </Box>
+            <Heading
+              color="white"
+              marginTop={"10%"}
+              marginBottom={"10%"}
+              alignSelf={"center"}
+            >
+              Bienvenido {user.nick_name}
+            </Heading>
+
+            <Box
+              backgroundColor={"#9d39fe"}
+              borderRadius={"5%"}
+              padding={"3%"}
+              marginRight={"auto"}
+              marginLeft={"auto"}
+              alignSelf={"center"}
+            >
+              <Stat color="white">
+                <VStack
+                  spacing={"2"}
+                  alignItems={"flex-start"}
+                  marginBottom={"3%"}
+                >
+                  <StatNumber> TukiTokens: {userBalance}</StatNumber>
                   <Text fontSize={"sm"}>
-                    ◉ Te falta(n){" "}
-                    {nextMilestone.quantityCondition - currentAwards.awards}{" "}
-                    punto(s) para el próximo Milestone!!
+                    {" "}
+                    ◉ Posicion en el ranking: {ranking}
                   </Text>
-                ) : (
-                  <Text fontSize={"sm"}>
-                    Has conseguido todos los Milestones!!
-                  </Text>
+                  <Text fontSize={"sm"}> ◉ Puntos: {currentAwards.awards}</Text>
+                  {nextMilestone.id ? (
+                    <Text fontSize={"sm"}>
+                      ◉ Te falta(n){" "}
+                      {nextMilestone.quantityCondition - currentAwards.awards}{" "}
+                      punto(s) para el próximo Milestone!!
+                    </Text>
+                  ) : (
+                    <Text fontSize={"sm"}>
+                      Has conseguido todos los Milestones!!
+                    </Text>
+                 
                 )}
                 <Text fontSize={"sm"}>
                   ◉ Proximo milestone: {nextMilestone.name}
@@ -497,6 +499,7 @@ const WalletCard = () => {
             </FormControl>
           </Box>
         </VStack>
+
         <Navbar />
       </Box>
     </>

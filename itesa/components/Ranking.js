@@ -26,7 +26,7 @@ const Ranking = () => {
   }, []);
 
   return (
-    <Flex direction={"column"} w={"100%"} h="100%" npm run migrate>
+    <Flex direction={"column"} w={"100%"} h="100%">
       {ranking.length > 0 ? (
         <ListTop3 ranking={ranking} />
       ) : (
