@@ -61,7 +61,9 @@ export default async function newuser(req, res) {
           let registeredReferred = (
             await Award.findAll({ where: { referringId: id,currentCampaign:true } })
           );
-          if(registeredReferred.length>0){const currentCampaignId=registeredReferred[0].dataValues.campaignId}
+          let currentCampaignId
+          if(registeredReferred.length>0){currentCampaignId=registeredReferred[0].dataValues.campaignId}
+          else{currentCampaignId=0}
           
   
           registeredReferred=registeredReferred.length

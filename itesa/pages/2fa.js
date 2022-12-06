@@ -48,7 +48,6 @@ export default function Login() {
         title: "Oops...",
         text: "Código incorrecto",
       });
-      router.push("/login")
     }
     // const loggedUser = await axios.post("/2FA", secret);
 

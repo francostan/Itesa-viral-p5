@@ -146,11 +146,6 @@ export default function adminMilestone() {
                               {...cantidadToken}
                             />
                             <Input
-                              type={"date"}
-                              placeholder={expirationDate}
-                              {...expirationState}
-                            />
-                            <Input
                               placeholder={quantityCondition}
                               {...quantityState}
                             />
