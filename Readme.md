@@ -42,7 +42,7 @@ Creamos una aplicacion que tiene como objetivo fomentar la implementacion y el u
 
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
-* [![Chakra-ui][chakra-ui]][chakra-url]
+* [![Chakra-ui][Chakra-ui.com]][chakra-url]
 
 
 
@@ -194,5 +194,5 @@ Use this space to list resources you find helpful and would like to give credit 
 
 
 [Chakra-ui.com]:https://shields.io/badge/chakra--ui-black?logo=chakraui&style=for-the-badge%22
-[Chakra-ui-url]:https://chakra-ui.com/
+[Chakra-url]:https://chakra-ui.com/
 
