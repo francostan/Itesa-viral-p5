@@ -115,7 +115,7 @@ Si tenes sugerencias que podrian hacer mejor a este proyecto, por favor forkea e
 
 Bautista Gonzalez Lazo - 
   Santiago Estevez -
-  Martin Hoffman -
+  Martin Hofmann -
   Alejandro Fornieles -
   Santiago Caballero -
   Franco Stanziola 
