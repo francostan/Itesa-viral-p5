@@ -28,7 +28,7 @@
 
 
 
-Creamos una aplicacion que tiene como objetivo fomentar la implementacion y el uso de la Criptomoneda llamada TukiCoin.
+Creamos una aplicación que tiene como objetivo fomentar la implementación y el uso de la Criptomoneda llamada TukiCoin.
   Para lograr esto, nuestros usuarios tienen la posibilidad de convertirse en influencers, gracias a nuestro programa de viralización.
   Este se basa en recompensas escalonadas segun la cantidad de invitaciones efectuadas durante un periodo preestablecido.
   
@@ -67,40 +67,40 @@ Creamos una aplicacion que tiene como objetivo fomentar la implementacion y el u
 
 ## Instalación
 
-   1. Clona el repositorio
+   1. Cloná el repositorio
    ```sh
    git clone https://github.com/francostan/Itesa-viral-p5.git
    ```
-   2. Instala los paquetes NPM 
+   2. Instalá los paquetes NPM 
    ```sh
    npm install
    ```
-  3. Migra los modelos de la base de datos con: 
+  3. Migrá los modelos de la base de datos con
    ```sh
    npm run migrate
    ```
-  4. Seedea los milestones con el metodo:
+  4. Seedeá los milestones con el metodo
    ```sh
    npm run seed
    ```
-  5. Una vez completado todos los pasos anteriores, iniciá el proyecto:
+  5. Una vez completado todos los pasos anteriores, iniciá el proyecto
    ```sh
   npm run dev
    ```
 
 <!-- CONTRIBUTING -->
 ## Contribuciones
-Las contribuciones son lo que hacen a la comunidad open source un lugar tan increible para aprender, inspirar y crear. Cualquier contribucion que hagas es **realmente apreciada**
+Las contribuciones son lo que hacen a la comunidad open source un lugar tan increíble para aprender, inspirar y crear. Cualquier contribución que hagas es **realmente apreciada**
 
-Si tenes sugerencias que podrian hacer mejor a este proyecto, por favor forkea el repositorio y crea una Pull Request. Tambien podes simplemente abrir una issue con el tag "enhancement".
+Si tenes sugerencias que podrían hacer mejor a este proyecto, por favor forkea el repositorio y crea una Pull Request. Tambien podes simplemente abrir una issue con el tag "enhancement".
   No te olvides de darle una estrella al proyecto! Muchas gracias!
 
 
-1. Forkea el proyecto
-2. Crea tu Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commitea tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Pushea a la Branch (`git push origin feature/AmazingFeature`)
-5. Abri una Pull Request
+1. Forkeá el proyecto
+2. Creá tu Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commiteá tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Pusheá a la Branch (`git push origin feature/AmazingFeature`)
+5. Abrí una Pull Request
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
