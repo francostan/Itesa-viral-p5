@@ -17,8 +17,19 @@ import Link from "next/link";
 import Persistence from "../components/Persistence";
 import { useSelector } from "react-redux";
 import Footer from "../components/Footer";
+import { useEffect } from "react";
+import axios from "axios";
+
+
+
 
 const Index = () => {
+
+  useEffect(()=>{
+    async ()=>{
+      await axios.post("/logout")
+    }
+  },[])
   return (
     <Grid
       minH={"100vh"}

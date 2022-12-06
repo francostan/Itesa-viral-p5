@@ -1,4 +1,6 @@
 "use strict";
+let expiration=new Date()
+expiration=expiration.setDate(expiration.getDate()+30)
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -13,6 +15,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           quantityCondition: 0,
+          campaignId:0,
         },
         {
           name: "Referido",
@@ -21,6 +24,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           quantityCondition: 1,
+          campaignId:0,
         },
         {
           name: "4 Referidos",
@@ -28,7 +32,9 @@ module.exports = {
           tokenAmount: "60",
           createdAt: new Date(),
           updatedAt: new Date(),
+          expirationDate:new Date(expiration),
           quantityCondition: 4,
+          campaignId:1,
         },
         {
           name: "8 Referidos",
@@ -36,7 +42,9 @@ module.exports = {
           tokenAmount: "150",
           createdAt: new Date(),
           updatedAt: new Date(),
+          expirationDate:new Date(expiration),
           quantityCondition: 8,
+          campaignId:1,
         },
         {
           name: "12 Referidos",
@@ -44,7 +52,9 @@ module.exports = {
           tokenAmount: "200",
           createdAt: new Date(),
           updatedAt: new Date(),
+          expirationDate:new Date(expiration),
           quantityCondition: 12,
+          campaignId:1,
         },
         {
           name: "16 Referidos",
@@ -52,7 +62,9 @@ module.exports = {
           tokenAmount: "200",
           createdAt: new Date(),
           updatedAt: new Date(),
+          expirationDate:new Date(expiration),
           quantityCondition: 16,
+          campaignId:1,
         },
       ],
       {}

@@ -71,19 +71,9 @@ var newUsers=[
   {nick_name:"referFranco36",email:"referFranco36@mail.com",password:"1234",referring:"viral.referAle4"},
   {nick_name:"referFranco37",email:"referFranco37@mail.com",password:"1234",referring:"viral.referAle4"},
   {nick_name:"referFranco38",email:"referFranco38@mail.com",password:"1234",referring:"viral.referAle4"},
-  {nick_name:"referFranco39",email:"referFranco39@mail.com",password:"1234",referring:"viral.referAle4"},
-  
-
+  {nick_name:"referFranco39",email:"referFranco39@mail.com",password:"1234",referring:"viral.referAle4"}
   ]
 
-
-var config = {
-  method: 'post',
-  url: 'http://localhost:3000/api/newUser',
-  headers: { 
-    'Content-Type': 'application/json'
-  }
-};
 
 const registerPromises = newUsers.map(async (element)=>{
     return await seeder.post("http://localhost:3000/api/newUser",element)

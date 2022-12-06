@@ -25,6 +25,17 @@ module.exports = {
       expirationDate:{
         type:Sequelize.STRING,
       },
+      deleted:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:false
+      },
+      expired:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:false
+      },
+      campaignId:{
+        type:Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
