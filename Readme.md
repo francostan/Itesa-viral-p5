@@ -18,7 +18,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/francostan/Itesa-viral-p5">
-    <img src="https://github.com/francostan/Itesa-viral-p5/itesa/public/banana.png" alt="Logo" width="80" height="80">
+    <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2F%40pachupilo%2Finnovar-como-estilo-de-vida-2744d557a681&psig=AOvVaw0tG_BPwSkUGZjgP3OeHP12&ust=1670443044442000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCLCmibTj5fsCFQAAAAAdAAAAABAE" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Proyecto itesa-p5</h3>
