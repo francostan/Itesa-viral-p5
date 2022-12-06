@@ -509,6 +509,7 @@ const WalletCard = () => {
                   rounded="2xl"
                   variant="filled"
                   {...buyAmount}
+                  placeholder="VT"
                 />
 
                 <Button
@@ -521,6 +522,9 @@ const WalletCard = () => {
                   Comprar{" "}
                 </Button>
               </HStack>
+              <Text color="white" mt={2} ml={2}>
+                1 VT ≈ 1 GoerliETH
+              </Text>
             </FormControl>
           </Box>
         </VStack>
