@@ -21,7 +21,7 @@ const Footer = () => {
           </Link>{" "}
           <Text fontSize={"xs"} color={"white"}>
             {" "}
-            Register
+            Registrarse
           </Text>
         </VStack>
         <VStack>

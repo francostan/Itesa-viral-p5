@@ -82,7 +82,7 @@ export default function Login() {
                 alt="Itesa Coin"
               />
             </Link>
-            <Heading color="white"> Itesa </Heading>{" "}
+            <Heading color="white"> Tuki </Heading>{" "}
             <Heading color="#9d39fe"> Coin</Heading>{" "}
           </HStack>
           <Heading color="white"> Código de verificación</Heading>
