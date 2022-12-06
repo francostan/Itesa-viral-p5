@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import Swal from "sweetalert2";
 import {
   Box,
@@ -26,8 +26,12 @@ import {
   Divider,
   Highlight,
   Center,
+  Stack,
+  InputGroup,
+  InputRightElement,
+  InputLeftElement,
 } from "@chakra-ui/react";
-
+import { CheckIcon } from "@chakra-ui/react";
 import Link from "next/link";
 import { logout } from "../store/reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,9 +40,9 @@ import axios from "../config/axios";
 import Persistence from "./Persistence";
 import Head from "next/head";
 import Reference from "./Reference";
-
 import next from "next";
 import Navbar from "./Navbar";
+import handleInput from "../reactHooks/handleInput";
 
 const WalletCard = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 800px)");
@@ -68,6 +72,8 @@ const WalletCard = () => {
   ];
   const address = "0x319d484fA709D449dc60a5C916a1d229E589aB59";
   const contract = new ethers.Contract(address, ERC20_ABI, provider);
+  const buyAmount = handleInput();
+  const [compra, setCompra] = useState({});
 
   const LOGOUT = () => {
     localStorage.setItem("VT", "");
@@ -115,23 +121,23 @@ const WalletCard = () => {
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x5" }],
       });
-      const Istoken = localStorage.getItem("VT");
-      if (Istoken !== "true") {
-        await ethereum.request({
-          method: "wallet_watchAsset",
-          params: {
-            type: "ERC20", // Initially only supports ERC20, but eventually more!
-            options: {
-              address: address, // The address that the token is at.
-              symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
-              decimals: "18", // The number of decimals in the token
-              image:
-                "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
-            },
-          },
-        });
-        localStorage.setItem("VT", "true");
-      }
+      // const Istoken = localStorage.getItem("VT");
+      // if (Istoken !== "true") {
+      //   await ethereum.request({
+      //     method: "wallet_watchAsset",
+      //     params: {
+      //       type: "ERC20", // Initially only supports ERC20, but eventually more!
+      //       options: {
+      //         address: address, // The address that the token is at.
+      //         symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
+      //         decimals: "18", // The number of decimals in the token
+      //         image:
+      //           "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
+      //       },
+      //     },
+      //   });
+      //   localStorage.setItem("VT", "true");
+      // }
     };
 
     // Vinculacion con billetera MetaMask:
@@ -188,11 +194,11 @@ const WalletCard = () => {
     // };
 
     // listen for account changes
-    // if (window.ethereum && window.ethereum.isMetaMask) {
-    //   window.ethereum.on("accountsChanged", accountChangedHandler);
-    //   window.ethereum.on("chainChanged", chainChangedHandler);
-    // }
-  }, [user, userBalance, defaultAccount, tokentoredeem]);
+    if (window.ethereum && window.ethereum.isMetaMask) {
+      window.ethereum.on("accountsChanged", accountChangedHandler);
+      // window.ethereum.on("chainChanged", chainChangedHandler);
+    }
+  }, [user, userBalance, defaultAccount, tokentoredeem, compra]);
 
   const handleTokens = async () => {
     console.log("TOKENS");
@@ -246,6 +252,77 @@ const WalletCard = () => {
     setLastMilestone(milestones.lastMilestone);
     setNextMilestone(milestones.nextMilestone);
     //Determinar cuántos referidos faltan para próximo milestone
+  };
+
+  // TRANSACTION:
+
+  /*
+  HEX: 0x9184e72a
+  Valor: 0.0000315
+  */
+
+  const handleBuy = async () => {
+    const inputToken = buyAmount.value;
+    const amount = ethers.utils.parseEther(buyAmount.value.toString());
+    const providerAccount = "0x5D8CCC0e151Cb27CFc75124D5472df32583c8EC4";
+    const providerBalanceToken = await contract.balanceOf(providerAccount);
+    const provBalanceValue = ethers.utils.formatEther(providerBalanceToken);
+    const contractWithWallet = contract.connect(wallet);
+
+    if (provBalanceValue >= inputToken) {
+      if (defaultAccount) {
+        setLoading(true);
+        try {
+          let params2 = {
+            from: defaultAccount,
+            to: providerAccount,
+            value: amount._hex,
+            chainId: "0x5",
+          };
+          const transaction = await ethereum.request({
+            method: "eth_sendTransaction",
+            params: [params2],
+          });
+          if (transaction) {
+            const tx = await contractWithWallet.transfer(
+              defaultAccount,
+              params2.value
+            );
+            await tx.wait();
+
+            const result = await contract.balanceOf(defaultAccount);
+            setUserBalance(ethers.utils.formatEther(result));
+
+            Swal.fire({
+              icon: "success",
+              title: "La compra se ha realizado con éxito!",
+            });
+          }
+          buyAmount.setValue("");
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+          console.log(error);
+          Swal.fire({
+            icon: "info",
+            title: "Se ha cancelado la transacción",
+          });
+        }
+      } else {
+        Swal.fire({
+          icon: "info",
+          title: "No hay ninguna billetera conectada",
+          html: "<b> Por favor conectar billetera</b>",
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: "info",
+        title:
+          "Lo lamentamos, en este momento no se pueden realizar transacciones",
+        html: "<b> Intente mas tarde, gracias</b>",
+      });
+    }
   };
 
   return (
@@ -306,94 +383,123 @@ const WalletCard = () => {
             </Link>
           </Box>
         </Flex>
-        <VStack
-          spacing={4}
-          align="flex-start"
-          marginRight={"auto"}
-          marginLeft={"auto"}
-        >
-          <Box w={"30px"} h={"30px"} alignSelf={"center"}>
-            {loading ? (
-              <Spinner
-                className="loading"
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="purple.500"
-                size="xl"
-                mr={"auto"}
-                ml={"auto"}
-              />
-            ) : (
-              ""
-            )}
-          </Box>
-          <Heading
-            color="white"
-            marginTop={"10%"}
-            marginBottom={"10%"}
-            alignSelf={"center"}
-          >
-            Bienvenido {user.nick_name}
-          </Heading>
-
-          <Box
-            backgroundColor={"#9d39fe"}
-            borderRadius={"5%"}
-            padding={"3%"}
+        <Center>
+          <VStack
+            spacing={4}
+            align="flex-start"
             marginRight={"auto"}
             marginLeft={"auto"}
-            alignSelf={"center"}
           >
-            <Stat color="white">
-              <VStack
-                spacing={"2"}
-                alignItems={"flex-start"}
-                marginBottom={"3%"}
-              >
-                <StatNumber> TukiTokens: {userBalance}</StatNumber>
-                <Text fontSize={"sm"}>
+            <Box w={"30px"} h={"30px"} alignSelf={"center"}>
+              {loading ? (
+                <Spinner
+                  className="loading"
+                  thickness="4px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                  color="purple.500"
+                  size="xl"
+                  mr={"auto"}
+                  ml={"auto"}
+                />
+              ) : (
+                ""
+              )}
+            </Box>
+            <Heading
+              color="white"
+              marginTop={"10%"}
+              marginBottom={"10%"}
+              alignSelf={"center"}
+            >
+              Bienvenido {user.nick_name}
+            </Heading>
+
+            <Box
+              backgroundColor={"#9d39fe"}
+              borderRadius={"5%"}
+              padding={"3%"}
+              marginRight={"auto"}
+              marginLeft={"auto"}
+              alignSelf={"center"}
+            >
+              <Stat color="white">
+                <VStack
+                  spacing={"2"}
+                  alignItems={"flex-start"}
+                  marginBottom={"3%"}
+                >
+                  <StatNumber> TukiTokens: {userBalance}</StatNumber>
+                  <Text fontSize={"sm"}>
+                    {" "}
+                    ◉ Posicion en el ranking: {ranking}
+                  </Text>
+                  <Text fontSize={"sm"}> ◉ Puntos: {currentAwards.awards}</Text>
+                  {nextMilestone.id ? (
+                    <Text fontSize={"sm"}>
+                      ◉ Te falta(n){" "}
+                      {nextMilestone.quantityCondition - currentAwards.awards}{" "}
+                      punto(s) para el próximo Milestone!!
+                    </Text>
+                  ) : (
+                    <Text fontSize={"sm"}>
+                      Has conseguido todos los Milestones!!
+                    </Text>
+                  )}
+                  <Text fontSize={"sm"}>
+                    ◉ Proximo milestone: {nextMilestone.name}
+                  </Text>
+                  <Text fontSize={"sm"}>
+                    ◉ Token por reclamar {tokentoredeem}
+                  </Text>
+                </VStack>
+              </Stat>
+              <Center>
+                <HStack>
+                  {connButtonText === "Billetera conectada" &&
+                  tokentoredeem > 0 ? (
+                    <Button justifySelf={"center"} onClick={handleTokens}>
+                      Reclamar Tokens
+                    </Button>
+                  ) : (
+                    ""
+                  )}
+                  <Flex justifyContent={"center"}>
+                    <Button onClick={handleUpdateAwards}>Actualizar</Button>
+                  </Flex>
+                </HStack>
+              </Center>
+            </Box>
+            <Reference />
+            <Box>
+              <FormControl>
+                <FormLabel color="white" textAlign="center">
                   {" "}
-                  ◉ Posicion en el ranking: {ranking}
-                </Text>
-                <Text fontSize={"sm"}> ◉ Puntos: {currentAwards.awards}</Text>
-                {nextMilestone.id ? (
-                  <Text fontSize={"sm"}>
-                    ◉ Te falta(n){" "}
-                    {nextMilestone.quantityCondition - currentAwards.awards}{" "}
-                    punto(s) para el próximo Milestone!!
-                  </Text>
-                ) : (
-                  <Text fontSize={"sm"}>
-                    Has conseguido todos los Milestones!!
-                  </Text>
-                )}
-                <Text fontSize={"sm"}>
-                  ◉ Proximo milestone: {nextMilestone.name}
-                </Text>
-                <Text fontSize={"sm"}>
-                  ◉ Token por reclamar {tokentoredeem}
-                </Text>
-              </VStack>
-            </Stat>
-            <Center>
-              <HStack>
-                {connButtonText === "Billetera conectada" &&
-                tokentoredeem > 0 ? (
-                  <Button justifySelf={"center"} onClick={handleTokens}>
-                    Reclamar Tokens
+                  Comprar Token
+                </FormLabel>{" "}
+                <HStack>
+                  <Input
+                    _focusVisible={"white"}
+                    rounded="2xl"
+                    variant="filled"
+                    {...buyAmount}
+                  />
+
+                  <Button
+                    colorScheme=""
+                    variant="solid"
+                    w={["full", "auto"]}
+                    onClick={handleBuy}
+                  >
+                    {" "}
+                    Comprar{" "}
                   </Button>
-                ) : (
-                  ""
-                )}
-                <Flex justifyContent={"center"}>
-                  <Button onClick={handleUpdateAwards}>Actualizar</Button>
-                </Flex>
-              </HStack>
-            </Center>
-          </Box>
-          <Reference />
-        </VStack>
+                </HStack>
+              </FormControl>
+            </Box>
+          </VStack>
+        </Center>
+
         <Navbar />
       </Box>
     </>
