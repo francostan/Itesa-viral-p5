@@ -38,12 +38,12 @@ Creamos una aplicacion que tiene como objetivo fomentar la implementacion y el u
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-<!-- 
+
+
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
 * [![Chakra-ui][chakra-ui.com]][chakra-url]
---!>
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -193,6 +193,6 @@ Use this space to list resources you find helpful and would like to give credit 
 
 
 
-[Chakra-ui.com]:https://raw.githubusercontent.com/chakra-ui/chakra-ui/main/media/logo-colored@2x.png?raw=true
+[Chakra-ui.com]:https://shields.io/badge/chakra--ui-black?logo=chakraui&style=for-the-badge%22
 [Chakra-ui-url]:https://chakra-ui.com/
 
