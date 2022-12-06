@@ -30,7 +30,6 @@ export default async function newuser(req, res) {
             "set-cookie",
             `getViral=${token}; path=/; samesite=lax; httponly`
           );
-            console.log("que es admin???",admin);
 
           //Seteo en la DB los controles de expiración de Awards y de Milestone (Awards pasan a currentCampaign:False y Milestone pasa a expired:true)
           
@@ -59,11 +58,13 @@ export default async function newuser(req, res) {
           //actualizo los awards en la DB antes de cargar el usuario en HomeUser
 
           //Total de usuarios que se registraron con el viral_code el usuario
-          const registeredReferred = (
-            await Award.findAll({
-              where: { referringId: id, currentCampaign: true },
-            })
-          ).length;
+          let registeredReferred = (
+            await Award.findAll({ where: { referringId: id,currentCampaign:true } })
+          );
+          if(registeredReferred.length>0){const currentCampaignId=registeredReferred[0].dataValues.campaignId}
+          
+  
+          registeredReferred=registeredReferred.length
 
           //Array con todos los objetos award en los que el usuario es el winnerId
           let awardsAchieved = await Award.findAll(
@@ -100,6 +101,7 @@ export default async function newuser(req, res) {
                     tokenAmount: elemento.tokenAmount,
                     winnerId: id,
                     milestoneId: elemento.id,
+                    campaignId:currentCampaignId
                   });
                 }
               }

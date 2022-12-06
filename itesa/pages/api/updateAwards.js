@@ -40,9 +40,12 @@ export default async function tokens(req, res) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Total de usuarios que se registraron con el viral_code el usuario
-        const registeredReferred = (
+        let registeredReferred = (
           await Award.findAll({ where: { referringId: userId,currentCampaign:true } })
-        ).length;
+        );
+        const currentCampaignId=registeredReferred[0].dataValues.campaignId || 0
+
+        registeredReferred=registeredReferred.length
 
         //Array con todos los objetos award en los que el usuario es el winnerId
         let awardsAchieved = await Award.findAll(
@@ -78,6 +81,7 @@ export default async function tokens(req, res) {
                 tokenAmount: elemento.tokenAmount,
                 winnerId: userId,
                 milestoneId: elemento.id,
+                campaignId:currentCampaignId
               });
             }
           });

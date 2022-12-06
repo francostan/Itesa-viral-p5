@@ -36,7 +36,7 @@ const Navbar = () => {
             borderRadius={"20%"}
           />
         </Link>
-        <Link href={"/logged/admi/home"}>
+        <Link href={"/logged/admin/home"}>
         <Box>Home</Box>
         </Link>
         <Link href={"/logged/admin/changeMilestones"}>

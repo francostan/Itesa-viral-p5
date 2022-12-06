@@ -83,20 +83,17 @@ export default function home() {
       expirationDate: expireDate.value,
       milestones: tempArray,
     };
-    console.log(newCampaign);
     await axios.post("/campaign", {newCampaign:newCampaign});
   };
 
   return (
     <Box backgroundColor="#101311">
-      <AdminNavbar />
+      <AdminNavbar color={"white"}/>
       <Flex
         direction={"column"}
         padding={"5%"}
         w={"100%"}
-        height={"100vh"}
         backgroundColor="#101311"
-        overflowY={"scroll"}
         color={"white"}
       >
         <Persistence />
@@ -137,6 +134,7 @@ export default function home() {
               width={"200px"}
               size={"sm"}
               padding={"1%"}
+              pl={"5%"}
               borderRadius={"20"}
               {...expireDate}
               m={"1%"}
@@ -147,6 +145,7 @@ export default function home() {
             <Input
               size={"sm"}
               padding={"1%"}
+              pl={"5%"}
               borderRadius={"20"}
               {...name}
               m={"1%"}
@@ -157,6 +156,7 @@ export default function home() {
             <Input
               size={"sm"}
               padding={"1%"}
+              pl={"5%"}
               m={"1%"}
               borderRadius={"20"}
               {...desc}
@@ -167,6 +167,7 @@ export default function home() {
             <Input
               size={"sm"}
               padding={"1%"}
+              pl={"5%"}
               m={"1%"}
               borderRadius={"20"}
               {...refReq}
@@ -177,6 +178,7 @@ export default function home() {
             <Input
               size={"sm"}
               padding={"1%"}
+              pl={"5%"}
               m={"1%"}
               borderRadius={"20"}
               {...tokenQty}
@@ -184,7 +186,6 @@ export default function home() {
             <Flex justifyContent={"space-evenly"}>
               <Button
                 size={"sm"}
-                type="submit"
                 mt={"10%"}
                 alignSelf={"flex-end"}
                 isDisabled={proceed}
@@ -194,7 +195,6 @@ export default function home() {
               </Button>
               <Button
                 size={"sm"}
-                type="submit"
                 mt={"10%"}
                 alignSelf={"flex-end"}
                 onClick={generarCampaña}
@@ -207,7 +207,7 @@ export default function home() {
           </FormControl>
           <Box>
             <Table size={"sm"} padding={"6%"}>
-              <TableCaption>Milestones Cargados</TableCaption>
+              <TableCaption bgColor={"transparent"}>Milestones Cargados</TableCaption>
               <Thead>
                 <Tr color={"white"}>
                   <Th color={"white"}>#</Th>

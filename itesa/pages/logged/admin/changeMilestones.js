@@ -44,6 +44,7 @@ import Link from "next/link";
 import Persistence from "../../../components/Persistence";
 import React, { useState, useEffect } from "react";
 import handleInput from "../../../reactHooks/handleInput";
+import AdminNavbar from "../../../components/AdminNavbar";
 
 export default function adminMilestone() {
   const [milestones, setMilestones] = useState([]);
@@ -72,22 +73,10 @@ export default function adminMilestone() {
       borderRadius={10}
     >
       <Persistence />
+      <AdminNavbar />
       <VStack spacing={4} align="flex-start" w="full">
         <VStack spacing={1} align={["center", "center"]} mb={3} w="full">
-          {" "}
-          <HStack mb={20}>
-            <Link href="/logged/homeuser/">
-              <Image
-                boxSize="40px"
-                objectFit="cover"
-                src="/banana.png"
-                alt="Itesa Coin"
-              />
-            </Link>
-            <Heading color="white"> Itesa </Heading>{" "}
-            <Heading color="#9d39fe"> Coin</Heading>{" "}
-          </HStack>
-          <Heading color="white"> Administrador de Premios</Heading>
+          <Heading color="white" mt={"5%"} mr={"auto"} ml={"auto"}> Administrador de Premios</Heading>
           <VStack w={"100%"}>
             <VStack spacing={4} align="stretch" w={"100%"}>
               {milestones.map(
@@ -146,7 +135,7 @@ export default function adminMilestone() {
                   return (
                     <div key={i} i={i}>
                       {add && id === iden ? (
-                        <Card backgroundColor="white">
+                        <Card backgroundColor="whiteAlpha.100">
                           <CardHeader>
                             <Input placeholder={name} {...nombre} />
                           </CardHeader>
@@ -156,7 +145,8 @@ export default function adminMilestone() {
                               placeholder={tokenAmount}
                               {...cantidadToken}
                             />
-                            <Input type={"date"}
+                            <Input
+                              type={"date"}
                               placeholder={expirationDate}
                               {...expirationState}
                             />

@@ -25,7 +25,11 @@ export default async function userMilestones(req, res) {
         let completedMilestones = await Award.findAll({
           attributes: ["milestoneId"],
           group: ["milestoneId"],
-          where: { winnerId: body.user,milestoneId:{[Op.notIn]:[1,2]}, currentCampaign: true },
+          where: {
+            winnerId: body.user,
+            milestoneId: { [Op.notIn]: [1, 2] },
+            currentCampaign: true,
+          },
           order: [["milestoneId", "DESC"]],
         }); // completedMilestones es un array con todos los milestoneId que el usuario completó ordenados de forma descencente (el último completado queda primero)
         //Si no hay milestones completados, el nextMilestone es el primero de la campaña

@@ -1,87 +1,114 @@
+import React, { useState } from "react";
+import LineChart from "../../../components/Chart";
 import {
-    Box,
-    VStack,
-    Heading,
-    FormControl,
-    FormLabel,
-    Text,
-    Textarea,
-    Input,
-    HStack,
-    Checkbox,
-    Button,
-    Image,
-    Spinner,
-    Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    TableCaption,
-    TableContainer,
-    Card,
-    CardHeader,
-    CardBody,
-    CardFooter,
-    SimpleGrid,
-    Center,
-    Flex,
-    Grid,
-    GridItem,
-  } from "@chakra-ui/react";
-  import {
-    DeleteIcon,
-    EditIcon,
-    AddIcon,
-    MinusIcon,
-    CheckIcon,
-    CloseIcon,
-  } from "@chakra-ui/icons";
-  import axios from "../../../config/axios";
-  import Link from "next/link";
-  import Persistence from "../../../components/Persistence";
-  import React, { useState, useEffect } from "react";
-  import handleInput from "../../../reactHooks/handleInput";
-  import Navbar from "../../../components/Navbar";
-  import AdminNavbar from "../../../components/AdminNavbar"
-  
-  export default function home() {
-    const [milestones, setMilestones] = useState([]);
-    const [edit, setEdit] = useState({});
-    const [add, setAdd] = useState(false);
-    const [iden, setIden] = useState(null);
-    const nombre = handleInput();
-    const descripcion = handleInput();
-    const cantidadToken = handleInput();
-    const expirationState = handleInput();
-    const quantityState = handleInput();
-  
-  
-    return (<>
-      <Persistence />
-      <Box minH={"100vh"} h={"100%"} w={"100%"} p={"5%"} bg={"#101311"}>
+  Box,
+  Center,
+  Heading,
+  HStack,
+  VStack,
+  Flex,
+  Image,
+} from "@chakra-ui/react";
+import Link from "next/link";
+import AdminNavbar from "../../../components/AdminNavbar";
+import Navbar from "../../../components/Navbar";
+import Head from "next/head";
+import { useEffect } from "react";
 
-      <AdminNavbar/>
-      {/* <Flex
-      direction={"column"}
-      padding={"5%"}
-      w={"100%"}
-      height={"100vh"}
+const adminDashboard = () => {
+
+  const data = [25, 66, 41, 59, 25, 44, 12, 36, 9, 21];
+  const datos = {
+    totUsers: {
+      Users: "67",
+    },
+    totTokens: {
+      Tokens: "4935",
+    },
+    historicRegistration: [
+      {
+        Users: "2",
+        campaignId: 0,
+      },
+      {
+        Users: "128",
+        campaignId: 1,
+      },
+    ],
+    historicEmission: [
+      {
+        Tokens: "210",
+        campaignId: 0,
+      },
+      {
+        Tokens: "4725",
+        campaignId: 1,
+      },
+    ],
+  };
+  const { totTokens, totUsers } = datos;
+  //   console.log(datos);
+  //   console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^", datos.historicEmission);
+ 
+
+
+  return (
+    <Box
+      minH={"100vh"}
       backgroundColor="#101311"
-      overflowY={"scroll"}
+      h="100%"
+      w="100%"
+      p={[8, 10]}
+      mx="auto"
+      border={["none", "1px"]}
+      borderColor={["", "gray.300"]}
+      borderRadius={10}
     >
-        <Flex>
-        <Button>DashBoard</Button>
-        <Button>Milestones Vigentes</Button>
-        <Button>Gestionar Campaña</Button>
-        </Flex>
+      <AdminNavbar mb={"5%"}/>
+      <Box class="sparkboxes" m={"5%"}>
+          <HStack spacing={"8%"}>
 
-      </Flex> */}
-      <Navbar/>
+                <Box width={"45%"} p={"50%"}>
+                  <Heading >{totUsers.Users}</Heading>
+                  {/* <Heading>Usuarios registrados</Heading> */}
+                </Box>
+
+
+                <Box width={"45%"} p={"50%"}>
+                  <Heading >{totTokens.Tokens}</Heading>
+                  {/* <Heading>Tokens emitidos</Heading> */}
+                </Box>
+
+          </HStack>
+        <Center>
+          <VStack>
+            <Box class="col-md-3">
+              <Box class="box box3">
+                <Box class="details"></Box>
+                <LineChart datos={data} />
+              </Box>
+              <Heading color={"white"}>
+                Usuarios registrados por campaña
+              </Heading>
+            </Box>
+
+            <Box class="col-md-3">
+              <Box class="box box4">
+                <Box class="details"></Box>
+                <Box id="spark4">
+                  <LineChart datos={data}/>
+                </Box>
+              </Box>
+              <Heading color={"white"}>
+                Tokens emitidos por cada campaña
+              </Heading>
+            </Box>
+          </VStack>
+        </Center>
       </Box>
-      </>
-    );
-  }
-  
+      {/* <Navbar /> */}
+    </Box>
+  );
+};
+
+export default adminDashboard;
