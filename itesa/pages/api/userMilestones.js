@@ -22,7 +22,7 @@ export default async function userMilestones(req, res) {
       let nextMilestone;
       if (availableMilestones.length > 0) {
         //si availableMilestones.length es mayor a 0 es que hay milestones disponibles
-        let completedMilestones = await Award.findAll({
+        let completedMilestones = await Award.findAll({ 
           attributes: ["milestoneId"],
           group: ["milestoneId"],
           where: {
