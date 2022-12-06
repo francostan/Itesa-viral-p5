@@ -53,7 +53,7 @@ const Navbar = () => {
 
         <VStack>
           <Center flexDirection={"column"}>
-            <Link href="/logged/admin/milestones">
+            <Link href="/logged/milestones">
               <Image
                 m={"auto"}
                 height={sizers}

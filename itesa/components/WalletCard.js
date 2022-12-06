@@ -416,7 +416,7 @@ const WalletCard = () => {
           </Box>
         </Flex>
         <VStack
-          spacing={4}
+          spacing={1}
           align="flex-start"
           marginRight={"auto"}
           marginLeft={"auto"}

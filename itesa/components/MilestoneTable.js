@@ -39,9 +39,7 @@ const MilestoneTable = () => {
     axios
       .post("/milestones", { user: user.id })
       .then((res) => {
-
         return setMilestones(res.data)
-
       })
       .catch((err) => console.log(err));
   }, []);
@@ -73,14 +71,14 @@ const MilestoneTable = () => {
         </Heading>
       </HStack>
       <>
-        <Table variant="simple" size={"xl"} color={"white"}>
+        <Table variant="simple" size={"l"} color={"white"}>
           <Thead>
             <Tr>
               <Th fontSize={"lg"} color={"#E5EB2F"}>
                 Nombre
               </Th>
               <Th fontSize={"lg"} color={"#E5EB2F"}>
-                Descripcion
+                Campaña
               </Th>
               <Th fontSize={"lg"} color={"#E5EB2F"}>
                 Tokens
@@ -96,7 +94,7 @@ const MilestoneTable = () => {
                       <Td fontWeight={"extrabold"} color={"#2ad37c"}>
                         {miles.name}
                       </Td>
-                      <Td color={"#2ad37c"}>{miles.desc} </Td>
+                      <Td color={"#2ad37c"}>{miles.campaignId} </Td>
                       <Td isNumeric color={"#2ad37c"}>
                         {miles.tokenAmount}
                       </Td>
@@ -110,7 +108,7 @@ const MilestoneTable = () => {
                       <Td fontWeight={"extrabold"} color={"#DE5A3F"}>
                         {miles.name}
                       </Td>
-                      <Td color={"#DE5A3F"}>{miles.desc} </Td>
+                      <Td color={"#DE5A3F"}>{miles.campaignId} </Td>
                       <Td color={"#DE5A3F"} isNumeric>
                         {miles.tokenAmount}
                       </Td>
