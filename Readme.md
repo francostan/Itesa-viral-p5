@@ -35,8 +35,7 @@ Creamos una aplicacion que tiene como objetivo fomentar la implementacion y el u
 
 
 
-
-      ### Built With
+### Built With
 
 
 
