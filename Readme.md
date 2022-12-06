@@ -42,7 +42,7 @@ Creamos una aplicacion que tiene como objetivo fomentar la implementacion y el u
 
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
-* [![Chakra-ui][chakra-ui.com]][chakra-url]
+* [![Chakra-ui][chakra-ui]][chakra-url]
 
 
 
