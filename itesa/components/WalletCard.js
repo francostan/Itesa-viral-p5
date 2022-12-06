@@ -136,23 +136,23 @@ const WalletCard = () => {
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x5" }],
       });
-      // const Istoken = localStorage.getItem("VT");
-      // if (Istoken !== "true") {
-      //   await ethereum.request({
-      //     method: "wallet_watchAsset",
-      //     params: {
-      //       type: "ERC20", // Initially only supports ERC20, but eventually more!
-      //       options: {
-      //         address: address, // The address that the token is at.
-      //         symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
-      //         decimals: "18", // The number of decimals in the token
-      //         image:
-      //           "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
-      //       },
-      //     },
-      //   });
-      //   localStorage.setItem("VT", "true");
-      // }
+      const Istoken = localStorage.getItem("VT");
+      if (Istoken !== "true") {
+        await ethereum.request({
+          method: "wallet_watchAsset",
+          params: {
+            type: "ERC20", // Initially only supports ERC20, but eventually more!
+            options: {
+              address: address, // The address that the token is at.
+              symbol: "VT", // A ticker symbol or shorthand, up to 5 chars.
+              decimals: "18", // The number of decimals in the token
+              image:
+                "https://img.a.transfermarkt.technology/portrait/big/28003-1631171950.jpg?lm=1", // A string url of the token logo
+            },
+          },
+        });
+        localStorage.setItem("VT", "true");
+      }
     };
 
     // Vinculacion con billetera MetaMask:
@@ -203,20 +203,14 @@ const WalletCard = () => {
         setErrorMessage(error.message);
       }
     };
-    // const chainChangedHandler = () => {
-    //   // reload the page to avoid any errors with chain change mid use of application
-    //   window.location.reload();
-    // };
 
     // listen for account changes
     if (window.ethereum && window.ethereum.isMetaMask) {
       window.ethereum.on("accountsChanged", accountChangedHandler);
-      // window.ethereum.on("chainChanged", chainChangedHandler);
     }
   }, [user, userBalance, defaultAccount, tokentoredeem, compra]);
 
   const handleTokens = async () => {
-    console.log("TOKENS");
     const contractWithWallet = contract.connect(wallet);
     if (tokentoredeem) {
       setLoading(true);
@@ -225,7 +219,7 @@ const WalletCard = () => {
         tokentoredeem
       );
       await tx.wait();
-      console.log(tx);
+
       setLoading(false);
       const balanceOfReceiver = await contract.balanceOf(defaultAccount);
       setUserBalance(ethers.utils.formatEther(balanceOfReceiver));
@@ -289,12 +283,6 @@ const WalletCard = () => {
   };
 
   // TRANSACTION:
-
-  /*
-  HEX: 0x9184e72a
-  Valor: 0.0000315
-  */
-
   const handleBuy = async () => {
     const inputToken = buyAmount.value;
 
@@ -370,18 +358,6 @@ const WalletCard = () => {
 
   return (
     <>
-      {/* <div className="walletCard">
-        <h4> {"Connection to MetaMask using window.ethereum methods"} </h4>
-
-        <div className="accountDisplay">
-          <h3>Address: {defaultAccount}</h3>
-        </div>
-        <div className="balanceDisplay">
-          <h3>Balance: {userBalance}</h3>
-        </div>
-        {errorMessage}
-      </div> */}
-
       {isLargerThan1280 ? (
         <div>
           <div>
