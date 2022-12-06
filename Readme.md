@@ -88,26 +88,6 @@ Creamos una aplicacion que tiene como objetivo fomentar la implementacion y el u
   npm run dev
    ```
 
-
-
-
-
-
-<!-- USAGE EXAMPLES -->
-## Como usarlo
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
-
-
-
-
-
-
 <!-- CONTRIBUTING -->
 ## Contribuciones
 Las contribuciones son lo que hacen a la comunidad open source un lugar tan increible para aprender, inspirar y crear. Cualquier contribucion que hagas es **realmente apreciada**
