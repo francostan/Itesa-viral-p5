@@ -11,6 +11,7 @@ import {
   ListItem,
   Link,
   VStack,
+  Center,
 } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 
@@ -29,28 +30,41 @@ export default function ListTop3({ ranking }) {
       color="white"
       bgGradient="linear(black,#9d39fe)"
       h="100%"
+      p={[8, 10]}
     >
-      <HStack spacing={12}>
-        <Text textAlign="center" as={"h1"} fontSize={"6xl"} fontWeight={"bold"}>
-          {" "}
-          Ranking
-        </Text>
-        <Link href="/logged/homeuser">
-          <Image
-            src="/banana.png"
-            alt="logo"
-            border="1px"
-            boxSize="50px"
-            borderRadius={"20%"}
-          />
-        </Link>
-      </HStack>
+      <Flex mb={20}>
+        <Box>
+          <Link href="/logged/homeuser">
+            <Image
+              boxSize="40px"
+              objectFit="cover"
+              src="/banana.png"
+              alt="Itesa Coin"
+            />{" "}
+          </Link>
+        </Box>
+      </Flex>
+
+      <Text
+        mt={{ base: "-45%", md: "-13%", xl: "-9%" }}
+        mb="10%"
+        ml={"10%"}
+        textAlign="center"
+        as={"h1"}
+        fontSize={"6xl"}
+        fontWeight={"bold"}
+      >
+        {" "}
+        Ranking
+      </Text>
+
       {ranking?.slice(0, 3).map((puesto, index) => (
         <HStack align={"center"} direction={"column"} mx={"2"}>
           <Image
+            height={{ base: "45%", md: "100px", xl: "40%" }}
             src={rankingVisual[index].img}
             alt={rankingVisual[index].alt}
-            width={"35%"}
+            width={{ base: "50%", md: "100px", xl: "10%" }}
             mb={"6%"}
             mt={"5%"}
           />

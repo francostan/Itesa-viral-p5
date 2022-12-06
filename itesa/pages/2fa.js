@@ -16,6 +16,7 @@ import handleInput from "../reactHooks/handleInput";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/reducers/userSlice";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 import Link from "next/link";
 
@@ -31,13 +32,30 @@ export default function Login() {
       id: user.id,
       token: secreto.value,
     };
-    const loggedUser = await axios.post("/2FA", secret);
-    if (loggedUser.status === 200) {
-      dispatch(login(loggedUser.data));
+    try {
+      let res = await axios.post("/2FA", secret);
+      dispatch(login(res.data));
       router.push("/logged/homeuser");
-    } else {
-      console.log("hay algo mal");
+
+      // Work with the response...
+    } catch (err) {
+      // Handle error
+      console.log(err.message);
+      console.log(err.response.data);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Código incorrecto",
+      });
     }
+    // const loggedUser = await axios.post("/2FA", secret);
+
+    // if (loggedUser.status === 200) {
+    //   dispatch(login(loggedUser.data));
+    //   router.push("/logged/homeuser");
+    // } else {
+    //   console.log("esta mal");
+    // }
   };
 
   return (

@@ -35,7 +35,6 @@ const Modale = ({ prop }) => {
   return (
     <>
       <Button
-
         ml={"5%"}
         mt={"25%"}
         mb={"20%"}
