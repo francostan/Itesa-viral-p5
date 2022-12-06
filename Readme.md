@@ -192,6 +192,6 @@ Use this space to list resources you find helpful and would like to give credit 
 
 
 
-[Chakra-ui.com]: https://chakra-ui.com/og-image.png
+[Chakra-ui.com]:[ https://chakra-ui.com/og-image.png](https://raw.githubusercontent.com/chakra-ui/chakra-ui/main/media/logo-colored@2x.png?raw=true)
 [Chakra-ui-url]:https://chakra-ui.com/
 
