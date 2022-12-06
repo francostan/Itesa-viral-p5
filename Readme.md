@@ -43,7 +43,7 @@ Creamos una aplicacion que tiene como objetivo fomentar la implementacion y el u
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
 * [![Chakra-ui][Chakra-ui.com]][chakra-url]
-* [!Postgres][Postgres.com]][Postgres-url]
+* [![Postgres][Postgres.com]][Postgres-url]
 * [![Sequelize][Sequelize.com]][Sequelize-url]
 * [![Web 3.0][Web3.com]][Web3-url]
 * [![Ethereum][Ethereum.com]][Ethereum-url]
