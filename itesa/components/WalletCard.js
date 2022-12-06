@@ -445,60 +445,60 @@ const WalletCard = () => {
                     <Text fontSize={"sm"}>
                       Has conseguido todos los Milestones!!
                     </Text>
-                 
-                )}
-                <Text fontSize={"sm"}>
-                  ◉ Proximo milestone: {nextMilestone.name}
-                </Text>
-                <Text fontSize={"sm"}>
-                  ◉ Token por reclamar {tokentoredeem}
-                </Text>
-              </VStack>
-            </Stat>
-            <Center>
-              <HStack>
-                {connButtonText === "Billetera conectada" &&
-                tokentoredeem > 0 ? (
-                  <Button justifySelf={"center"} onClick={handleTokens}>
-                    Reclamar Tokens
-                  </Button>
-                ) : (
-                  ""
-                )}
-                <Flex justifyContent={"center"}>
-                  <Button onClick={handleUpdateAwards}>Actualizar</Button>
-                </Flex>
-              </HStack>
-            </Center>
-          </Box>
-          <Reference />
-          <Box>
-            <FormControl>
-              <FormLabel color="white" textAlign="center">
-                {" "}
-                Comprar Token
-              </FormLabel>{" "}
-              <HStack>
-                <Input
-                  _focusVisible={"white"}
-                  rounded="2xl"
-                  variant="filled"
-                  {...buyAmount}
-                />
-
-                <Button
-                  colorScheme=""
-                  variant="solid"
-                  w={["full", "auto"]}
-                  onClick={handleBuy}
-                >
+                  )}
+                  <Text fontSize={"sm"}>
+                    ◉ Proximo milestone: {nextMilestone.name}
+                  </Text>
+                  <Text fontSize={"sm"}>
+                    ◉ Token por reclamar {tokentoredeem}
+                  </Text>
+                </VStack>
+              </Stat>
+              <Center>
+                <HStack>
+                  {connButtonText === "Billetera conectada" &&
+                  tokentoredeem > 0 ? (
+                    <Button justifySelf={"center"} onClick={handleTokens}>
+                      Reclamar Tokens
+                    </Button>
+                  ) : (
+                    ""
+                  )}
+                  <Flex justifyContent={"center"}>
+                    <Button onClick={handleUpdateAwards}>Actualizar</Button>
+                  </Flex>
+                </HStack>
+              </Center>
+            </Box>
+            <Reference />
+            <Box>
+              <FormControl>
+                <FormLabel color="white" textAlign="center">
                   {" "}
-                  Comprar{" "}
-                </Button>
-              </HStack>
-            </FormControl>
-          </Box>
-        </VStack>
+                  Comprar Token
+                </FormLabel>{" "}
+                <HStack>
+                  <Input
+                    _focusVisible={"white"}
+                    rounded="2xl"
+                    variant="filled"
+                    {...buyAmount}
+                  />
+
+                  <Button
+                    colorScheme=""
+                    variant="solid"
+                    w={["full", "auto"]}
+                    onClick={handleBuy}
+                  >
+                    {" "}
+                    Comprar{" "}
+                  </Button>
+                </HStack>
+              </FormControl>
+            </Box>
+          </VStack>
+        </Center>
 
         <Navbar />
       </Box>
