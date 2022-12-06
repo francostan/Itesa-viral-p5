@@ -31,10 +31,10 @@ export default async function adminMilestones(req, res) {
       try {
         
         let campaigns = (
-          await Milestone.findAll({ where: { expired:false } })
+          await Milestone.findAll({ where: { expired:false },order:[["id","ASC"],["campaignId","ASC"]] })
         );
         let currentCampaignId
-        if (campaigns.length>0) {currentCampaignId=campaigns[0].dataValues.campaignId}
+        if (campaigns.length>0) {currentCampaignId=campaigns[campaigns.length-1].dataValues.campaignId}
         else {currentCampaignId=0}
         if (req.body.id) {
           let milestoneid = await Milestone.findOne({
