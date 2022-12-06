@@ -23,20 +23,15 @@
 
   <h3 align="center">Proyecto itesa-p5</h3>
 
-
-
-
-
-
-
-
-
 <!-- ABOUT THE PROJECT -->
 ## Acerca del proyecto
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+
+Creamos una aplicacion que tiene como objetivo fomentar la implementacion y el uso de la Criptomoneda llamada TukiCoin.
+  Para lograr esto, nuestros usuarios tienen la posibilidad de convertirse en influencers, gracias a nuestro programa de viralización.
+  Este se basa en recompensas escalonadas segun la cantidad de invitaciones efectuadas durante un periodo preestablecido.
+  
 
 Here's why:
 * Your time should be focused on creating something amazing. A project that solves a problem and helps others
