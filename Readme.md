@@ -36,13 +36,18 @@ Creamos una aplicacion que tiene como objetivo fomentar la implementacion y el u
 
 
 
-### Built With
+      ### Built With
 
 
 
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
 * [![Chakra-ui][Chakra-ui.com]][chakra-url]
+* [!Postgres][Postgres.com]][Postgres-url]
+* [![Sequelize][Sequelize.com]][Sequelize-url]
+* [![Web 3.0][Web3.com]][Web3-url]
+* [![Ethereum][Ethereum.com]][Ethereum-url]
+  
 
 
 
@@ -53,18 +58,17 @@ Creamos una aplicacion que tiene como objetivo fomentar la implementacion y el u
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+  
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+
 * npm
   ```sh
   npm install npm@latest -g
   ```
 
-### Installation
+### Instalación
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
@@ -189,10 +193,16 @@ Use this space to list resources you find helpful and would like to give credit 
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
-
-
-
-
 [Chakra-ui.com]:https://shields.io/badge/chakra--ui-black?logo=chakraui&style=for-the-badge%22
 [Chakra-url]:https://chakra-ui.com/
+  [Postgres.com]:https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white
+[Postgres-url]:https://www.postgresql.org/
+    [Sequelize.com]:https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white
+[Sequelize-url]:https://sequelize.org/
+     [Web3.com]:https://img.shields.io/badge/web3.js-F16822?style=for-the-badge&logo=web3.js&logoColor=white
+[Web3-url]:https://ethereum.org/en/web3/
+       [Ethereum.com]:https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white
+[Ethereum-url]:https://ethereum.org/
+  
+  
 
