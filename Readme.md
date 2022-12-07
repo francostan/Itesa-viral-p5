@@ -35,7 +35,7 @@ Creamos una aplicación que tiene como objetivo fomentar la implementación y el
 
 
 
-## Built With
+## Tecnologias implementadas
 
 
 
@@ -53,16 +53,16 @@ Creamos una aplicación que tiene como objetivo fomentar la implementación y el
 
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Para empezar
 
   
 
 ### Prerequisitos
 
 
-* npm
+* Crear la base de datos
   ```sh
-  npm install npm@latest -g
+  createdb get_viral
   ```
 
 ## Instalación
@@ -87,6 +87,52 @@ Creamos una aplicación que tiene como objetivo fomentar la implementación y el
    ```sh
   npm run dev
    ```
+   
+   
+   ## Dependencias utilizadas en el proyecto(package.json)
+  
+ <br />
+    "@chakra-ui/icons": "^2.0.13",
+  <br />
+    "@chakra-ui/react": "^2.4.1",
+    "@emotion/react": "^11.10.5",<br />
+    "@emotion/styled": "^11.10.5",<br />
+    "@fontsource/poppins": "^4.5.10",<br />
+    "@fontsource/quicksand": "^4.5.11",<br />
+    "@reduxjs/toolkit": "^1.9.0",<br />
+    "@sweetalert2/theme-dark": "^5.0.15",<br />
+    "apexcharts": "^3.36.3",<br />
+    "axios": "^1.1.3",<br />
+    "bcrypt": "^5.1.0",<br />
+    "cookie-cutter": "^0.2.0",<br />
+    "cookie-parser": "^1.4.6",<br />
+    "cookies": "^0.8.0",<br />
+    "eslint": "8.28.0",<br />
+    "eslint-config-next": "13.0.4",<br />
+    "ethers": "^5.7.2",<br />
+    "framer-motion": "^6.5.1",<br />
+    "handlebars": "^4.7.7",<br />
+    "jose": "^4.11.1",<br />
+    "jsonwebtoken": "^8.5.1",<br />
+    "next": "13.0.4",<br />
+    "next-redux-wrapper": "^8.0.0",<br />
+    "nodemailer": "^6.8.0",<br />
+    "nodemailer-express-handlebars": "^5.0.0",<br />
+    "pg": "^8.8.0",<br />
+    "pg-hstore": "^2.3.4",<br />
+    "react": "18.2.0",<br />
+    "react-apexcharts": "^1.4.0",<br />
+    "react-dom": "18.2.0",<br />
+    "react-redux": "^8.0.5",<br />
+    "react-router-dom": "^6.4.3",<br />
+    "redux": "^4.2.0",<br />
+    "redux-devtools-extension": "^2.13.9",<br />
+    "redux-thunk": "^2.4.2",<br />
+    "sequelize": "^6.25.7",<br />
+    "sequelize-cli": "^6.5.2",<br />
+    "speakeasy": "^2.0.0",<br />
+    "sweetalert2": "^11.6.15"<br />
+  
 
 <!-- CONTRIBUTING -->
 ## Contribuciones
@@ -103,6 +149,8 @@ Si tenes sugerencias que podrían hacer mejor a este proyecto, por favor forkea 
 5. Abrí una Pull Request
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 
 
@@ -160,5 +208,3 @@ Link del proyecto: https://github.com/francostan/Itesa-viral-p5
        [Ethereum.com]:https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white
 [Ethereum-url]:https://ethereum.org/
   
-  
-
