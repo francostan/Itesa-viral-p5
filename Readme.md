@@ -91,22 +91,24 @@ Creamos una aplicación que tiene como objetivo fomentar la implementación y el
    
    ## Dependencias utilizadas en el proyecto(package.json)
    "dependencies": {
+ <br />
     "@chakra-ui/icons": "^2.0.13",
+  <br />
     "@chakra-ui/react": "^2.4.1",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@fontsource/poppins": "^4.5.10",
-    "@fontsource/quicksand": "^4.5.11",
-    "@reduxjs/toolkit": "^1.9.0",
-    "@sweetalert2/theme-dark": "^5.0.15",
-    "apexcharts": "^3.36.3",
-    "axios": "^1.1.3",
-    "bcrypt": "^5.1.0",
-    "cookie-cutter": "^0.2.0",
-    "cookie-parser": "^1.4.6",
-    "cookies": "^0.8.0",
-    "eslint": "8.28.0",
-    "eslint-config-next": "13.0.4",
+    "@emotion/react": "^11.10.5",<br />
+    "@emotion/styled": "^11.10.5",<br />
+    "@fontsource/poppins": "^4.5.10",<br />
+    "@fontsource/quicksand": "^4.5.11",<br />
+    "@reduxjs/toolkit": "^1.9.0",<br />
+    "@sweetalert2/theme-dark": "^5.0.15",<br />
+    "apexcharts": "^3.36.3",<br />
+    "axios": "^1.1.3",<br />
+    "bcrypt": "^5.1.0",<br />
+    "cookie-cutter": "^0.2.0",<br />
+    "cookie-parser": "^1.4.6",<br />
+    "cookies": "^0.8.0",<br />
+    "eslint": "8.28.0",<br />
+    "eslint-config-next": "13.0.4",<br />
     "ethers": "^5.7.2",
     "framer-motion": "^6.5.1",
     "handlebars": "^4.7.7",
