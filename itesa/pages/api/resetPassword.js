@@ -7,7 +7,6 @@ export default async function newuser(req, res) {
   const { method } = req;
   const email = req.body.email;
   const id = req.body.id;
-  console.log("REQ BODYYYY", req.body);
 
   switch (method) {
     case "POST":
@@ -20,9 +19,6 @@ export default async function newuser(req, res) {
     case "PUT":
       {
         const user = await User.findByPk(id);
-
-        console.log("USER", user);
-
         var validate = await speakeasy.totp.verify({
           secret: user.secret,
           encoding: "base32",
