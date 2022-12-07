@@ -116,8 +116,7 @@ export default function updatePassword() {
             width="93%"
             id="pwd"
             rounded="2xl"
-            variant="filled"
-            _focusVisible={"white"}
+            variant="visible"
             type="password"
             {...password}
           />
@@ -137,8 +136,7 @@ export default function updatePassword() {
             width="93%"
             id="pwd2"
             rounded="2xl"
-            variant="filled"
-            _focusVisible={"white"}
+            variant="visible"
             type="password"
             {...passwordCheck}
           />
@@ -155,12 +153,7 @@ export default function updatePassword() {
 
         <FormControl>
           <FormLabel color="white"> Código de Verificación</FormLabel>{" "}
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            {...code}
-          />
+          <Input rounded="2xl" variant="visible" {...code} />
         </FormControl>
       </VStack>
       <Button

@@ -10,6 +10,13 @@ export const theme = extendTheme({
   },
 
   components: {
+    Input: {
+      variants: {
+        visible: {
+          background: "white",
+        },
+      },
+    },
     Button: {
       variants: {
         solid: {

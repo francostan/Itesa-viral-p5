@@ -78,20 +78,14 @@ const inviteMail = () => {
         </VStack>
         <FormControl isRequired>
           <FormLabel color="white"> Email del destinatario</FormLabel>{" "}
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            {...email}
-          />
+          <Input rounded="2xl" variant="visible" {...email} />
         </FormControl>
         <FormControl isRequired>
           <FormLabel color="white"> Mensaje personalizado: </FormLabel>{" "}
           <Input
             id="pwd"
             rounded="2xl"
-            variant="filled"
-            _focusVisible={"white"}
+            variant="visible"
             type="text"
             {...mensaje}
           />

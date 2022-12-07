@@ -86,13 +86,7 @@ export default function resetPassword() {
             {" "}
             Por favor ingrese su correo electrónico
           </FormLabel>{" "}
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            type="email"
-            {...email}
-          />
+          <Input rounded="2xl" variant="visible" type="email" {...email} />
         </FormControl>
 
         {sentEmail && foundUser ? (

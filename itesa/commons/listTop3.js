@@ -25,13 +25,7 @@ export default function ListTop3({ ranking }) {
   ];
 
   return (
-    <Grid
-      alignContent={"flex-start"}
-      color="white"
-      h="100%"
-      p={[8, 10]}
-    >
-
+    <Grid alignContent={"flex-start"} color="white" h="100%" p={[8, 10]}>
       <Flex mb={20}>
         <Box>
           <Link href="/logged/homeuser">
@@ -59,7 +53,13 @@ export default function ListTop3({ ranking }) {
       </Text>
 
       {ranking?.slice(0, 3).map((puesto, index) => (
-        <HStack align={"center"} direction={"column"} mx={"2"} backgroundColor={"transparent"}>
+        <HStack
+          key={index + 50}
+          align={"center"}
+          direction={"column"}
+          mx={"2"}
+          backgroundColor={"transparent"}
+        >
           <Image
             height={{ base: "45%", md: "100px", xl: "40%" }}
             src={rankingVisual[index].img}
@@ -83,7 +83,7 @@ export default function ListTop3({ ranking }) {
       <List direction={"column"} paddingTop="5" h="100%">
         {ranking?.length > 3 &&
           ranking?.slice(3).map((item, index) => (
-            <ListItem>
+            <ListItem key={index + 70}>
               <Divider
                 p={1}
                 orientation="horizontal"

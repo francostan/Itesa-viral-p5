@@ -31,7 +31,8 @@ export default function Registro() {
   const [required, setRequired] = useState(0);
   const [contraseña, setContraseña] = useState(false);
   const [contraseñaCheck, setContraseñaCheck] = useState(false);
-  let validMail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  let validMail =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   const togglePassword = () => {
     var input = document.getElementById("pwd");
@@ -141,12 +142,7 @@ export default function Registro() {
         </VStack>
         <FormControl>
           <FormLabel color="white"> Correo electronico</FormLabel>{" "}
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            {...email}
-          />
+          <Input rounded="2xl" variant="visible" {...email} />
         </FormControl>
         {required === 2 ? (
           <div className="errorForm"> Campo requerido</div>
@@ -155,12 +151,7 @@ export default function Registro() {
         )}
         <FormControl>
           <FormLabel color="white"> Repita correo electronico</FormLabel>{" "}
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            {...emailCheck}
-          />
+          <Input rounded="2xl" variant="visible" {...emailCheck} />
         </FormControl>
         {required === 3 ? (
           <div className="errorForm"> Campo requerido</div>
@@ -169,12 +160,7 @@ export default function Registro() {
         )}
         <FormControl>
           <FormLabel color="white"> Nombre de Usuario</FormLabel>{" "}
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            {...nickName}
-          />
+          <Input rounded="2xl" variant="visible" {...nickName} />
         </FormControl>
         {required === 1 ? (
           <div className="errorForm"> Campo requerido</div>
@@ -187,8 +173,7 @@ export default function Registro() {
             width="93%"
             id="pwd"
             rounded="2xl"
-            variant="filled"
-            _focusVisible={"white"}
+            variant="visible"
             type="password"
             {...password}
           />
@@ -215,8 +200,7 @@ export default function Registro() {
             width="93%"
             id="pwd2"
             rounded="2xl"
-            variant="filled"
-            _focusVisible={"white"}
+            variant="visible"
             type="password"
             {...passwordCheck}
           />
@@ -238,12 +222,7 @@ export default function Registro() {
           <div className="rightForm"> Campo requerido</div>
         )}
         <FormLabel color="white"> Codigo de referido</FormLabel>{" "}
-        <Input
-          _focusVisible={"white"}
-          rounded="2xl"
-          variant="filled"
-          value={codigoReferido}
-        />
+        <Input rounded="2xl" variant="visible" value={codigoReferido} />
         <Button
           colorScheme=""
           variant="solid"

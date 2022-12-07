@@ -505,9 +505,8 @@ const WalletCard = () => {
               <HStack>
                 <Input
                   type={"number"}
-                  _focusVisible={"white"}
                   rounded="2xl"
-                  variant="filled"
+                  variant="visible"
                   {...buyAmount}
                   placeholder="VT"
                 />

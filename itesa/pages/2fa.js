@@ -88,12 +88,7 @@ export default function Login() {
           <Heading color="white"> Código de verificación</Heading>
         </VStack>
         <FormControl>
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            {...secreto}
-          />
+          <Input rounded="2xl" variant="visible" {...secreto} />
         </FormControl>
 
         <Button

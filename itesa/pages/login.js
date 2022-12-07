@@ -101,12 +101,7 @@ export default function Login() {
         </VStack>
         <FormControl isRequired>
           <FormLabel color="white"> Nombre de Usuario</FormLabel>{" "}
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            {...nickName}
-          />
+          <Input rounded="2xl" variant="visible" {...nickName} />
         </FormControl>
         <FormControl isRequired>
           <FormLabel color="white"> Contraseña</FormLabel>{" "}
@@ -114,8 +109,7 @@ export default function Login() {
             id="pwd"
             width="89%"
             rounded="2xl"
-            variant="filled"
-            _focusVisible={"white"}
+            variant="visible"
             type="password"
             {...password}
           />

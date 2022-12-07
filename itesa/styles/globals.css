@@ -10,7 +10,9 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
+input:focus-visible {
+  background-color: white;
+}
 .metamask-xs {
   position: absolute;
   z-index: 3;

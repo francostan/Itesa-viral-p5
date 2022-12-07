@@ -32,7 +32,8 @@ export default function Registro() {
   const [contraseña, setContraseña] = useState(false);
   const [contraseñaCheck, setContraseñaCheck] = useState(false);
   let error = "";
-  let validMail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  let validMail =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   const togglePassword = () => {
     var input = document.getElementById("pwd");
@@ -141,13 +142,7 @@ export default function Registro() {
         </VStack>
         <FormControl>
           <FormLabel color="white"> Correo electronico</FormLabel>{" "}
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            type={"email"}
-            {...email}
-          />
+          <Input variant="visible" rounded="2xl" type={"email"} {...email} />
         </FormControl>
         {required === 2 ? (
           <div className="errorForm"> Campo requerido</div>
@@ -157,12 +152,7 @@ export default function Registro() {
 
         <FormControl>
           <FormLabel color="white"> Repita correo electronico</FormLabel>{" "}
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            {...emailCheck}
-          />
+          <Input rounded="2xl" variant="visible" {...emailCheck} />
         </FormControl>
         {required === 3 ? (
           <div className="errorForm"> Campo requerido</div>
@@ -172,12 +162,7 @@ export default function Registro() {
 
         <FormControl>
           <FormLabel color="white"> Nombre de Usuario</FormLabel>{" "}
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            {...nickName}
-          />
+          <Input rounded="2xl" variant="visible" {...nickName} />
         </FormControl>
         {required === 1 ? (
           <div className="errorForm"> Campo requerido</div>
@@ -191,8 +176,7 @@ export default function Registro() {
             width="89%"
             id="pwd"
             rounded="2xl"
-            variant="filled"
-            _focusVisible={"white"}
+            variant="visible"
             type="password"
             {...password}
           />
@@ -221,8 +205,7 @@ export default function Registro() {
             width="89%"
             id="pwd2"
             rounded="2xl"
-            variant="filled"
-            _focusVisible={"white"}
+            variant="visible"
             type="password"
             {...passwordCheck}
           />
@@ -247,12 +230,7 @@ export default function Registro() {
 
         <FormControl>
           <FormLabel color="white"> Codigo de referido</FormLabel>{" "}
-          <Input
-            _focusVisible={"white"}
-            rounded="2xl"
-            variant="filled"
-            {...referedCode}
-          />
+          <Input rounded="2xl" variant="visible" {...referedCode} />
         </FormControl>
 
         <Button
