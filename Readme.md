@@ -60,9 +60,9 @@ Creamos una aplicación que tiene como objetivo fomentar la implementación y el
 ### Prerequisitos
 
 
-* npm
+* Crear la base de datos
   ```sh
-  npm install npm@latest -g
+  createdb get_viral
   ```
 
 ## Instalación
