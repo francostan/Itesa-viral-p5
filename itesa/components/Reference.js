@@ -4,14 +4,7 @@ import { useSelector } from "react-redux";
 import Modale from "./Modal";
 
 const Reference = () => {
-  //   const { isOpen, onOpen, onClose } = useDisclosure();
-  //   const [overlay, setOverlay] = useState("");
-  //   const OverlayOne = () => (
-  //     <ModalOverlay
-  //       bg="blackAlpha.300"
-  //       backdropFilter="blur(10px) hue-rotate(90deg)"
-  //     />
-  //   );
+
   const userRedux = useSelector((state) => state.user);
   const { viral_code } = userRedux;
 
@@ -35,8 +28,6 @@ const Reference = () => {
   return (
     <div>
       <Modale prop={viral_code} />
-
-      {/* <Button onClick={handleReference}>Compartir mi codigo</Button> */}
     </div>
   );
 };

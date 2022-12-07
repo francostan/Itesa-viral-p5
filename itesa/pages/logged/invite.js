@@ -19,11 +19,11 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Swal from "sweetalert2";
+import { useRouter } from "next/router";
 const inviteMail = () => {
   const email = handleInput();
-  const mensaje = handleInput();
   const [loading, setLoading] = useState(false);
-
+  const router=useRouter()
   const user = useSelector((state) => state.user);
 
   const handleLoading = (e) => {
@@ -34,7 +34,6 @@ const inviteMail = () => {
   const handleSendMail = async () => {
     const invited = await axios.post("/sendInvite", {
       email: email.value,
-      custom_text: mensaje.value,
       viral_code: user.viral_code,
       user: user.nick_name,
     });
@@ -45,6 +44,7 @@ const inviteMail = () => {
       text: "El email ha sido enviado",
     });
     setLoading(false);
+    router.push("/logged/homeuser")
   };
 
   return (
@@ -83,17 +83,6 @@ const inviteMail = () => {
             rounded="2xl"
             variant="filled"
             {...email}
-          />
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel color="white"> Mensaje personalizado: </FormLabel>{" "}
-          <Input
-            id="pwd"
-            rounded="2xl"
-            variant="filled"
-            _focusVisible={"white"}
-            type="text"
-            {...mensaje}
           />
         </FormControl>
 

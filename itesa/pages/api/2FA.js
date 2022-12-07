@@ -118,7 +118,6 @@ export default async function newuser(req, res) {
             admin: foundUser.admin,
           });
         } else {
-          console.log("NO VALIDADO");
           res.status(403).json("Código 2FA incorrecto");
         }
       }

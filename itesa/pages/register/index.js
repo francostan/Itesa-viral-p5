@@ -270,5 +270,3 @@ export default function Registro() {
     </Box>
   );
 }
-
-//{...referedCode}

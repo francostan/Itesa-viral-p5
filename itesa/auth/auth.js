@@ -12,5 +12,5 @@ export default function validateAuth(req, res) {
 
   return payload;
 
-  //   next();
+
 }

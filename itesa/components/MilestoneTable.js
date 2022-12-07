@@ -141,15 +141,6 @@ const MilestoneTable = () => {
       <Spacer color={"#4C1281"}>.</Spacer>
       <Spacer color={"#4C1281"}>.</Spacer>
       <Spacer color={"#4C1281"}>.</Spacer>
-      {/* <Text color={"white"}> Progreso de milestones:</Text> */}
-      {/* <Progress
-        mb={"20%"}
-        hasStripe
-        colorScheme={"whatsapp"}
-        isAnimated
-        size="md"
-        value={40}
-      /> */}
       <Navbar />
     </Box>
   );
