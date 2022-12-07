@@ -109,29 +109,29 @@ Creamos una aplicación que tiene como objetivo fomentar la implementación y el
     "cookies": "^0.8.0",<br />
     "eslint": "8.28.0",<br />
     "eslint-config-next": "13.0.4",<br />
-    "ethers": "^5.7.2",
-    "framer-motion": "^6.5.1",
-    "handlebars": "^4.7.7",
-    "jose": "^4.11.1",
-    "jsonwebtoken": "^8.5.1",
-    "next": "13.0.4",
-    "next-redux-wrapper": "^8.0.0",
-    "nodemailer": "^6.8.0",
-    "nodemailer-express-handlebars": "^5.0.0",
-    "pg": "^8.8.0",
-    "pg-hstore": "^2.3.4",
-    "react": "18.2.0",
-    "react-apexcharts": "^1.4.0",
-    "react-dom": "18.2.0",
-    "react-redux": "^8.0.5",
-    "react-router-dom": "^6.4.3",
-    "redux": "^4.2.0",
-    "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.4.2",
-    "sequelize": "^6.25.7",
-    "sequelize-cli": "^6.5.2",
-    "speakeasy": "^2.0.0",
-    "sweetalert2": "^11.6.15"
+    "ethers": "^5.7.2",<br />
+    "framer-motion": "^6.5.1",<br />
+    "handlebars": "^4.7.7",<br />
+    "jose": "^4.11.1",<br />
+    "jsonwebtoken": "^8.5.1",<br />
+    "next": "13.0.4",<br />
+    "next-redux-wrapper": "^8.0.0",<br />
+    "nodemailer": "^6.8.0",<br />
+    "nodemailer-express-handlebars": "^5.0.0",<br />
+    "pg": "^8.8.0",<br />
+    "pg-hstore": "^2.3.4",<br />
+    "react": "18.2.0",<br />
+    "react-apexcharts": "^1.4.0",<br />
+    "react-dom": "18.2.0",<br />
+    "react-redux": "^8.0.5",<br />
+    "react-router-dom": "^6.4.3",<br />
+    "redux": "^4.2.0",<br />
+    "redux-devtools-extension": "^2.13.9",<br />
+    "redux-thunk": "^2.4.2",<br />
+    "sequelize": "^6.25.7",<br />
+    "sequelize-cli": "^6.5.2",<br />
+    "speakeasy": "^2.0.0",<br />
+    "sweetalert2": "^11.6.15"<br />
   }
 
 <!-- CONTRIBUTING -->
