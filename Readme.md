@@ -90,7 +90,7 @@ Creamos una aplicación que tiene como objetivo fomentar la implementación y el
    
    
    ## Dependencias utilizadas en el proyecto(package.json)
-   "dependencies": {
+  
  <br />
     "@chakra-ui/icons": "^2.0.13",
   <br />
@@ -132,7 +132,7 @@ Creamos una aplicación que tiene como objetivo fomentar la implementación y el
     "sequelize-cli": "^6.5.2",<br />
     "speakeasy": "^2.0.0",<br />
     "sweetalert2": "^11.6.15"<br />
-  }
+  
 
 <!-- CONTRIBUTING -->
 ## Contribuciones
