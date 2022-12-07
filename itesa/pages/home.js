@@ -20,16 +20,12 @@ import Footer from "../components/Footer";
 import { useEffect } from "react";
 import axios from "axios";
 
-
-
-
 const Index = () => {
-
-  useEffect(()=>{
-    async ()=>{
-      await axios.post("/logout")
-    }
-  },[])
+  useEffect(() => {
+    async () => {
+      await axios.post("/logout");
+    };
+  }, []);
   return (
     <Grid
       minH={"100vh"}
@@ -49,7 +45,7 @@ const Index = () => {
           borderRadius={"20%"}
         />
         <HStack spacing={"0"} align={"center"}>
-          <Heading color={"white"}>Itesa</Heading>
+          <Heading color={"white"}>Tuki</Heading>
           <Heading color="#9d39fe">Coin</Heading>
         </HStack>
       </HStack>

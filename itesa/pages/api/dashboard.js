@@ -77,8 +77,7 @@ export default async function dashboard(req, res) {
           campaigns:campaigns,
           emissions:emissions
         }
-
-        res.status(200).send({
+        res.status(200).json({
           totUsers,
           totTokens,
           historicRegistration,

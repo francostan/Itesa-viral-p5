@@ -45,6 +45,7 @@ import Persistence from "../../../components/Persistence";
 import React, { useState, useEffect } from "react";
 import handleInput from "../../../reactHooks/handleInput";
 import AdminNavbar from "../../../components/AdminNavbar";
+import Swal from "sweetalert2";
 
 export default function home() {
   const [proceed, setProceed] = useState(true);
@@ -56,6 +57,8 @@ export default function home() {
   const expireDate = handleInput();
 
   const handleProceed = async (e) => {
+    setMilestones([])
+    setProceed(false)
     setProceed(!proceed);
   };
   const handleSubmit = async () => {
@@ -66,6 +69,10 @@ export default function home() {
       tokenAmount: tokenQty.value,
       quantityCondition: refReq.value,
     });
+    name.setValue("")
+    desc.setValue("")
+    tokenQty.setValue("")
+    refReq.setValue("")
     return setMilestones(tempArray);
   };
   const handleDelete = async (e,i) => {
@@ -84,6 +91,17 @@ export default function home() {
       milestones: tempArray,
     };
     await axios.post("/campaign", {newCampaign:newCampaign});
+    setMilestones([])
+    setProceed(true)
+    name.setValue("")
+    desc.setValue("")
+    tokenQty.setValue("")
+    refReq.setValue("")
+    Swal.fire({
+      icon: "success",
+      title: "Campaña Creada",
+      text: "La campaña ha sido generada correctamente",
+    });
   };
 
   return (

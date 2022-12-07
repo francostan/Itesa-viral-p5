@@ -32,8 +32,7 @@ export default function Registro() {
   const [contraseña, setContraseña] = useState(false);
   const [contraseñaCheck, setContraseñaCheck] = useState(false);
   let error = "";
-  let validMail =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  let validMail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   const togglePassword = () => {
     var input = document.getElementById("pwd");
@@ -135,7 +134,7 @@ export default function Registro() {
                 alt="Itesa Coin"
               />
             </Link>
-            <Heading color="white"> Itesa </Heading>{" "}
+            <Heading color="white"> Tuki </Heading>{" "}
             <Heading color="#9d39fe"> Coin</Heading>{" "}
           </HStack>
           <Heading color="white"> Registro</Heading>
