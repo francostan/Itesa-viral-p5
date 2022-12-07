@@ -68,8 +68,6 @@ export default function Login() {
     }
   };
 
-  //if(user.id) console.log(`ya estas logueado ${user.nick_name}` );
-
   return (
     <Box
       backgroundColor="#101311"

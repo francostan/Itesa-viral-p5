@@ -49,14 +49,7 @@ export default function Login() {
         text: "Código incorrecto",
       });
     }
-    // const loggedUser = await axios.post("/2FA", secret);
 
-    // if (loggedUser.status === 200) {
-    //   dispatch(login(loggedUser.data));
-    //   router.push("/logged/homeuser");
-    // } else {
-    //   console.log("esta mal");
-    // }
   };
 
   return (

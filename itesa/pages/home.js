@@ -1,4 +1,3 @@
-//importamos un boton de chakra
 import {
   Button,
   Container,
@@ -26,6 +25,8 @@ const Index = () => {
       await axios.post("/logout");
     };
   }, []);
+
+  
   return (
     <Grid
       minH={"100vh"}

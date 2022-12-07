@@ -58,24 +58,4 @@ function invite(req, res) {
 }
 
 export default invite;
-/* 
-Achicar los formularios de registro para vista web
-las alertas que pasen como esta campo requerido para que no sea invasivo
-arreglar errores
 
-
-
-nice to have
-
-
-pasar a disable el billetera conectada
-
-codigo de confirmacion cuando le erras
-
-*/
-//Pagína con formulario para invitar a conocidos
-
-//Está pagina necesita formulario con dirección de correo de destinatario
-//La ruta debe registrar en la DB, tabla invitations la nueva relación
-//La db dispone de toda la info del usuario, y dle invitado; la relación queda en "false"
-//Se envía un mail al invitado con el link a la página "acceptInvitation"

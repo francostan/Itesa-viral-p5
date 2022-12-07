@@ -88,8 +88,6 @@ export default async function tokens(req, res) {
         }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
         // Calcula y envía al FRONT el total de tokens
         const pendingTokens = await Award.findAll({
           where: { transferred: false, winnerId: userId },

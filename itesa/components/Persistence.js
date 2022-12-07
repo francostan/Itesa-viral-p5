@@ -8,16 +8,15 @@ import { useRouter } from "next/router";
 const Persistence = () => {
   const dispatch = useDispatch();
   const userRedux = useSelector((state) => state.user);
-  const router=useRouter()
+  const router = useRouter();
 
   React.useEffect(() => {
     axios
       .get("/me")
       .then((user) => dispatch(login(user.data)))
       .catch((error) => {
-        console.log(error)
-        router.push("/login")
-      })
+        axios.post("/logout").then((result) => router.push("/home"));
+      });
   }, []);
 
   return <div></div>;

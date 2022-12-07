@@ -73,7 +73,6 @@ export default async function adminMilestones(req, res) {
       break;
     case "DELETE":
       try {
-        console.log("ENTRAMOS A DELETE", req.body);
         let milestoneid = await Milestone.update(
           { deleted: true },
           {
