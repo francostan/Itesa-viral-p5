@@ -35,7 +35,7 @@ Creamos una aplicación que tiene como objetivo fomentar la implementación y el
 
 
 
-## Built With
+## Tecnologias implementadas
 
 
 
@@ -53,7 +53,7 @@ Creamos una aplicación que tiene como objetivo fomentar la implementación y el
 
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Para empezar
 
   
 
@@ -87,6 +87,50 @@ Creamos una aplicación que tiene como objetivo fomentar la implementación y el
    ```sh
   npm run dev
    ```
+   
+   
+   ## Dependencias utilizadas en el proyecto(package.json)
+   "dependencies": {
+    "@chakra-ui/icons": "^2.0.13",
+    "@chakra-ui/react": "^2.4.1",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/poppins": "^4.5.10",
+    "@fontsource/quicksand": "^4.5.11",
+    "@reduxjs/toolkit": "^1.9.0",
+    "@sweetalert2/theme-dark": "^5.0.15",
+    "apexcharts": "^3.36.3",
+    "axios": "^1.1.3",
+    "bcrypt": "^5.1.0",
+    "cookie-cutter": "^0.2.0",
+    "cookie-parser": "^1.4.6",
+    "cookies": "^0.8.0",
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.4",
+    "ethers": "^5.7.2",
+    "framer-motion": "^6.5.1",
+    "handlebars": "^4.7.7",
+    "jose": "^4.11.1",
+    "jsonwebtoken": "^8.5.1",
+    "next": "13.0.4",
+    "next-redux-wrapper": "^8.0.0",
+    "nodemailer": "^6.8.0",
+    "nodemailer-express-handlebars": "^5.0.0",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "react": "18.2.0",
+    "react-apexcharts": "^1.4.0",
+    "react-dom": "18.2.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.4.3",
+    "redux": "^4.2.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.2",
+    "sequelize": "^6.25.7",
+    "sequelize-cli": "^6.5.2",
+    "speakeasy": "^2.0.0",
+    "sweetalert2": "^11.6.15"
+  }
 
 <!-- CONTRIBUTING -->
 ## Contribuciones
@@ -103,6 +147,8 @@ Si tenes sugerencias que podrían hacer mejor a este proyecto, por favor forkea 
 5. Abrí una Pull Request
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 
 
