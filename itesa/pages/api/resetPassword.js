@@ -3,7 +3,7 @@ const User = db.User;
 const bc = require("bcrypt");
 const speakeasy = require("speakeasy");
 
-export default async function newuser(req, res) {
+export default async function Newuser(req, res) {
   const { method } = req;
   const email = req.body.email;
   const id = req.body.id;

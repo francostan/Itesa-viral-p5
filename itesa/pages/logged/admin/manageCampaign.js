@@ -47,7 +47,7 @@ import handleInput from "../../../reactHooks/handleInput";
 import AdminNavbar from "../../../components/AdminNavbar";
 import Swal from "sweetalert2";
 
-export default function home() {
+export default function Home() {
   const [proceed, setProceed] = useState(true);
   const [milestones, setMilestones] = useState([]);
   const name = handleInput();
@@ -57,8 +57,8 @@ export default function home() {
   const expireDate = handleInput();
 
   const handleProceed = async (e) => {
-    setMilestones([])
-    setProceed(false)
+    setMilestones([]);
+    setProceed(false);
     setProceed(!proceed);
   };
   const handleSubmit = async () => {
@@ -69,13 +69,13 @@ export default function home() {
       tokenAmount: tokenQty.value,
       quantityCondition: refReq.value,
     });
-    name.setValue("")
-    desc.setValue("")
-    tokenQty.setValue("")
-    refReq.setValue("")
+    name.setValue("");
+    desc.setValue("");
+    tokenQty.setValue("");
+    refReq.setValue("");
     return setMilestones(tempArray);
   };
-  const handleDelete = async (e,i) => {
+  const handleDelete = async (e, i) => {
     const id = e.target.id;
     let tempArray = [...milestones];
     tempArray.splice(i, 1);
@@ -90,13 +90,13 @@ export default function home() {
       expirationDate: expireDate.value,
       milestones: tempArray,
     };
-    await axios.post("/campaign", {newCampaign:newCampaign});
-    setMilestones([])
-    setProceed(true)
-    name.setValue("")
-    desc.setValue("")
-    tokenQty.setValue("")
-    refReq.setValue("")
+    await axios.post("/campaign", { newCampaign: newCampaign });
+    setMilestones([]);
+    setProceed(true);
+    name.setValue("");
+    desc.setValue("");
+    tokenQty.setValue("");
+    refReq.setValue("");
     Swal.fire({
       icon: "success",
       title: "Campaña Creada",
@@ -106,7 +106,7 @@ export default function home() {
 
   return (
     <Box backgroundColor="#101311">
-      <AdminNavbar color={"white"}/>
+      <AdminNavbar color={"white"} />
       <Flex
         direction={"column"}
         padding={"5%"}
@@ -216,7 +216,7 @@ export default function home() {
                 mt={"10%"}
                 alignSelf={"flex-end"}
                 onClick={generarCampaña}
-                isDisabled={milestones.length===0}
+                isDisabled={milestones.length === 0}
               >
                 {" "}
                 Confirmar Campaña{" "}
@@ -225,7 +225,9 @@ export default function home() {
           </FormControl>
           <Box>
             <Table size={"sm"} padding={"6%"}>
-              <TableCaption bgColor={"transparent"}>Milestones Cargados</TableCaption>
+              <TableCaption bgColor={"transparent"}>
+                Milestones Cargados
+              </TableCaption>
               <Thead>
                 <Tr color={"white"}>
                   <Th color={"white"}>#</Th>
@@ -242,8 +244,12 @@ export default function home() {
                       <Td>{element.name}</Td>
                       <Td>{element.tokenAmount}</Td>
                       <Td>{element.quantityCondition}</Td>
-                      <Button id={i} size={"sm"} onClick={async (e)=>handleDelete(e,i)}>
-                        <DeleteIcon/>
+                      <Button
+                        id={i}
+                        size={"sm"}
+                        onClick={async (e) => handleDelete(e, i)}
+                      >
+                        <DeleteIcon />
                       </Button>
                     </Tr>
                   );

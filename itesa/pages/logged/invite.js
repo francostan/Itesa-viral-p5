@@ -20,7 +20,7 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
-const inviteMail = () => {
+const InviteMail = () => {
   const email = handleInput();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -80,16 +80,6 @@ const inviteMail = () => {
           <FormLabel color="white"> Email del destinatario</FormLabel>{" "}
           <Input rounded="2xl" variant="visible" {...email} />
         </FormControl>
-        <FormControl isRequired>
-          <FormLabel color="white"> Mensaje personalizado: </FormLabel>{" "}
-          <Input
-            id="pwd"
-            rounded="2xl"
-            variant="visible"
-            type="text"
-            {...mensaje}
-          />
-        </FormControl>
 
         <Link href="/2fa">
           <Button
@@ -121,4 +111,4 @@ const inviteMail = () => {
   );
 };
 
-export default inviteMail;
+export default InviteMail;
