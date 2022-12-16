@@ -16,7 +16,7 @@ import AdminNavbar from "../../../components/AdminNavbar";
 import Navbar from "../../../components/Navbar";
 import axios from "../../../config/axios";
 
-const adminDashboard = () => {
+const AdminDashboard = () => {
   const [tokensTotal, setTokensTotal] = useState(0);
   const [usersTotal, setUsersTotal] = useState(0);
   const [emission, setEmission] = useState([]);
@@ -123,4 +123,4 @@ const adminDashboard = () => {
   );
 };
 
-export default adminDashboard;
+export default AdminDashboard;

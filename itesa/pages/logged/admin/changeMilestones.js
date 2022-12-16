@@ -46,7 +46,7 @@ import React, { useState, useEffect } from "react";
 import handleInput from "../../../reactHooks/handleInput";
 import AdminNavbar from "../../../components/AdminNavbar";
 
-export default function adminMilestone() {
+export default function AdminMilestone() {
   const [milestones, setMilestones] = useState([]);
   const [edit, setEdit] = useState({});
   const [add, setAdd] = useState(false);

@@ -19,7 +19,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Swal from "sweetalert2";
-const inviteMail = () => {
+const InviteMail = () => {
   const email = handleInput();
   const mensaje = handleInput();
   const [loading, setLoading] = useState(false);
@@ -127,4 +127,4 @@ const inviteMail = () => {
   );
 };
 
-export default inviteMail;
+export default InviteMail;

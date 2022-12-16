@@ -39,7 +39,7 @@ const MilestoneTable = () => {
     axios
       .post("/milestones", { user: user.id })
       .then((res) => {
-        return setMilestones(res.data)
+        return setMilestones(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -85,11 +85,11 @@ const MilestoneTable = () => {
               </Th>
             </Tr>
           </Thead>
-          {milestones.length > 0 ? (
-            milestones.map((miles, i) => {
-              if (miles.completed) {
-                return (
-                  <Tbody bg={"transparent"}>
+          <Tbody bg={"transparent"}>
+            {milestones.length > 0 ? (
+              milestones.map((miles, i) => {
+                if (miles.completed) {
+                  return (
                     <Tr key={i}>
                       <Td fontWeight={"extrabold"} color={"#2ad37c"}>
                         {miles.name}
@@ -99,12 +99,10 @@ const MilestoneTable = () => {
                         {miles.tokenAmount}
                       </Td>
                     </Tr>
-                  </Tbody>
-                );
-              } else {
-                return (
-                  <Tbody bg={"transparent"}>
-                    <Tr>
+                  );
+                } else {
+                  return (
+                    <Tr key={i}>
                       <Td fontWeight={"extrabold"} color={"#DE5A3F"}>
                         {miles.name}
                       </Td>
@@ -113,19 +111,17 @@ const MilestoneTable = () => {
                         {miles.tokenAmount}
                       </Td>
                     </Tr>
-                  </Tbody>
-                );
-              }
-            })
-          ) : (
-            <Tbody>
+                  );
+                }
+              })
+            ) : (
               <Tr>
                 <Td>Empty</Td>
                 <Td>Empty </Td>
                 <Td isNumeric>0</Td>
               </Tr>
-            </Tbody>
-          )}
+            )}
+          </Tbody>
           <TableCaption
             margin={"auto"}
             ml="-5%"

@@ -20,7 +20,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
-export default function updatePassword() {
+export default function UpdatePassword() {
   const router = useRouter();
   const idUsuario = router.query.updatePassword;
   const password = handleInput();

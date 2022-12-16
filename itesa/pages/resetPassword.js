@@ -18,7 +18,7 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 import Persistence from "../components/Persistence";
 
-export default function resetPassword() {
+export default function ResetPassword() {
   const email = handleInput();
   const [sentEmail, setSentEmail] = useState(false);
   const [foundUser, setFoundUser] = useState(false);
